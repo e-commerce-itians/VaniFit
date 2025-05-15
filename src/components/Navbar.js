@@ -2,7 +2,7 @@ import "../styles/Navbar.css";
 
 export default function Navbar() {
   return `
-<nav class="navbar">
+    <nav id="navbar">
         <input type="checkbox" id="mobile-menu-toggle">
 
         <label for="mobile-menu-toggle" class="hamburger-menu">
@@ -51,8 +51,8 @@ export default function Navbar() {
             </label>
 
             <div class="dropdown-content">
-                <a href="#">Profile</a>
-                <a href="#">Logout</a>
+                <a href="/profile" data-link>Profile</a>
+                <a href="/" data-link>Logout</a>
             </div>
         </div>
     </nav>
