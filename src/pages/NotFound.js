@@ -1,3 +1,8 @@
+import Navbar from "../components/Navbar";
+
 export default function NotFound() {
-  return `<h1>404 not found</h1>`;
+  return `
+  ${Navbar()}
+  <h1>404 not found</h1>
+  `;
 }
