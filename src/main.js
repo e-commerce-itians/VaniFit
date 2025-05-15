@@ -1,11 +1,15 @@
 import "./style.css";
-import Test1 from "./js/Test1";
-import Test2 from "./js/Test2";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
+import Navbar from "./components/Navbar";
+import Card from "./components/Card";
 
-const test = new Test1("product1", "shoes");
+const navbar = new Navbar();
+const card = new Card();
 
 document.querySelector("#app").innerHTML = `
-  <div>
-    ${test.printDetails()}
+  ${navbar.Render()}
+  <div class="row justify-content-center mt-5">
+   ${card.Render()}
   </div>
 `;
