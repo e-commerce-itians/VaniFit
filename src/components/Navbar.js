@@ -9,16 +9,16 @@ export default function Navbar() {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <a class="nav-link active" aria-current="page" href="/" data-link>Home</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/login">Login</a>
+                <a class="nav-link active" aria-current="page" href="/login" data-link>Login</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/register">Register</a>
+                <a class="nav-link active" aria-current="page" href="/register" data-link>Register</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                <a class="nav-link active" aria-current="page" href="/profile" data-link>Profile</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
