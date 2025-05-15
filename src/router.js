@@ -1,5 +1,6 @@
-import About from "./pages/About";
 import Home from "./pages/Home";
+import About from "./pages/About";
+import NotFound from "./pages/NotFound";
 
 const routes = {
   "/": Home,
@@ -7,6 +8,6 @@ const routes = {
 };
 
 export default function router() {
-  const view = routes[location.pathname] || (() => `<h1>404 Not Found</h1>`);
+  const view = routes[location.pathname] || NotFound;
   document.getElementById("app").innerHTML = view();
 }
