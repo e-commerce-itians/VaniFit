@@ -1,6 +1,5 @@
-class Card {
-  Render() {
-    return `
+export default function Card() {
+  return `
         <div class="card" style="width: 18rem;">
             <img src="..." class="card-img-top" alt="...">
             <div class="card-body">
@@ -10,7 +9,4 @@ class Card {
             </div>
         </div>
         `;
-  }
 }
-
-export default Card;

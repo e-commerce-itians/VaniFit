@@ -1,6 +1,9 @@
+import Navbar from "../components/Navbar";
+
 export default function About() {
   return `
-    About Page
-    <a href="/" data-link>Go to home</a> 
+      ${Navbar()}
+      About Page <br>
+      <a href="/" data-link>Go to home</a> 
     `;
 }
