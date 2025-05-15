@@ -168,7 +168,6 @@
   border-bottom-right-radius: 0.375rem;
 }
 
-/* Checkbox hack for dropdown */
 #user-dropdown-toggle {
   display: none; /* Hide the checkbox */
 }
