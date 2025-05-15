@@ -1,15 +1,15 @@
 import "./style.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
-import Navbar from "./components/Navbar";
-import Card from "./components/Card";
+import router from "./router.js";
 
-const navbar = new Navbar();
-const card = new Card();
+window.addEventListener("DOMContentLoaded", router);
+window.addEventListener("popstate", router);
 
-document.querySelector("#app").innerHTML = `
-  ${navbar.Render()}
-  <div class="row justify-content-center mt-5">
-   ${card.Render()}
-  </div>
-`;
+document.addEventListener("click", (e) => {
+  if (e.target.matches("[data-link]")) {
+    e.preventDefault();
+    history.pushState(null, "", e.target.href);
+    router();
+  }
+});
