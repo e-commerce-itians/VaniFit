@@ -1,5 +1,5 @@
 export default function Register() {
-  return `
+  return /*html*/ `
     <div class="container">
       <div class="row justify-content-center align-items-center mt-5">
         <div class="bg-body-tertiary p-5 col-10 col-lg-8 rounded-4">

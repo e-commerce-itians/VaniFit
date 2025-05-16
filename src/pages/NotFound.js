@@ -1,5 +1,5 @@
 export default function NotFound() {
-  return `
+  return /*html*/ `
   <h1>404 not found</h1>
   `;
 }

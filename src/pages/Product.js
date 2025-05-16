@@ -4,7 +4,7 @@ const componentID = "product";
 
 export default async function Product({ id }) {
   observer(componentID, compLoaded);
-  return `
+  return /*html*/ `
    <div component="${componentID}">
      <div id="product" class="m-5">
       loading...

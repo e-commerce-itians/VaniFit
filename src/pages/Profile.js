@@ -1,6 +1,6 @@
 export default function Profile() {
   console.log(App.firebase.user);
-  return `
+  return /*html*/ `
     <div class="m-5">
       <h1>Profile Page</h1>
       <br>Email: ${App.firebase.user.email}

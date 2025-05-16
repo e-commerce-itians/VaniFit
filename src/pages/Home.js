@@ -3,7 +3,7 @@ const componentID = "home";
 
 export default async function Home() {
   observer(componentID, compLoaded);
-  return `
+  return /*html*/ `
       <div component="${componentID}">
         Home Page <br>
         <a href="/about" data-link>Go to about</a>
