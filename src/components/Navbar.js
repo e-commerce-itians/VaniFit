@@ -1,7 +1,7 @@
 import "../styles/Navbar.css";
 
 export default function Navbar() {
-  return `
+  return /*html*/ `
     <nav id="navbar">
         <input type="checkbox" id="mobile-menu-toggle">
 
@@ -40,7 +40,7 @@ export default function Navbar() {
             </div>
             ${
               !App.firebase.user.email
-                ? `
+                ? /*html*/ `
              <div class="nav-item">
                 <a href="./login" class="nav-link" data-link>
                     Login
@@ -57,7 +57,7 @@ export default function Navbar() {
 
         ${
           App.firebase.user.email
-            ? `
+            ? /*html*/ `
         <div class="user-profile">
             <input type="checkbox" id="user-dropdown-toggle">
 

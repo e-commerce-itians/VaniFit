@@ -1,7 +1,7 @@
 import "../styles/Footer.css";
 
 export default function Footer() {
-  return `<footer>
+  return /*html*/ `<footer>
         <ul class="footer-links">
             <li><a href="#">Conditions of Use</a></li>
             <li><a href="#">Privacy Notice</a></li>
