@@ -14,6 +14,7 @@ export default async function Home() {
         <button class="btn btn-success" id="counterBtn">Counter</button>
         <br>
       </div>
+      
   `;
 }
 

@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Product from "./pages/Product";
 import layout from "./layout";
 import Spinner from "./pages/Spinner";
+import Admin from "./pages/Admin";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
@@ -33,6 +34,10 @@ const routes = [
   {
     path: "/product/:id",
     view: Product,
+  },
+  {
+    path: "/Admin",
+    view: Admin,
   },
 ];
 
