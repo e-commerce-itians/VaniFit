@@ -1,4 +1,3 @@
-import { onAuthStateChanged } from "firebase/auth";
 import { firebaseApp, firebaseAuth, firebaseAnalytics } from "./utils/Firebase";
 import Signin from "./utils/Signin";
 import Signup from "./utils/Signup";
