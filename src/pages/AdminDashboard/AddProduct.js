@@ -1,5 +1,5 @@
-import "../styles/Admin.css";
-import { observer } from "../observer";
+import "../../styles/AddPoduct.css";
+import { observer } from "../../observer";
 import {
   Shirt,
   TShirt,
@@ -7,12 +7,12 @@ import {
   Shoes,
   Hoodie,
   Jacket,
-} from "../components/ProductClasses";
-import { db } from "../utils/Firebase";
+} from "../../components/ProductClasses";
+import { db } from "../../utils/Firebase";
 import { collection, addDoc } from "firebase/firestore";
-const componentID = "Admin";
+const componentID = "AddProduct";
 
-export default function Admin() {
+export default function AddProduct() {
   observer(componentID, compLoaded);
   return /*html*/ `
 <div component="${componentID}">
@@ -45,9 +45,6 @@ export default function Admin() {
     <label for="tags">Tags (comma-separated)</label>
     <input type="text" id="tags" name="tags" placeholder="e.g. summer, casual, cotton">
 
-    <label for="colors">Colors (comma-separated)</label>
-    <input type="text" id="colors" name="colors" placeholder="e.g. red, blue, black">
-
     <button type="submit">Add Product</button>
   </form>
   </div>
@@ -62,7 +59,6 @@ const compLoaded = () => {
   const categorySelect = document.getElementById("category");
   const brandInput = document.getElementById("brand");
   const tagsInput = document.getElementById("tags");
-  const colorsInput = document.getElementById("colors");
   const form = document.getElementById("newProductForm");
 
   form.addEventListener("submit", async (event) => {
@@ -74,77 +70,28 @@ const compLoaded = () => {
     const category = categorySelect.value;
     const brand = brandInput.value.trim();
     const tags = tagsInput.value.split(",").map((tag) => tag.trim());
-    const colors = colorsInput.value.split(",").map((color) => color.trim());
 
     // Create appropriate subclass instance
     let productInstance;
 
     switch (category.toLowerCase()) {
       case "shirts":
-        productInstance = new Shirt(
-          name,
-          desc,
-          price,
-          category,
-          brand,
-          tags,
-          colors
-        );
+        productInstance = new Shirt(name, desc, price, category, brand, tags);
         break;
       case "t-shirt":
-        productInstance = new TShirt(
-          name,
-          desc,
-          price,
-          category,
-          brand,
-          tags,
-          colors
-        );
+        productInstance = new TShirt(name, desc, price, category, brand, tags);
         break;
       case "pants":
-        productInstance = new Pants(
-          name,
-          desc,
-          price,
-          category,
-          brand,
-          tags,
-          colors
-        );
+        productInstance = new Pants(name, desc, price, category, brand, tags);
         break;
       case "shoes":
-        productInstance = new Shoes(
-          name,
-          desc,
-          price,
-          category,
-          brand,
-          tags,
-          colors
-        );
+        productInstance = new Shoes(name, desc, price, category, brand, tags);
         break;
       case "hoodies":
-        productInstance = new Hoodie(
-          name,
-          desc,
-          price,
-          category,
-          brand,
-          tags,
-          colors
-        );
+        productInstance = new Hoodie(name, desc, price, category, brand, tags);
         break;
       case "jackets":
-        productInstance = new Jacket(
-          name,
-          desc,
-          price,
-          category,
-          brand,
-          tags,
-          colors
-        );
+        productInstance = new Jacket(name, desc, price, category, brand, tags);
         break;
       default:
         console.error("Unknown product category:", category);
