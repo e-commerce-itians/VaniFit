@@ -36,13 +36,13 @@ const routes = [
 ];
 
 // Export the router function that handles view rendering based on the current path
-export default function router() {
+export default async function router() {
   // Determine the view to render based on the current location's pathname
   const currentPath = location.pathname;
   const { view, params } = dynamicRouting(currentPath);
 
   // Render the selected view inside the element with the ID 'app'
-  const renderedView = view(params);
+  const renderedView = await view(params);
   document.getElementById("app").innerHTML = layout(renderedView);
 
   // Update navigation links to reflect the active route
