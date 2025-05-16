@@ -5,7 +5,7 @@ import Signup from "./utils/Signup";
 import Signout from "./utils/Signout";
 import router from "./router.js";
 
-// Global vars accessble anywhere in any componenet
+// Global vars accessible anywhere in any component
 window.App = {
   title: "Shop", //Navbar title
   navigator: (href) => {
