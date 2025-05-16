@@ -55,6 +55,9 @@ export default function Navbar() {
             }
         </div>
 
+        ${
+          App.firebase.user.email
+            ? `
         <div class="user-profile">
             <input type="checkbox" id="user-dropdown-toggle">
 
@@ -62,9 +65,8 @@ export default function Navbar() {
                 <div class="avatar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
                 </div>
-                <span class="username">Welcome, ${
-                  App.firebase.user.email ? App.firebase.user.email : "Guest"
-                }</span> <svg class="arrow-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <span class="username">Welcome,  ${App.firebase.user.email}
+                </span> <svg class="arrow-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
             </label>
@@ -73,7 +75,9 @@ export default function Navbar() {
                 <a href="/profile" data-link>Profile</a>
                 <a href="/" data-link onclick="App.firebase.signOut()">Logout</a>
             </div>
-        </div>
+        </div>`
+            : ""
+        }
     </nav>
         `;
 }
