@@ -8,46 +8,43 @@ export default function Login() {
     <div component="${componentID}">
       <div class="container">
         <div class="row justify-content-center align-items-center mt-5">
-          <div class="bg-body-tertiary p-5 col-10 col-lg-8 rounded-4">
-            <form id="loginForm">
+          <div class="bg-body-tertiary p-5 col-12 col-md-10 col-lg-8 rounded-4 shadow-sm">
+            <form id="login-form" class="was-validated" novalidate>
+              <h2 class="mb-4 text-center">Login</h2>
               <div class="mb-3">
-                <label for="email" class="form-label"
-                  >Email address</label
-                >
+                <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
                 <input
                   type="email"
-                  class="form-control"
                   id="email"
-                  aria-describedby="emailHelp"
+                  class="form-control"
+                  placeholder="user@example.com"
+                  required
                 />
+                <div class="invalid-feedback">
+                  Please enter a valid email address.
+                </div>
               </div>
               <div class="mb-3">
-                <label for="password" class="form-label"
-                  >Password</label
-                >
+                <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
                 <input
                   type="password"
-                  class="form-control"
                   id="password"
+                  class="form-control"
+                  placeholder="enter your password"
+                  required
                 />
+                <div class="invalid-feedback">
+                  Please enter your password.
+                </div>
               </div>
-              <div class="mb-3 form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="rememberme"
-                />
-                <label class="form-check-label" for="rememberme"
-                  >Remember me</label
-                >
+              <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Login</button>
               </div>
-              <button type="submit" class="btn btn-primary">Login</button>
-
-              <div class="mt-2 text-center">
-                <span
-                  >Don't have account?
-                  <a href="./register" data-link>Register one</a></span
-                >
+              <div class="text-center">
+                <span class="text-muted">
+                  Don't have an account?
+                  <a href="./register" class="text-decoration-underline" data-link>Signup</a>
+                </span>
               </div>
             </form>
           </div>
@@ -58,13 +55,13 @@ export default function Login() {
 }
 
 const compLoaded = () => {
-  //login function
-  const loginForm = document.querySelector("#loginForm");
-  loginForm.addEventListener("submit", async (e) => {
+  const form = document.querySelector("#login-form");
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    Array.from(e.target.elements).forEach((el) => (el.disabled = true));
+    Array.from(e.target.elements).forEach((item) => (item.disabled = true));
     try {
       const userCredential = await signInWithEmailAndPassword(
         App.firebase.auth,
@@ -73,8 +70,8 @@ const compLoaded = () => {
       );
       App.navigator("/");
     } catch (error) {
-      Array.from(e.target.elements).forEach((el) => (el.disabled = false));
-      alert("Login failed: " + error.message);
+      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+      alert(error.message);
     }
   });
 };
