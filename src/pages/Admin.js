@@ -8,11 +8,14 @@ import {
   Hoodie,
   Jacket,
 } from "../components/ProductClasses";
+import { db } from "../utils/Firebase";
+import { collection, addDoc } from "firebase/firestore";
 const componentID = "Admin";
 
 export default function Admin() {
   observer(componentID, compLoaded);
   return /*html*/ `
+<div component="${componentID}">
    <form id="newProductForm">
     <h2>Add New Product</h2>
 
@@ -27,7 +30,7 @@ export default function Admin() {
 
     <label for="category">Category</label>
     <select id="category" name="category" required>
-      <option value="">Select a category</option>
+      <option disabled selected>Select a category</option>
       <option value="shirts">Shirts</option>
       <option value="hoodies">Hoodies</option>
       <option value="pants">Pants</option>
@@ -47,6 +50,7 @@ export default function Admin() {
 
     <button type="submit">Add Product</button>
   </form>
+  </div>
     `;
 }
 
@@ -59,10 +63,105 @@ const compLoaded = () => {
   const brandInput = document.getElementById("brand");
   const tagsInput = document.getElementById("tags");
   const colorsInput = document.getElementById("colors");
-  const form = document.getElementsByTagName("newProductForm");
+  const form = document.getElementById("newProductForm");
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    console.log("clicked");
+    // Parse form values
+    const name = productNameInput.value.trim();
+    const desc = descriptionInput.value.trim();
+    const price = parseFloat(priceInput.value);
+    const category = categorySelect.value;
+    const brand = brandInput.value.trim();
+    const tags = tagsInput.value.split(",").map((tag) => tag.trim());
+    const colors = colorsInput.value.split(",").map((color) => color.trim());
+
+    // Create appropriate subclass instance
+    let productInstance;
+
+    switch (category.toLowerCase()) {
+      case "shirts":
+        productInstance = new Shirt(
+          name,
+          desc,
+          price,
+          category,
+          brand,
+          tags,
+          colors
+        );
+        break;
+      case "t-shirt":
+        productInstance = new TShirt(
+          name,
+          desc,
+          price,
+          category,
+          brand,
+          tags,
+          colors
+        );
+        break;
+      case "pants":
+        productInstance = new Pants(
+          name,
+          desc,
+          price,
+          category,
+          brand,
+          tags,
+          colors
+        );
+        break;
+      case "shoes":
+        productInstance = new Shoes(
+          name,
+          desc,
+          price,
+          category,
+          brand,
+          tags,
+          colors
+        );
+        break;
+      case "hoodies":
+        productInstance = new Hoodie(
+          name,
+          desc,
+          price,
+          category,
+          brand,
+          tags,
+          colors
+        );
+        break;
+      case "jackets":
+        productInstance = new Jacket(
+          name,
+          desc,
+          price,
+          category,
+          brand,
+          tags,
+          colors
+        );
+        break;
+      default:
+        console.error("Unknown product category:", category);
+        return;
+    }
+
+    try {
+      // Add the product to Firestore
+      const docRef = await addDoc(collection(db, "products"), {
+        ...productInstance, // Spread class properties
+        createdAt: new Date(),
+      });
+
+      console.log("Product added with ID:", docRef.id);
+      form.reset();
+    } catch (error) {
+      console.error("Error adding product to Firestore:", error);
+    }
   });
 };

@@ -36,7 +36,7 @@ const routes = [
     view: Product,
   },
   {
-    path: "/Admin",
+    path: "/admin",
     view: Admin,
   },
 ];
