@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Product from "./pages/Product";
 import layout from "./layout";
+import Spinner from "./pages/Spinner";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
@@ -42,7 +43,7 @@ export default async function router() {
   const { view, params } = dynamicRouting(currentPath);
 
   // Render the selected view inside the element with the ID 'app'
-  document.getElementById("app").innerHTML = "Spinning";
+  document.getElementById("app").innerHTML = Spinner();
   const renderedView = await view(params);
   document.getElementById("app").innerHTML = layout(renderedView);
 

@@ -44,7 +44,7 @@ export default function Register() {
 
             <div class="mt-2 text-center">
               <span
-                >Already have account? <a href="./login">Login</a></span
+                >Already have account? <a href="./login" data-link>Login</a></span
               >
             </div>
           </form>
