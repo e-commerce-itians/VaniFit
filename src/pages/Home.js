@@ -6,9 +6,13 @@ export default async function Home() {
   return `
       <div component="${componentID}">
         Home Page <br>
-        <a href="/about" data-link>Go to about</a> 
+        <a href="/about" data-link>Go to about</a>
+        <br>
+        <a href="/product/d07YRTLeQejlGWkSn9Im" data-link>Go to product 1 (test)</a>  
+        <br>
         <div id="counter">0</div>
         <button class="btn btn-success" id="counterBtn">Counter</button>
+        <br>
       </div>
   `;
 }
