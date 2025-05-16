@@ -7,7 +7,7 @@ import Profile from "./pages/Profile";
 import Product from "./pages/Product";
 import layout from "./layout";
 import Spinner from "./pages/Spinner";
-import Admin from "./pages/Admin";
+import AddProduct from "./pages/AdminDashboard/AddProduct";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
@@ -36,8 +36,16 @@ const routes = [
     view: Product,
   },
   {
-    path: "/admin",
-    view: Admin,
+    path: "/admin/addProduct",
+    view: AddProduct,
+  },
+  {
+    path: "/admin/productList",
+    view: AddProduct,
+  },
+  {
+    path: "/admin/editProduct/:id",
+    view: AddProduct,
   },
 ];
 
