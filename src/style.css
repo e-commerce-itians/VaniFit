@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
+@import url("https://fonts.cdnfonts.com/css/sf-pro-display");
 
 *,
 *::before,
@@ -27,7 +27,7 @@ dd {
 
 body {
   min-height: 100vh;
-  font-family: "Open Sans", sans-serif;
+  font-family: "SF Pro Display", sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -72,5 +72,6 @@ button {
   background-color: transparent;
   border: none;
   padding: 0;
+  font-size: inherit;
   cursor: pointer;
 }

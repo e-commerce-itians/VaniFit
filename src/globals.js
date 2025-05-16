@@ -7,7 +7,7 @@ import router from "./router.js";
 import Setdata from "./utils/Setdata.js";
 import Getdata from "./utils/Getdata.js";
 
-// Global vars accessble anywhere in any componenet
+// Global vars accessible anywhere in any component
 window.App = {
   title: "Shop", //Navbar title
   navigator: (href) => {
