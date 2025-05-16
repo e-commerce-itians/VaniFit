@@ -1,10 +1,12 @@
+import "../styles/Footer.css";
+
 export default function Footer() {
-  return `<footer class="bd-footer">
-        <ul>
-            <li>Conditions of Use</li>
-            <li>Privacy Notice</li>
-            <li>Interest-Based Ads</li>
+  return `<footer>
+        <ul class="footer-links">
+            <li><a href="#">Conditions of Use</a></li>
+            <li><a href="#">Privacy Notice</a></li>
+            <li><a href="#">Interest-Based Ads</a></li>
         </ul>
-        <div>&copy; 1996-2025, Amazon.com, Inc, or its affiliates</div>
+        <p class="copyright">&copy; 1996-2025, Amazon.com, Inc, or its affiliates</p>
     </footer>`;
 }
