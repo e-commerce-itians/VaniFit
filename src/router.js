@@ -42,6 +42,7 @@ export default async function router() {
   const { view, params } = dynamicRouting(currentPath);
 
   // Render the selected view inside the element with the ID 'app'
+  document.getElementById("app").innerHTML = "Spinning";
   const renderedView = await view(params);
   document.getElementById("app").innerHTML = layout(renderedView);
 
