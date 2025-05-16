@@ -12,7 +12,7 @@ export default function Navbar() {
         </label>
 
         <div class="navbar-logo">
-            <a href="#">LOGO<span class="amazon-style">.</span></a>
+            <a href="#">${App.title}<span class="amazon-style">.</span></a>
         </div>
 
         <div class="search-container">

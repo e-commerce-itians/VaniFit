@@ -1,6 +1,7 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import "./style.css";
+import "./globals.js";
 import router from "./router.js";
 
 // Run the router once the initial HTML document has been completely loaded and parsed
