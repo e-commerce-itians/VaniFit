@@ -1,15 +1,20 @@
 import Getdata from "../utils/Getdata";
+import { observer } from "../observer";
+const componentID = "product";
 
 export default async function Product({ id }) {
-  const product = await Getdata("products", "d07YRTLeQejlGWkSn9Im");
-
+  observer(componentID, compLoaded);
   return `
-     <div class="m-5">
-        Brand: ${product.brand}
-        <br>
-        Category: ${product.category}
-        <br>
-         description: ${product.description}
+   <div component="${componentID}">
+     <div id="product" class="m-5">
+      loading...
      </div>
+   </div>
   `;
 }
+
+//Javascript code to be executed once the home component is loaded
+const compLoaded = async () => {
+  const product = await Getdata("products", "d07YRTLeQejlGWkSn9Im");
+  document.querySelector("#product").innerHTML = product.brand;
+};
