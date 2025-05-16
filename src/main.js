@@ -1,3 +1,4 @@
+import { onAuthStateChanged } from "firebase/auth";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import "./style.css";
@@ -9,6 +10,23 @@ window.addEventListener("DOMContentLoaded", router);
 
 // Run the router whenever the user navigates using the browser's back/forward buttons
 window.addEventListener("popstate", router);
+
+// Function to get user login status
+onAuthStateChanged(App.firebase.auth, (user) => {
+  if (user) {
+    // Update user data
+    App.firebase.user = user;
+    // Update session storage
+    localStorage.setItem("token", user.accessToken);
+    //ReRender
+    router();
+  } else {
+    //User is not logged in
+    localStorage.removeItem("token");
+    //ReRender
+    router();
+  }
+});
 
 // Delegate click events on elements with the 'data-link' attribute for client-side routing
 document.addEventListener("click", (e) => {
