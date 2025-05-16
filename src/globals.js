@@ -2,10 +2,15 @@ import { firebaseApp, firebaseAuth, firebaseAnalytics } from "./utils/Firebase";
 import Signin from "./utils/Signin";
 import Signup from "./utils/Signup";
 import Signout from "./utils/Signout";
+import router from "./router.js";
 
 // Global vars accessble anywhere in any componenet
 window.App = {
   title: "Shop", //Navbar title
+  navigator: (href) => {
+    history.pushState(null, "", href);
+    router();
+  }, //Change page internally
 
   firebase: {
     app: firebaseApp, //firebase app init

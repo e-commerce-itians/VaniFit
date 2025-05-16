@@ -12,6 +12,7 @@ export default async function Signin(e) {
       password
     );
     alert("Logged in as: " + userCredential.user.email);
+    App.navigator("/");
   } catch (error) {
     Array.from(e.target.elements).forEach((el) => (el.disabled = false));
     alert("Login failed: " + error.message);
