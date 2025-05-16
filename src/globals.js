@@ -1,4 +1,5 @@
 import { firebaseApp, firebaseAuth, firebaseAnalytics } from "./utils/Firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import Signin from "./utils/Signin";
 import Signup from "./utils/Signup";
 import Signout from "./utils/Signout";
@@ -22,3 +23,15 @@ window.App = {
     user: {}, //user data once logged in
   },
 };
+
+// Function to get user login status
+onAuthStateChanged(App.firebase.auth, (user) => {
+  if (user) {
+    //User is logged in
+    App.firebase.user = user;
+  } else {
+    //User is not logged in
+    App.firebase.user = {};
+  }
+  router();
+});

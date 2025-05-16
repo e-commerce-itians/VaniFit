@@ -11,7 +11,7 @@ export default async function Signup(e) {
       email,
       password
     );
-    alert("User registered: " + userCredential.user.email);
+    App.navigator("/");
   } catch (error) {
     Array.from(e.target.elements).forEach((el) => (el.disabled = false));
     alert("Error: " + error.message);
