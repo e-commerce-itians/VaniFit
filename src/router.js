@@ -6,8 +6,7 @@ import Register from "./pages/Register/Register";
 import Profile from "./pages/Profile/Profile";
 import Product from "./pages/Product/Product";
 import layout from "./layout";
-import AddProduct from "./pages/AdminDashboard/AddProduct";
-import ProductList from "./pages/AdminDashboard/ProductList";
+import MainDashboard from "./pages/AdminDashboard/MainDashboard";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
@@ -36,16 +35,8 @@ const routes = [
     view: Product,
   },
   {
-    path: "/admin/addproduct",
-    view: AddProduct,
-  },
-  {
-    path: "/admin/productlist",
-    view: ProductList,
-  },
-  {
-    path: "/admin/editproduct/:id",
-    view: ProductList,
+    path: "/admin",
+    view: MainDashboard,
   },
 ];
 

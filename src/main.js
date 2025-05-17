@@ -2,6 +2,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import "./style.css";
 import "./globals.js";
+import "@fortawesome/fontawesome-free";
 import router from "./router.js";
 import { onAuthStateChanged } from "firebase/auth";
 

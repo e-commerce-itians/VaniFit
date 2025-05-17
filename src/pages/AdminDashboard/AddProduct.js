@@ -9,7 +9,6 @@ export default function AddProduct() {
   return /*html*/ `
 <div component="${componentID}">
    <form id="newProductForm">
-    <h2>Add New Product</h2>
 
     <label for="productName">Product Name</label>
     <input type="text" id="productName" name="productName" required>
