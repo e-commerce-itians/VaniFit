@@ -1,4 +1,4 @@
-import "./Product.css";
+import "./Product.module.css";
 import Getdata from "../../utils/Getdata";
 import { observer } from "../../observer";
 const componentID = "product";
