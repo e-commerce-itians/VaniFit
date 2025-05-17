@@ -1,5 +1,6 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
+import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "./style.css";
 import "./globals.js";
 import "@fortawesome/fontawesome-free";
@@ -21,6 +22,7 @@ onAuthStateChanged(App.firebase.auth, (user) => {
     //User is not logged in
     App.firebase.user = {};
   }
+  App.authLoaded = true;
   router();
 });
 

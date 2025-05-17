@@ -6,8 +6,7 @@ import Register from "./pages/Register/Register";
 import Profile from "./pages/Profile/Profile";
 import Product from "./pages/Product/Product";
 import layout from "./layout";
-import MainDashboard from "./pages/AdminDashboard/MainDashboard";
-
+import Splash from "./pages/Splash/Splash";
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
   {
@@ -47,8 +46,8 @@ export default async function router() {
   const { view, params } = dynamicRouting(currentPath);
 
   // Render the selected view inside the element with the ID 'app'
-  const renderedView = await view(params);
-  document.getElementById("app").innerHTML = layout(renderedView);
+  document.getElementById("app").innerHTML =
+    App.authLoaded == true ? layout(await view(params)) : Splash();
 
   // Update navigation links to reflect the active route
   const links = document.querySelectorAll(".nav-link");
