@@ -1,5 +1,8 @@
+import { observer } from "../../observer";
+const componentID = "profile";
+
 export default function Profile() {
-  console.log(App.firebase.user);
+  observer(componentID, compLoaded);
   return /*html*/ `
     <div class="m-5">
       <h1>Profile Page</h1>
@@ -9,3 +12,6 @@ export default function Profile() {
     </div>
     `;
 }
+
+//Javascript code to be executed once the home component is loaded
+const compLoaded = () => {};

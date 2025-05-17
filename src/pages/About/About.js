@@ -1,4 +1,4 @@
-import { observer } from "../observer";
+import { observer } from "../../observer";
 const componentID = "About";
 
 export default function About() {

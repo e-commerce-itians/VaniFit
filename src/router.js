@@ -1,12 +1,11 @@
-import Home from "./pages/Home";
-import About from "./pages/About";
-import NotFound from "./pages/NotFound";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Profile from "./pages/Profile";
-import Product from "./pages/Product";
+import Home from "./pages/Home/Home";
+import About from "./pages/About/About";
+import NotFound from "./pages/NotFound/NotFound";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import Profile from "./pages/Profile/Profile";
+import Product from "./pages/Product/Product";
 import layout from "./layout";
-import Spinner from "./pages/Spinner";
 import AddProduct from "./pages/AdminDashboard/AddProduct";
 import ProductList from "./pages/AdminDashboard/ProductList";
 
@@ -37,7 +36,7 @@ const routes = [
     view: Product,
   },
   {
-    path: "/admin/addProduct",
+    path: "/admin/addproduct",
     view: AddProduct,
   },
   {
@@ -45,8 +44,8 @@ const routes = [
     view: ProductList,
   },
   {
-    path: "/admin/editProduct/:id",
-    view: AddProduct,
+    path: "/admin/editproduct/:id",
+    view: ProductList,
   },
 ];
 
@@ -57,7 +56,6 @@ export default async function router() {
   const { view, params } = dynamicRouting(currentPath);
 
   // Render the selected view inside the element with the ID 'app'
-  document.getElementById("app").innerHTML = Spinner();
   const renderedView = await view(params);
   document.getElementById("app").innerHTML = layout(renderedView);
 

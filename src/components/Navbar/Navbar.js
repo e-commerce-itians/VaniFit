@@ -1,6 +1,9 @@
-import "../styles/Navbar.css";
+import "./Navbar.css";
+import { observer } from "../../observer";
+const componentID = "navbar";
 
 export default function Navbar() {
+  observer(componentID, compLoaded);
   return /*html*/ `
     <nav id="navbar">
         <input type="checkbox" id="mobile-menu-toggle">
@@ -42,12 +45,12 @@ export default function Navbar() {
               !App.firebase.user.email
                 ? /*html*/ `
              <div class="nav-item">
-                <a href="./login" class="nav-link" data-link>
+                <a href="/login" class="nav-link" data-link>
                     Login
                 </a>
             </div>
              <div class="nav-item">
-                <a href="./register" class="nav-link" data-link>
+                <a href="/register" class="nav-link" data-link>
                     Register
                 </a>
             </div>`
@@ -81,3 +84,6 @@ export default function Navbar() {
     </nav>
         `;
 }
+
+//Javascript code to be executed once the home component is loaded
+const compLoaded = () => {};

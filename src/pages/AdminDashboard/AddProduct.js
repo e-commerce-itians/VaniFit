@@ -1,13 +1,6 @@
-import "../../styles/AddPoduct.css";
+import "./AddPoduct.css";
 import { observer } from "../../observer";
-import {
-  Shirt,
-  TShirt,
-  Pants,
-  Shoes,
-  Hoodie,
-  Jacket,
-} from "../../components/ProductClasses";
+import { Shirt, TShirt, Pants, Shoes, Hoodie, Jacket } from "./ProductClasses";
 import { db } from "../../utils/Firebase";
 import { collection, addDoc } from "firebase/firestore";
 const componentID = "AddProduct";
