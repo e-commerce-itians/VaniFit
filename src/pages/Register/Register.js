@@ -1,5 +1,10 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { observer } from "../../observer";
+import {
+  validateEmail,
+  validatePassword,
+  validateConfirmPassword,
+} from "../../utils/loginRegisterUtils";
 
 const componentID = "register";
 
@@ -86,6 +91,7 @@ export default function Register() {
 
 const compLoaded = () => {
   const errors = {
+    "auth/invalid-credentials": "Invalid credentials",
     "auth/invalid-email": "Invalid email address.",
     "auth/user-disabled": "Your account has been disabled.",
     "auth/user-not-found": "No user found with this email.",
@@ -111,119 +117,22 @@ const compLoaded = () => {
 
   const registerBtn = document.querySelector("#registerBtn");
 
-  // validation functions
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-  function isValidPassword(password) {
-    return password.length >= 6;
-  }
-
-  // validation to update form styling and show error message
-  function setValidationFeedback(
-    inputElement,
-    feedbackElement,
-    isValid,
-    message = ""
-  ) {
-    if (isValid) {
-      inputElement.classList.remove("is-invalid");
-      inputElement.classList.add("is-valid");
-    } else {
-      inputElement.classList.remove("is-valid");
-      inputElement.classList.add("is-invalid");
-      feedbackElement.textContent = message;
-    }
-  }
-
-  function validateEmail(email) {
-    // flag for form submission case
-    let formValid = true;
-    // check if email is empty or invalid format
-    if (email === "") {
-      setValidationFeedback(
-        emailInput,
-        emailError,
-        false,
-        "Email is required."
-      );
-      formValid = false;
-    } else if (!isValidEmail(email)) {
-      setValidationFeedback(
-        emailInput,
-        emailError,
-        false,
-        "Please enter a valid email address."
-      );
-      formValid = false;
-    } else {
-      setValidationFeedback(emailInput, emailError, true);
-    }
-    return formValid;
-  }
-
-  function validatePassword(password) {
-    // flag for form submission case
-    let formValid = true;
-    // check for empty or weak password
-    if (password === "") {
-      setValidationFeedback(
-        passwordInput,
-        passwordError,
-        false,
-        "Password is required."
-      );
-      formValid = false;
-    } else if (!isValidPassword(password)) {
-      setValidationFeedback(
-        passwordInput,
-        passwordError,
-        false,
-        "Password must be at least 6 characters long."
-      );
-      formValid = false;
-    } else {
-      setValidationFeedback(passwordInput, passwordError, true);
-    }
-    return formValid;
-  }
-
-  function validateConfirmPassword(password, confirmPassword) {
-    let formValid = true;
-    // check for empty password confirmation or inequality with password
-    if (confirmPassword === "") {
-      setValidationFeedback(
-        confirmPasswordInput,
-        confirmPasswordError,
-        false,
-        "Please confirm your password."
-      );
-      formValid = false;
-    } else if (password !== confirmPassword) {
-      setValidationFeedback(
-        confirmPasswordInput,
-        confirmPasswordError,
-        false,
-        "Passwords do not match."
-      );
-      formValid = false;
-    } else {
-      setValidationFeedback(confirmPasswordInput, confirmPasswordError, true);
-    }
-    return formValid;
-  }
-
-  // email validation handling
+  // event listeners
   emailInput.addEventListener("input", () => {
-    validateEmail(emailInput.value.trim());
+    validateEmail(emailInput.value.trim(), emailInput, emailError);
   });
 
   passwordInput.addEventListener("input", () => {
-    validatePassword(passwordInput.value);
+    validatePassword(passwordInput.value, passwordInput, passwordError);
   });
 
   confirmPasswordInput.addEventListener("input", () => {
-    validateConfirmPassword(passwordInput.value, confirmPasswordInput.value);
+    validateConfirmPassword(
+      passwordInput.value,
+      confirmPasswordInput.value,
+      confirmPasswordInput,
+      confirmPasswordError
+    );
   });
 
   form.addEventListener("submit", async (e) => {
@@ -234,9 +143,14 @@ const compLoaded = () => {
     const confirmPassword = confirmPasswordInput.value;
 
     const formIsValid =
-      validateEmail(email) &&
-      validatePassword(password) &&
-      validateConfirmPassword(password, confirmPassword);
+      validateEmail(email, emailInput, emailError) &&
+      validatePassword(password, passwordInput, passwordError) &&
+      validateConfirmPassword(
+        password,
+        confirmPassword,
+        confirmPasswordInput,
+        confirmPasswordError
+      );
 
     if (!formIsValid) {
       form.classList.add("was-validated");

@@ -1,6 +1,10 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { observer } from "../../observer";
-import SigninWithGoogle from "../../utils/SigninWithGoogle";
+import {
+  googleSignin,
+  validateEmail,
+  validatePassword,
+} from "../../utils/loginRegisterUtils";
 
 const componentID = "login";
 
@@ -85,6 +89,7 @@ export default function Login() {
 
 const compLoaded = () => {
   const errors = {
+    "auth/invalid-credentials": "Invalid credentials",
     "auth/invalid-email": "Invalid email address.",
     "auth/user-disabled": "Your account has been disabled.",
     "auth/user-not-found": "No user found with this email.",
@@ -116,100 +121,25 @@ const compLoaded = () => {
       googleBtn.innerHTML =
         '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...';
       try {
-        await SigninWithGoogle();
+        await googleSignin();
         App.navigator("/");
       } catch (error) {
-        alert(error.message);
+        loginError.textContent =
+          errors[error.message.toString()] || "An unknown error occurred";
+        loginError.classList.remove("d-none");
       }
       googleBtn.disabled = false;
       googleBtn.innerHTML = `<i class="fa-brands fa-google mx-1"></i><span class="d-none d-sm-inline">Login with Google</span>`;
     });
   }
 
-  // validation functions
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-  function isValidPassword(password) {
-    return password.length >= 6;
-  }
-
-  // validation to update form styling and show error message
-  function setValidationFeedback(
-    inputElement,
-    feedbackElement,
-    isValid,
-    message = ""
-  ) {
-    if (isValid) {
-      inputElement.classList.remove("is-invalid");
-      inputElement.classList.add("is-valid");
-    } else {
-      inputElement.classList.remove("is-valid");
-      inputElement.classList.add("is-invalid");
-      feedbackElement.textContent = message;
-    }
-  }
-
-  function validateEmail(email) {
-    // flag for form submission case
-    let formValid = true;
-    // check if email is empty or invalid format
-    if (email === "") {
-      setValidationFeedback(
-        emailInput,
-        emailError,
-        false,
-        "Email is required."
-      );
-      formValid = false;
-    } else if (!isValidEmail(email)) {
-      setValidationFeedback(
-        emailInput,
-        emailError,
-        false,
-        "Please enter a valid email address."
-      );
-      formValid = false;
-    } else {
-      setValidationFeedback(emailInput, emailError, true);
-    }
-    return formValid;
-  }
-
-  function validatePassword(password) {
-    // flag for form submission case
-    let formValid = true;
-    // check for empty or weak password
-    if (password === "") {
-      setValidationFeedback(
-        passwordInput,
-        passwordError,
-        false,
-        "Password is required."
-      );
-      formValid = false;
-    } else if (!isValidPassword(password)) {
-      setValidationFeedback(
-        passwordInput,
-        passwordError,
-        false,
-        "Password must be at least 6 characters long."
-      );
-      formValid = false;
-    } else {
-      setValidationFeedback(passwordInput, passwordError, true);
-    }
-    return formValid;
-  }
-
   // event listeners
   emailInput.addEventListener("input", () => {
-    validateEmail(emailInput.value.trim());
+    validateEmail(emailInput.value.trim(), emailInput, emailError);
   });
 
   passwordInput.addEventListener("input", () => {
-    validatePassword(passwordInput.value);
+    validatePassword(passwordInput.value, passwordInput, passwordError);
   });
 
   form.addEventListener("submit", async (e) => {
@@ -218,7 +148,9 @@ const compLoaded = () => {
     const email = emailInput.value.trim();
     const password = passwordInput.value;
 
-    const formIsValid = validateEmail(email) && validatePassword(password);
+    const formIsValid =
+      validateEmail(email, emailInput, emailError) &&
+      validatePassword(password, passwordInput, passwordError);
 
     if (!formIsValid) {
       form.classList.add("was-validated");
@@ -237,7 +169,7 @@ const compLoaded = () => {
       form.classList.add("was-validated");
       loginBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Login with Email</span>`;
       loginError.textContent =
-        errors[error.message] || "An unknown error occurred";
+        errors[error.message.toString()] || "An unknown error occurred";
       loginError.classList.remove("d-none");
     }
   });
