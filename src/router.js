@@ -7,7 +7,7 @@ import Profile from "./pages/Profile/Profile";
 import Product from "./pages/Product/Product";
 import layout from "./layout";
 import Splash from "./pages/Splash/Splash";
-import MainDashboard from "./pages/AdminDashboard/MainDashboard";
+import MainDashboard from "./pages/AdminDashboard/MainDashboard/MainDashboard";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [

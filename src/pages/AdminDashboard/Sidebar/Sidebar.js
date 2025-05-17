@@ -1,4 +1,4 @@
-import { observer } from "../../observer";
+import { observer } from "../../../observer";
 import "./Sidebar.css";
 const componentID = "Sidebar";
 

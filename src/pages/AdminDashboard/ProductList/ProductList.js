@@ -1,7 +1,7 @@
-import { observer } from "../../observer";
+import { observer } from "../../../observer";
 import { collection, getDocs } from "firebase/firestore";
 import "./ProductList.css";
-import EditProduct from "./EditProduct";
+import EditProduct from "../EditProduct/EditProduct";
 const componentID = "ProductList";
 
 export default function ProductList() {

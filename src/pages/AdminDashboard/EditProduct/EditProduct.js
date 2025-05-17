@@ -1,5 +1,5 @@
-import Getdata from "../../utils/Getdata";
-import { observer } from "../../observer";
+import Getdata from "../../../utils/Getdata";
+import { observer } from "../../../observer";
 const componentID = "EditProduct";
 
 export default async function EditProduct(id) {

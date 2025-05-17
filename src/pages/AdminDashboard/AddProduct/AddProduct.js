@@ -1,6 +1,6 @@
 import "./AddPoduct.css";
-import { observer } from "../../observer";
-import { Shirt, TShirt, Pants, Shoes, Hoodie, Jacket } from "./ProductClasses";
+import { observer } from "../../../observer";
+import { Shirt, TShirt, Pants, Shoes, Hoodie, Jacket } from "../ProductClasses";
 import { collection, addDoc } from "firebase/firestore";
 const componentID = "AddProduct";
 
