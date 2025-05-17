@@ -4,7 +4,8 @@ import {
   googleSignin,
   validateEmail,
   validatePassword,
-} from "../../utils/loginRegisterUtils";
+} from "../../utils/loginRegister";
+import "./Login.css";
 
 const componentID = "login";
 
@@ -49,7 +50,7 @@ export default function Login() {
                 <button
                   type="submit"
                   id="loginBtn"
-                  class="btn btn-primary d-block w-100 my-2"
+                  class="btn d-block w-100 my-2"
                 >
                   <i class="fa-solid fa-envelope mx-1"></i>
                   <span class="d-none d-sm-inline">Login with Email</span>
@@ -57,7 +58,7 @@ export default function Login() {
                 <button
                   type="button"
                   id="googleSigninBtn"
-                  class="btn btn-primary d-block w-100 my-2"
+                  class="btn d-block w-100 my-2"
                 >
                   <i class="fa-brands fa-google mx-1"></i>
                   <span class="d-none d-sm-inline">Login with Google</span>

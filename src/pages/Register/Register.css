@@ -1,0 +1,17 @@
+input.form-control,
+input.form-control:focus,
+input.form-control.is-valid,
+input.form-control.is-invalid,
+input.form-control.is-valid:focus,
+input.form-control.is-invalid:focus {
+  box-shadow: none !important;
+}
+
+button.btn {
+  background-color: rgb(255, 153, 0) !important;
+  transition: background-color 0.3s ease !important;
+}
+
+button.btn:hover {
+  background-color: rgba(255, 153, 0, 0.8) !important;
+}

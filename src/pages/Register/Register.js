@@ -4,7 +4,9 @@ import {
   validateEmail,
   validatePassword,
   validateConfirmPassword,
-} from "../../utils/loginRegisterUtils";
+} from "../../utils/loginRegister";
+
+import "./Register.css";
 
 const componentID = "register";
 
@@ -62,7 +64,7 @@ export default function Register() {
                 <button
                   type="submit"
                   id="registerBtn"
-                  class="btn btn-primary d-block w-100 my-2"
+                  class="btn d-block w-100 my-2"
                 >
                   <i class="fa-solid fa-envelope mx-1"></i
                   ><span class="d-none d-sm-inline">Register with Email</span>
@@ -157,6 +159,7 @@ const compLoaded = () => {
       return;
     }
 
+    // disable inputs and create spinner effect while resolving
     Array.from(form.elements).forEach((item) => (item.disabled = true));
     form.classList.add("was-validated");
     registerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing up...`;
@@ -166,6 +169,7 @@ const compLoaded = () => {
       await createUserWithEmailAndPassword(auth, email, password);
       App.navigator("/");
     } catch (error) {
+      // enable inputs and update error state
       Array.from(form.elements).forEach((item) => (item.disabled = false));
       form.classList.add("was-validated");
       registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
