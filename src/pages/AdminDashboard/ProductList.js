@@ -1,5 +1,4 @@
 import { observer } from "../../observer";
-import { db } from "../../utils/Firebase";
 import { collection, getDocs } from "firebase/firestore";
 const componentID = "ProductList";
 
@@ -12,6 +11,7 @@ export default function ProductList() {
     </div>
   `;
 
+  // Set up the observer after returning the HTML
   setTimeout(() => {
     observer(componentID, compLoaded);
   }, 0);
@@ -22,7 +22,9 @@ export default function ProductList() {
 //Javascript code to be executed once the component is loaded
 const compLoaded = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, "products"));
+    const querySnapshot = await getDocs(
+      collection(App.firebase.db, "products")
+    );
 
     const products = querySnapshot.docs.map((doc) => ({
       id: doc.id,

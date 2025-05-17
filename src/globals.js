@@ -1,4 +1,9 @@
-import { firebaseApp, firebaseAuth, firebaseAnalytics } from "./utils/Firebase";
+import {
+  firebaseApp,
+  firebaseAuth,
+  firebaseAnalytics,
+  firebasedb,
+} from "./utils/Firebase";
 import router from "./router.js";
 import Setdata from "./utils/Setdata.js";
 import Getdata from "./utils/Getdata.js";
@@ -15,6 +20,7 @@ window.App = {
     app: firebaseApp, //firebase app init
     auth: firebaseAuth, //firebase auth init
     analytics: firebaseAnalytics, //firebase analytics init
+    db: firebasedb,
     setData: Setdata,
     getData: Getdata,
     user: {}, //user data once logged in
