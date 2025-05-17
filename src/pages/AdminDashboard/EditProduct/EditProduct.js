@@ -1,4 +1,4 @@
-import Getdata from "../../../utils/Getdata";
+import Getdata from "../../../utils/getData";
 import { observer } from "../../../observer";
 const componentID = "EditProduct";
 
