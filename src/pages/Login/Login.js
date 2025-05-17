@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { observer } from "../../observer";
 import SigninWithGoogle from "../../utils/SigninWithGoogle";
+
 const componentID = "login";
 
 export default function Login() {
@@ -9,11 +10,15 @@ export default function Login() {
     <div component="${componentID}">
       <div class="container">
         <div class="row justify-content-center align-items-center mt-5">
-          <div class="bg-body-tertiary p-5 col-12 col-md-10 col-lg-8 rounded-4 shadow-sm">
+          <div
+            class="bg-body-secondary col-10 col-md-7 col-lg-5 m-3 p-4 rounded-4"
+          >
             <form id="loginForm" novalidate>
               <h2 class="mb-4 text-center">Login</h2>
               <div class="mb-3">
-                <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+                <label for="email" class="form-label"
+                  >Email<span class="text-danger">*</span></label
+                >
                 <input
                   type="email"
                   id="email"
@@ -21,11 +26,12 @@ export default function Login() {
                   placeholder="user@example.com"
                   required
                 />
-                <div class="invalid-feedback" id="email-error">
-                </div>
+                <div class="invalid-feedback" id="emailError"></div>
               </div>
               <div class="mb-3">
-                <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
+                <label for="password" class="form-label"
+                  >Password<span class="text-danger">*</span></label
+                >
                 <input
                   type="password"
                   id="password"
@@ -33,44 +39,77 @@ export default function Login() {
                   placeholder="enter your password"
                   required
                 />
-                <div class="invalid-feedback" id="password-error">
-                </div>
+                <div class="invalid-feedback" id="passwordError"></div>
               </div>
               <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Login</button>
-              </div>
-              <div class="mb-3 text-center">
-                <button type="button" id="google-signin-btn" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-2">
-                  <span class="bg-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:28px;height:28px;">
-                    <svg width="20" height="20" viewBox="0 0 48 48"><g><path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.85-6.85C36.68 2.36 30.74 0 24 0 14.82 0 6.73 5.06 2.69 12.44l7.98 6.2C12.13 13.13 17.62 9.5 24 9.5z"/><path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.42-4.74H24v9.01h12.42c-.54 2.9-2.18 5.36-4.65 7.01l7.19 5.59C43.98 37.13 46.1 31.3 46.1 24.55z"/><path fill="#FBBC05" d="M10.67 28.65c-1.13-3.36-1.13-6.99 0-10.35l-7.98-6.2C.7 16.1 0 19.01 0 22c0 2.99.7 5.9 1.97 8.55l8.7-6.9z"/><path fill="#EA4335" d="M24 44c6.74 0 12.42-2.23 16.56-6.07l-7.19-5.59c-2.01 1.35-4.59 2.16-7.37 2.16-6.38 0-11.87-3.63-14.33-8.91l-8.7 6.9C6.73 42.94 14.82 48 24 48z"/></g></svg>
-                  </span>
-                  <span>Sign in with Google</span>
+                <button
+                  type="submit"
+                  id="loginBtn"
+                  class="btn btn-primary d-block w-100 my-2"
+                >
+                  <i class="fa-solid fa-envelope mx-1"></i>
+                  <span class="d-none d-sm-inline">Login with Email</span>
+                </button>
+                <button
+                  type="button"
+                  id="googleSigninBtn"
+                  class="btn btn-primary d-block w-100 my-2"
+                >
+                  <i class="fa-brands fa-google mx-1"></i>
+                  <span class="d-none d-sm-inline">Login with Google</span>
                 </button>
               </div>
               <div class="text-center">
                 <span class="text-muted">
                   Don't have an account?
-                  <a href="./register" class="text-decoration-underline" data-link>Signup</a>
+                  <a
+                    href="./register"
+                    class="text-decoration-underline"
+                    data-link
+                    >Signup</a
+                  >
                 </span>
               </div>
+              <div
+                id="loginError"
+                class="alert alert-danger mt-2 text-center d-none"
+                role="alert"
+              ></div>
             </form>
           </div>
         </div>
       </div>
     </div>
-    `;
+  `;
 }
 
 const compLoaded = () => {
+  const errors = {
+    "auth/invalid-email": "Invalid email address.",
+    "auth/user-disabled": "Your account has been disabled.",
+    "auth/user-not-found": "No user found with this email.",
+    "auth/wrong-password": "Incorrect password.",
+    "auth/email-already-in-use": "Email is already in use.",
+    "auth/weak-password": "Your password is too weak.",
+    "auth/too-many-requests": "Too many attempts. Try again later.",
+    "auth/network-request-failed":
+      "Network error. Please check your internet connection.",
+    "auth/internal-error":
+      "An unexpected error occurred. Please try again later.",
+  };
+
   const form = document.querySelector("#loginForm");
   const emailInput = document.querySelector("#email");
   const passwordInput = document.querySelector("#password");
 
-  const emailError = document.querySelector("#email-error");
-  const passwordError = document.querySelector("#password-error");
+  const emailError = document.querySelector("#emailError");
+  const passwordError = document.querySelector("#passwordError");
+  const loginError = document.querySelector("#loginError");
 
-  const googleBtn = document.getElementById("google-signin-btn");
+  const loginBtn = document.querySelector("#loginBtn");
+  const googleBtn = document.querySelector("#googleSigninBtn");
 
+  // change google signin button styling while waiting for response
   if (googleBtn) {
     googleBtn.addEventListener("click", async () => {
       googleBtn.disabled = true;
@@ -83,7 +122,7 @@ const compLoaded = () => {
         alert(error.message);
       }
       googleBtn.disabled = false;
-      googleBtn.innerHTML = `<span class="bg-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:28px;height:28px;"><svg width=\"20\" height=\"20\" viewBox=\"0 0 48 48\"><g><path fill=\"#4285F4\" d=\"M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.85-6.85C36.68 2.36 30.74 0 24 0 14.82 0 6.73 5.06 2.69 12.44l7.98 6.2C12.13 13.13 17.62 9.5 24 9.5z\"/><path fill=\"#34A853\" d=\"M46.1 24.55c0-1.64-.15-3.22-.42-4.74H24v9.01h12.42c-.54 2.9-2.18 5.36-4.65 7.01l7.19 5.59C43.98 37.13 46.1 31.3 46.1 24.55z\"/><path fill=\"#FBBC05\" d=\"M10.67 28.65c-1.13-3.36-1.13-6.99 0-10.35l-7.98-6.2C.7 16.1 0 19.01 0 22c0 2.99.7 5.9 1.97 8.55l8.7-6.9z\"/><path fill=\"#EA4335\" d=\"M24 44c6.74 0 12.42-2.23 16.56-6.07l-7.19-5.59c-2.01 1.35-4.59 2.16-7.37 2.16-6.38 0-11.87-3.63-14.33-8.91l-8.7 6.9C6.73 42.94 14.82 48 24 48z\"/></g></svg></span><span>Sign in with Google</span>`;
+      googleBtn.innerHTML = `<i class="fa-brands fa-google mx-1"></i><span class="d-none d-sm-inline">Login with Google</span>`;
     });
   }
 
@@ -188,17 +227,18 @@ const compLoaded = () => {
 
     Array.from(form.elements).forEach((item) => (item.disabled = true));
     form.classList.add("was-validated");
+    loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Logging in...`;
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        App.firebase.auth,
-        email,
-        password
-      );
+      await signInWithEmailAndPassword(App.firebase.auth, email, password);
       App.navigator("/");
     } catch (error) {
       Array.from(e.target.elements).forEach((item) => (item.disabled = false));
-      alert(error.message);
+      form.classList.add("was-validated");
+      loginBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Login with Email</span>`;
+      loginError.textContent =
+        errors[error.message] || "An unknown error occurred";
+      loginError.classList.remove("d-none");
     }
   });
 };
