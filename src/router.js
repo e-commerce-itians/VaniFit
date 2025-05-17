@@ -8,6 +8,7 @@ import Product from "./pages/Product";
 import layout from "./layout";
 import Spinner from "./pages/Spinner";
 import AddProduct from "./pages/AdminDashboard/AddProduct";
+import ProductList from "./pages/AdminDashboard/ProductList";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
@@ -41,7 +42,7 @@ const routes = [
   },
   {
     path: "/admin/productList",
-    view: AddProduct,
+    view: ProductList,
   },
   {
     path: "/admin/editProduct/:id",
