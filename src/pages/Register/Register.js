@@ -17,7 +17,7 @@ export default function Register() {
       <div class="container">
         <div class="row justify-content-center align-items-center mt-5">
           <div
-            class="bg-body-tertiary p-5 col-12 col-md-10 col-lg-8 rounded-4 shadow-sm"
+            class="bg-body-secondary col-10 col-md-7 col-lg-5 m-3 p-4 rounded-4"
           >
             <form id="registerForm" novalidate>
               <h2 class="mb-4 text-center">Register</h2>
@@ -64,7 +64,7 @@ export default function Register() {
                 <button
                   type="submit"
                   id="registerBtn"
-                  class="btn d-block w-100 my-2"
+                  class="btn btn-dark d-block w-100 my-2"
                 >
                   <i class="fa-solid fa-envelope mx-1"></i
                   ><span class="d-none d-sm-inline">Register with Email</span>
