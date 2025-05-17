@@ -1,4 +1,4 @@
-@import url("https://fonts.cdnfonts.com/css/sf-pro-display");
+@import "./variables.css";
 
 *,
 *::before,
@@ -27,7 +27,7 @@ dd {
 
 body {
   min-height: 100vh;
-  font-family: "SF Pro Display", sans-serif;
+  font-family: var(--inter), sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
