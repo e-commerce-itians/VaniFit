@@ -1,6 +1,6 @@
-import { createUserWithEmailAndPassword } from "firebase/auth"; // Remove validatePassword as it's not a direct Firebase method
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { observer } from "../../observer";
-import { getAuth } from "firebase/auth"; // Import getAuth
+import { getAuth } from "firebase/auth";
 
 const componentID = "register";
 
@@ -11,7 +11,9 @@ export default function Register() {
       <div class="container">
         <div class="row justify-content-center align-items-center mt-5">
           <div class="bg-body-tertiary p-5 col-12 col-md-10 col-lg-8 rounded-4 shadow-sm">
-            <form id="registerForm" novalidate> <h2 class="mb-4 text-center">Register Account</h2> <div class="mb-3">
+            <form id="registerForm" novalidate>
+              <h2 class="mb-4 text-center">Register</h2>
+              <div class="mb-3">
                 <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
                 <input
                   type="email"
@@ -20,7 +22,7 @@ export default function Register() {
                   placeholder="user@example.com"
                   required
                 />
-                <div class="invalid-feedback" id="invalid-email-feedback">
+                <div class="invalid-feedback" id="email-error">
                 </div>
               </div>
               <div class="mb-3">
@@ -32,7 +34,7 @@ export default function Register() {
                   placeholder="enter your password"
                   required
                 />
-                <div class="invalid-feedback" id="invalid-password-feedback">
+                <div class="invalid-feedback" id="password-error">
                 </div>
               </div>
               <div class="mb-3">
@@ -44,7 +46,7 @@ export default function Register() {
                   placeholder="confirm password"
                   required
                 />
-                <div class="invalid-feedback" id="invalid-confirm-password-feedback">
+                <div class="invalid-feedback" id="confirm-password-error">
                 </div>
               </div>
               <div class="mb-3">
@@ -66,29 +68,31 @@ export default function Register() {
 
 const compLoaded = () => {
   const form = document.querySelector("#registerForm");
-  const emailInput = form.querySelector("#email");
-  const passwordInput = form.querySelector("#password");
-  const confirmPasswordInput = form.querySelector("#confirmPassword");
+  const emailInput = document.querySelector("#email");
+  const passwordInput = document.querySelector("#password");
+  const confirmPasswordInput = document.querySelector("#confirmPassword");
 
-  const invalidEmailFeedback = document.querySelector(
-    "#invalid-email-feedback"
-  );
-  const invalidPasswordFeedback = document.querySelector(
-    "#invalid-password-feedback"
-  );
-  const invalidConfirmPasswordFeedback = document.querySelector(
-    "#invalid-confirm-password-feedback"
+  const emailError = document.querySelector("#email-error");
+  const passwordError = document.querySelector("#password-error");
+  const confirmPasswordError = document.querySelector(
+    "#confirm-password-error"
   );
 
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isValidPassword = (password) => password.length >= 6;
+  // validation functions
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+  function isValidPassword(password) {
+    return password.length >= 6;
+  }
 
-  const setValidationFeedback = (
+  // validation to update form styling and show error message
+  function setValidationFeedback(
     inputElement,
     feedbackElement,
     isValid,
     message = ""
-  ) => {
+  ) {
     if (isValid) {
       inputElement.classList.remove("is-invalid");
       inputElement.classList.add("is-valid");
@@ -97,78 +101,96 @@ const compLoaded = () => {
       inputElement.classList.add("is-invalid");
       feedbackElement.textContent = message;
     }
-  };
+  }
 
-  emailInput.addEventListener("input", () => {
-    const email = emailInput.value.trim();
+  function validateEmail(email) {
+    // flag for form submission case
+    let formValid = true;
+    // check if email is empty or invalid format
     if (email === "") {
       setValidationFeedback(
         emailInput,
-        invalidEmailFeedback,
+        emailError,
         false,
         "Email is required."
       );
+      formValid = false;
     } else if (!isValidEmail(email)) {
       setValidationFeedback(
         emailInput,
-        invalidEmailFeedback,
+        emailError,
         false,
         "Please enter a valid email address."
       );
+      formValid = false;
     } else {
-      setValidationFeedback(emailInput, invalidEmailFeedback, true);
+      setValidationFeedback(emailInput, emailError, true);
     }
-  });
+    return formValid;
+  }
 
-  passwordInput.addEventListener("input", () => {
-    const password = passwordInput.value;
+  function validatePassword(password) {
+    // flag for form submission case
+    let formValid = true;
+    // check for empty or weak password
     if (password === "") {
       setValidationFeedback(
         passwordInput,
-        invalidPasswordFeedback,
+        passwordError,
         false,
         "Password is required."
       );
+      formValid = false;
     } else if (!isValidPassword(password)) {
       setValidationFeedback(
         passwordInput,
-        invalidPasswordFeedback,
+        passwordError,
         false,
         "Password must be at least 6 characters long."
       );
+      formValid = false;
     } else {
-      setValidationFeedback(passwordInput, invalidPasswordFeedback, true);
+      setValidationFeedback(passwordInput, passwordError, true);
     }
+    return formValid;
+  }
 
-    if (confirmPasswordInput.value !== "") {
-      const confirmPassword = confirmPasswordInput.value;
-      setValidationFeedback(
-        confirmPasswordInput,
-        invalidConfirmPasswordFeedback,
-        password === confirmPassword,
-        "Passwords do not match."
-      );
-    }
-  });
-
-  confirmPasswordInput.addEventListener("input", () => {
-    const password = passwordInput.value;
-    const confirmPassword = confirmPasswordInput.value;
+  function validateConfirmPassword(password, confirmPassword) {
+    let formValid = true;
+    // check for empty password confirmation or inequality with password
     if (confirmPassword === "") {
       setValidationFeedback(
         confirmPasswordInput,
-        invalidConfirmPasswordFeedback,
+        confirmPasswordError,
         false,
         "Please confirm your password."
       );
-    } else {
+      formValid = false;
+    } else if (password !== confirmPassword) {
       setValidationFeedback(
         confirmPasswordInput,
-        invalidConfirmPasswordFeedback,
-        password === confirmPassword,
+        confirmPasswordError,
+        false,
         "Passwords do not match."
       );
+      formValid = false;
+    } else {
+      setValidationFeedback(confirmPasswordInput, confirmPasswordError, true);
     }
+    return formValid;
+  }
+
+  // email validation handling
+  emailInput.addEventListener("input", () => {
+    validateEmail(emailInput.value.trim());
+  });
+
+  passwordInput.addEventListener("input", () => {
+    validatePassword(passwordInput.value);
+  });
+
+  confirmPasswordInput.addEventListener("input", () => {
+    validateConfirmPassword(passwordInput.value, confirmPasswordInput.value);
   });
 
   form.addEventListener("submit", async (e) => {
@@ -178,71 +200,10 @@ const compLoaded = () => {
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
 
-    let formIsValid = true;
-
-    if (email === "") {
-      setValidationFeedback(
-        emailInput,
-        invalidEmailFeedback,
-        false,
-        "Email is required."
-      );
-      formIsValid = false;
-    } else if (!isValidEmail(email)) {
-      setValidationFeedback(
-        emailInput,
-        invalidEmailFeedback,
-        false,
-        "Please enter a valid email address."
-      );
-      formIsValid = false;
-    } else {
-      setValidationFeedback(emailInput, invalidEmailFeedback, true);
-    }
-
-    if (password === "") {
-      setValidationFeedback(
-        passwordInput,
-        invalidPasswordFeedback,
-        false,
-        "Password is required."
-      );
-      formIsValid = false;
-    } else if (!isValidPassword(password)) {
-      setValidationFeedback(
-        passwordInput,
-        invalidPasswordFeedback,
-        false,
-        "Password must be at least 6 characters long."
-      );
-      formIsValid = false;
-    } else {
-      setValidationFeedback(passwordInput, invalidPasswordFeedback, true);
-    }
-
-    if (confirmPassword === "") {
-      setValidationFeedback(
-        confirmPasswordInput,
-        invalidConfirmPasswordFeedback,
-        false,
-        "Please confirm your password."
-      );
-      formIsValid = false;
-    } else if (password !== confirmPassword) {
-      setValidationFeedback(
-        confirmPasswordInput,
-        invalidConfirmPasswordFeedback,
-        false,
-        "Passwords do not match."
-      );
-      formIsValid = false;
-    } else {
-      setValidationFeedback(
-        confirmPasswordInput,
-        invalidConfirmPasswordFeedback,
-        true
-      );
-    }
+    const formIsValid =
+      validateEmail(email) &&
+      validatePassword(password) &&
+      validateConfirmPassword(password, confirmPassword);
 
     if (!formIsValid) {
       form.classList.add("was-validated");
@@ -262,8 +223,7 @@ const compLoaded = () => {
       App.navigator("/");
     } catch (error) {
       Array.from(form.elements).forEach((item) => (item.disabled = false));
-      let errorMessage = "An unknown error occurred. Please try again.";
-      alert(errorMessage);
+      alert(error.message);
       form.classList.add("was-validated");
     }
   });
