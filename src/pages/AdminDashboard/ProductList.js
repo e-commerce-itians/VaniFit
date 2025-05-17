@@ -1,6 +1,7 @@
 import { observer } from "../../observer";
 import { collection, getDocs } from "firebase/firestore";
 import "./ProductList.css";
+import EditProduct from "./EditProduct";
 const componentID = "ProductList";
 
 export default function ProductList() {
@@ -157,11 +158,11 @@ const fetchProducts = async (searchTerm = "") => {
               product.description || "No description available"
             }</p>
             <div class="card-actions">
-              <button class="view-details-btn" data-id="${product.id}">
-                <i class="fas fa-eye"></i> View
-              </button>
               <button class="edit-product-btn" data-id="${product.id}">
                 <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="delete-product-btn" data-id="${product.id}">
+                <i class="fa-solid fa-trash"></i> Delete
               </button>
             </div>
           </div>
@@ -216,7 +217,7 @@ const loadEditProduct = (productId) => {
 
   // Example implementation:
   // If using a router:
-  window.location.hash = `#/admin/edit-product/${productId}`;
+  EditProduct(productId);
 
   // Or if using a component-based approach:
   // const contentContainer = document.getElementById("content-container");

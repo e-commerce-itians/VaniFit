@@ -2,6 +2,7 @@ import { observer } from "../../observer";
 import AddProduct from "./AddProduct";
 import "./MainDashboard.css";
 import ProductList from "./ProductList";
+import Sidebar from "./Sidebar";
 const componentID = "MainDashboard";
 
 // Main dashboard component
@@ -10,21 +11,7 @@ export default function MainDashboard() {
   const html = /*html*/ `
     <div component="${componentID}" id="${componentID}" class="admin-dashboard">
       <!-- Sidebar -->
-      <div class="sidebar">
-        <div class="sidebar-header">
-          <h2>Main Panel</h2>
-        </div>
-        <div class="sidebar-menu">
-          <a href="#/admin/products" class="sidebar-link active" id="products-link">
-            <i class="fas fa-list"></i>
-            <span>Product List</span>
-          </a>
-          <a href="#/admin/add-product" class="sidebar-link" id="add-product-link">
-            <i class="fas fa-plus-circle"></i>
-            <span>Add Product</span>
-          </a>
-        </div>
-      </div>
+      ${Sidebar()} 
       
       <!-- Main Content Area -->
       <div class="main-content">
