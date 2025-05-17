@@ -1,6 +1,9 @@
 import "./Navbar.css";
+import { observer } from "../../observer";
+const componentID = "navbar";
 
 export default function Navbar() {
+  observer(componentID, compLoaded);
   return /*html*/ `
     <nav id="navbar">
         <input type="checkbox" id="mobile-menu-toggle">
@@ -81,3 +84,6 @@ export default function Navbar() {
     </nav>
         `;
 }
+
+//Javascript code to be executed once the home component is loaded
+const compLoaded = () => {};
