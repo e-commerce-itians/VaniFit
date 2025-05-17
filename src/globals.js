@@ -15,6 +15,7 @@ window.App = {
     history.pushState(null, "", href);
     router();
   }, //Change page internally
+  authLoaded: false, //check if user auth has been checked or not
 
   firebase: {
     app: firebaseApp, //firebase app init

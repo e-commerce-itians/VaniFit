@@ -20,6 +20,7 @@ onAuthStateChanged(App.firebase.auth, (user) => {
     //User is not logged in
     App.firebase.user = {};
   }
+  App.authLoaded = true;
   router();
 });
 
