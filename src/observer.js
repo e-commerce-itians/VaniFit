@@ -1,4 +1,6 @@
 function observer(componentID, callback) {
+  console.log("Observer triggered for", componentID);
+
   new MutationObserver((mutationsList, observer) => {
     for (const mutation of mutationsList) {
       for (const node of mutation.addedNodes) {

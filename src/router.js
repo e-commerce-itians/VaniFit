@@ -40,7 +40,7 @@ const routes = [
     view: AddProduct,
   },
   {
-    path: "/admin/productList",
+    path: "/admin/productlist",
     view: ProductList,
   },
   {
