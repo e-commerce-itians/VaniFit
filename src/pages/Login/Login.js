@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { observer } from "../observer";
+import { observer } from "../../observer";
 const componentID = "login";
 
 export default function Login() {

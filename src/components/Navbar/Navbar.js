@@ -1,4 +1,4 @@
-import "../styles/Navbar.css";
+import "./Navbar.css";
 
 export default function Navbar() {
   return /*html*/ `
@@ -42,12 +42,12 @@ export default function Navbar() {
               !App.firebase.user.email
                 ? /*html*/ `
              <div class="nav-item">
-                <a href="./login" class="nav-link" data-link>
+                <a href="/login" class="nav-link" data-link>
                     Login
                 </a>
             </div>
              <div class="nav-item">
-                <a href="./register" class="nav-link" data-link>
+                <a href="/register" class="nav-link" data-link>
                     Register
                 </a>
             </div>`

@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"; // Remove validatePassword as it's not a direct Firebase method
-import { observer } from "../observer";
+import { observer } from "../../observer";
 import { getAuth } from "firebase/auth"; // Import getAuth
 
 const componentID = "register";
