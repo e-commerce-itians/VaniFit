@@ -10,7 +10,7 @@ import Getdata from "./utils/Getdata.js";
 
 // Global vars accessible anywhere in any component
 window.App = {
-  title: "Shop", //Navbar title
+  title: "Zeenah", //Navbar title
   navigator: (href) => {
     history.pushState(null, "", href);
     router();
