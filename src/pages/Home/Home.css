@@ -1,0 +1,27 @@
+.hero-section {
+  background-color: #f8f9fa;
+  padding: 60px 0;
+}
+
+.brands-bar {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 20px 0;
+  text-align: center;
+  border-top: 3px solid #a259ff;
+}
+
+.brands-bar span {
+  margin: 0 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.stat-box {
+  text-align: center;
+  padding: 20px;
+}
+
+.stat-box h4 {
+  font-weight: bold;
+}

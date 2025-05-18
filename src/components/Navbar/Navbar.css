@@ -1,5 +1,5 @@
-#navbar {
-  background-color: #ffffff; /* White background like Amazon */
+.navbar {
+  background-color: #ffffff;
   padding: 0.8rem 1.5rem;
   display: flex;
   align-items: center;
@@ -10,56 +10,38 @@
   z-index: 1000;
 }
 
-/* Logo */
 .navbar-logo a {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #131921; /* Dark color for logo text */
+  color: #131921;
   text-decoration: none;
 }
-.navbar-logo .amazon-style {
-  color: #ff9900; /* Amazon orange */
-  font-weight: bold;
-}
 
-/* Search Bar */
 .search-container {
   display: flex;
   flex-grow: 1;
   margin: 0 1.5rem;
-  max-width: 600px; /* Max width for search bar */
+  max-width: 600px;
 }
 
 .search-container input[type="text"] {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #cbd5e0; /* Lighter border */
+  height: 40px;
+  border: 1px solid #cbd5e0;
   border-right: none;
-  border-radius: 0.375rem 0 0 0.375rem; /* Rounded left corners */
-  font-size: 0.9rem;
+  border-radius: 0.375rem 0 0 0.375rem;
+  font-size: 1rem;
   outline: none;
-}
-.search-container input[type="text"]:focus {
-  border-color: #ff9900; /* Amazon orange on focus */
-  box-shadow: 0 0 0 1px #ff9900;
 }
 
 .search-container button {
+  height: 40px;
   padding: 0.75rem 1.25rem;
-  background-color: #febd69; /* Amazon search button yellow */
-  border: 1px solid #febd69;
-  color: #131921; /* Dark text */
-  cursor: pointer;
-  border-radius: 0 0.375rem 0.375rem 0; /* Rounded right corners */
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  border-radius: 0 0.375rem 0.375rem 0;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
-.search-container button:hover {
-  background-color: #f3a847; /* Darker yellow on hover */
-}
-
-/* Navigation Links */
 .navbar-links {
   display: flex;
   align-items: center;
@@ -92,7 +74,6 @@
   fill: currentColor;
 }
 
-/* User Profile Dropdown */
 .user-profile {
   position: relative;
   margin-left: 1.5rem;
@@ -114,7 +95,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #cbd5e0; /* Placeholder avatar color */
+  background-color: #cbd5e0;
   margin-right: 0.5rem;
   display: flex;
   align-items: center;
@@ -137,7 +118,7 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  top: calc(100% + 0.5rem); /* Position below the trigger */
+  top: calc(100% + 0.5rem);
   right: 0;
   background-color: #ffffff;
   min-width: 180px;
@@ -169,16 +150,15 @@
 }
 
 #user-dropdown-toggle {
-  display: none; /* Hide the checkbox */
+  display: none;
 }
 
 #user-dropdown-toggle:checked ~ .dropdown-content {
   display: block;
 }
 
-/* Hamburger Menu for Mobile */
 .hamburger-menu {
-  display: none; /* Hidden by default */
+  display: none;
   cursor: pointer;
   padding: 0.5rem;
 }
@@ -193,14 +173,17 @@
 }
 
 #mobile-menu-toggle {
-  display: none; /* Hide the checkbox */
+  display: none;
 }
 
-/* Responsive Adjustments */
+#logout-btn {
+  border: none;
+  background-color: white;
+}
+
 @media (max-width: 992px) {
-  /* Tablet and smaller */
   .search-container {
-    margin: 0 1rem; /* Smaller margin for search */
+    margin: 0 1rem;
   }
   .navbar-links .nav-item {
     margin-left: 1rem;
@@ -211,26 +194,25 @@
 }
 
 @media (max-width: 768px) {
-  /* Mobile devices */
   .navbar {
-    flex-wrap: wrap; /* Allow items to wrap */
+    flex-wrap: wrap;
     padding: 0.8rem 1rem;
   }
 
   .search-container {
-    order: 3; /* Search bar below logo and hamburger */
+    order: 3;
     width: 100%;
-    margin: 0.75rem 0 0 0; /* Full width and margin top */
+    margin: 0.75rem 0 0 0;
     max-width: none;
   }
 
   .navbar-links {
-    display: none; /* Hide links by default on mobile */
+    display: none;
     flex-direction: column;
     width: 100%;
     background-color: #ffffff;
     position: absolute;
-    top: 100%; /* Position below the navbar */
+    top: 100%;
     left: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 0;
@@ -252,32 +234,29 @@
   }
 
   .user-profile {
-    margin-left: auto; /* Push user profile to the right of hamburger */
+    margin-left: auto;
   }
   .dropdown-content {
-    /* Adjust dropdown for mobile if needed, e.g., make it wider */
     min-width: 220px;
   }
 
   .hamburger-menu {
-    display: block; /* Show hamburger */
-    order: 1; /* Place hamburger before logo on mobile if desired, or keep logo first */
-    margin-right: 1rem; /* Space between hamburger and logo/profile */
+    display: block;
+    order: 1;
+    margin-right: 1rem;
   }
   .navbar-logo {
-    order: 0; /* Logo first */
+    order: 0;
   }
   .user-profile {
-    order: 2; /* User profile after logo/hamburger */
-    margin-left: 0.5rem; /* Reduce margin next to hamburger */
+    order: 2;
+    margin-left: 0.5rem;
   }
 
-  /* Show nav links when mobile menu checkbox is checked */
   #mobile-menu-toggle:checked ~ .navbar-links {
     display: flex;
   }
 
-  /* Hamburger animation */
   #mobile-menu-toggle:checked ~ .hamburger-menu .bar:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
@@ -290,12 +269,11 @@
 }
 
 @media (max-width: 480px) {
-  /* Smaller mobile devices */
   .navbar-logo a {
     font-size: 1.5rem;
   }
   .user-profile-trigger .username {
-    display: none; /* Hide username on very small screens, show only avatar */
+    display: none;
   }
   .user-profile-trigger .avatar {
     margin-right: 0;
@@ -303,12 +281,7 @@
   .dropdown-content {
     left: 0;
     right: auto;
-    width: calc(100vw - 2rem); /* Make dropdown almost full width */
+    width: calc(100vw - 2rem);
     max-width: 280px;
   }
-}
-
-#logout-btn {
-  border: none;
-  background-color: white;
 }

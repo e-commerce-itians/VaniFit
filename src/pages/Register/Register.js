@@ -17,7 +17,7 @@ export default function Register() {
       <div class="container">
         <div class="row justify-content-center align-items-center mt-5">
           <div
-            class="bg-body-tertiary p-5 col-12 col-md-10 col-lg-8 rounded-4 shadow-sm"
+            class="bg-body-secondary col-10 col-md-7 col-lg-5 m-3 p-4 rounded-4"
           >
             <form id="registerForm" novalidate>
               <h2 class="mb-4 text-center">Register</h2>
@@ -64,7 +64,7 @@ export default function Register() {
                 <button
                   type="submit"
                   id="registerBtn"
-                  class="btn d-block w-100 my-2"
+                  class="btn btn-dark d-block w-100 my-2"
                 >
                   <i class="fa-solid fa-envelope mx-1"></i
                   ><span class="d-none d-sm-inline">Register with Email</span>
@@ -92,21 +92,6 @@ export default function Register() {
 }
 
 const compLoaded = () => {
-  const errors = {
-    "auth/invalid-credentials": "Invalid credentials",
-    "auth/invalid-email": "Invalid email address.",
-    "auth/user-disabled": "Your account has been disabled.",
-    "auth/user-not-found": "No user found with this email.",
-    "auth/wrong-password": "Incorrect password.",
-    "auth/email-already-in-use": "Email is already in use.",
-    "auth/weak-password": "Your password is too weak.",
-    "auth/too-many-requests": "Too many attempts. Try again later.",
-    "auth/network-request-failed":
-      "Network error. Please check your internet connection.",
-    "auth/internal-error":
-      "An unexpected error occurred. Please try again later.",
-  };
-
   const form = document.querySelector("#registerForm");
   const emailInput = document.querySelector("#email");
   const passwordInput = document.querySelector("#password");
@@ -173,8 +158,7 @@ const compLoaded = () => {
       Array.from(form.elements).forEach((item) => (item.disabled = false));
       form.classList.add("was-validated");
       registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
-      registerError.textContent =
-        errors[error.message] || "An unknown error occurred";
+      registerError.textContent = `Invalid email or password`;
       registerError.classList.remove("d-none");
     }
   });
