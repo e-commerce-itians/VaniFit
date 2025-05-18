@@ -1,3 +1,5 @@
+@import "../../variables.css";
+
 .hero-section {
   background-color: #f8f9fa;
   padding: 60px 0;
@@ -24,4 +26,8 @@
 
 .stat-box h4 {
   font-weight: bold;
+}
+
+#logo-font {
+  font-family: var(--lucky), Arial, Helvetica, sans-serif;
 }
