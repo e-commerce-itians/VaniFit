@@ -39,7 +39,7 @@ export default function Navbar() {
               ${App.firebase.user.email
       ? /*html*/`
                   <li class="nav-item me-3">
-                    <a class="nav-link active" aria-current="page" href="#" data-link>
+                    <a id="cartBtn" class="nav-link" aria-current="page" href="/cart" data-link>
                       <i class="fa-solid fa-cart-shopping"></i>
                     </a>
                   </li>
@@ -82,5 +82,13 @@ const compLoaded = () => {
         console.error(error);
       }
     });
+  }
+
+  const cartBtn = document.querySelector("#cartBtn");
+  if (cartBtn) {
+    cartBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      App.navigator("/cart");
+    })
   }
 };
