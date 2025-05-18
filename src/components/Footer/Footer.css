@@ -1,13 +1,8 @@
-:root {
-  --footer-bg-color: #ffffff;
-  --footer-text-color: #000000;
-  --footer-link-hover-color: #2f2f2f;
-  --footer-border-color: #3f3f3f;
-}
+@import "../../variables.css";
 
 footer {
-  background-color: #ffffff;
-  color: var(--footer-text-color);
+  background-color: var(--off-white);
+  color: var(--light-grey);
   padding: 1rem;
   text-align: center;
   font-size: 0.75rem;
@@ -15,7 +10,6 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--footer-border-color);
 }
 
 .footer-links {
@@ -33,14 +27,9 @@ footer {
 }
 
 .footer-links li a {
-  color: var(--footer-text-color);
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.3s ease;
-}
-
-.footer-links li a:hover {
-  color: var(--footer-link-hover-color);
 }
 
 .copyright {

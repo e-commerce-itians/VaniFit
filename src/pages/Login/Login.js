@@ -1,7 +1,8 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { observer } from "../../observer";
 import {
-  googleSignin,
+  firebaseAuthErrors,
+  signInWithGoogle,
   validateEmail,
   validatePassword,
 } from "../../utils/loginRegister";
@@ -50,15 +51,15 @@ export default function Login() {
                 <button
                   type="submit"
                   id="loginBtn"
-                  class="btn d-block w-100 my-2"
+                  class="btn btn-dark d-block w-100 my-2"
                 >
                   <i class="fa-solid fa-envelope mx-1"></i>
                   <span class="d-none d-sm-inline">Login with Email</span>
                 </button>
                 <button
                   type="button"
-                  id="googleSigninBtn"
-                  class="btn d-block w-100 my-2"
+                  id="signInWithGoogleBtn"
+                  class="btn btn-dark d-block w-100 my-2"
                 >
                   <i class="fa-brands fa-google mx-1"></i>
                   <span class="d-none d-sm-inline">Login with Google</span>
@@ -89,21 +90,6 @@ export default function Login() {
 }
 
 const compLoaded = () => {
-  const errors = {
-    "auth/invalid-credentials": "Invalid credentials",
-    "auth/invalid-email": "Invalid email address.",
-    "auth/user-disabled": "Your account has been disabled.",
-    "auth/user-not-found": "No user found with this email.",
-    "auth/wrong-password": "Incorrect password.",
-    "auth/email-already-in-use": "Email is already in use.",
-    "auth/weak-password": "Your password is too weak.",
-    "auth/too-many-requests": "Too many attempts. Try again later.",
-    "auth/network-request-failed":
-      "Network error. Please check your internet connection.",
-    "auth/internal-error":
-      "An unexpected error occurred. Please try again later.",
-  };
-
   const form = document.querySelector("#loginForm");
   const emailInput = document.querySelector("#email");
   const passwordInput = document.querySelector("#password");
@@ -113,26 +99,27 @@ const compLoaded = () => {
   const loginError = document.querySelector("#loginError");
 
   const loginBtn = document.querySelector("#loginBtn");
-  const googleBtn = document.querySelector("#googleSigninBtn");
+  const googleBtn = document.querySelector("#signInWithGoogleBtn");
 
   // change google signin button styling while waiting for response
-  if (googleBtn) {
-    googleBtn.addEventListener("click", async () => {
-      googleBtn.disabled = true;
-      googleBtn.innerHTML =
-        '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...';
-      try {
-        await googleSignin();
-        App.navigator("/");
-      } catch (error) {
-        loginError.textContent =
-          errors[error.message.toString()] || "An unknown error occurred";
-        loginError.classList.remove("d-none");
-      }
-      googleBtn.disabled = false;
-      googleBtn.innerHTML = `<i class="fa-brands fa-google mx-1"></i><span class="d-none d-sm-inline">Login with Google</span>`;
-    });
-  }
+  googleBtn.addEventListener("click", async () => {
+    googleBtn.disabled = true;
+    googleBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...`;
+    try {
+      Array.from(form.elements).forEach((item) => (item.disabled = true));
+      form.classList.add("was-validated");
+      await signInWithGoogle();
+      App.navigator("/");
+    } catch (error) {
+      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+      form.classList.remove("was-validated");
+      loginError.textContent =
+        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
+      loginError.classList.remove("d-none");
+    }
+    googleBtn.disabled = false;
+    googleBtn.innerHTML = `<i class="fa-brands fa-google mx-1"></i><span class="d-none d-sm-inline">Login with Google</span>`;
+  });
 
   // event listeners
   emailInput.addEventListener("input", () => {
@@ -154,7 +141,7 @@ const compLoaded = () => {
       validatePassword(password, passwordInput, passwordError);
 
     if (!formIsValid) {
-      form.classList.add("was-validated");
+      form.classList.remove("was-validated");
       return;
     }
 
@@ -166,11 +153,12 @@ const compLoaded = () => {
       await signInWithEmailAndPassword(App.firebase.auth, email, password);
       App.navigator("/");
     } catch (error) {
+      // enable inputs and update error state
       Array.from(e.target.elements).forEach((item) => (item.disabled = false));
-      form.classList.add("was-validated");
+      form.classList.remove("was-validated");
       loginBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Login with Email</span>`;
       loginError.textContent =
-        errors[error.message.toString()] || "An unknown error occurred";
+        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
       loginError.classList.remove("d-none");
     }
   });

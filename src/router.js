@@ -8,6 +8,7 @@ import Product from "./pages/Product/Product";
 import layout from "./layout";
 import Splash from "./pages/Splash/Splash";
 import MainDashboard from "./pages/AdminDashboard/MainDashboard/MainDashboard";
+import Cart from "./pages/Cart/Cart";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
@@ -38,6 +39,11 @@ const routes = [
   {
     path: "/admin",
     view: MainDashboard,
+  },
+  {
+    path: "/cart",
+    view: Cart,
+
   },
 ];
 

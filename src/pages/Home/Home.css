@@ -1,3 +1,4 @@
+@import "../../variables.css";
 #hero{
   background-color: #f0f0f0;
 }
@@ -49,3 +50,8 @@
     #style-container{
       background-color: #f0f0f0;
     }
+
+    #logo-font {
+  font-family: var(--lucky), Arial, Helvetica, sans-serif;
+}
+
