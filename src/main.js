@@ -30,12 +30,13 @@ onAuthStateChanged(App.firebase.auth, (user) => {
 // Delegate click events on elements with the 'data-link' attribute for client-side routing
 document.addEventListener("click", (e) => {
   // Check if the clicked element matches the selector '[data-link]'
-  if (e.target.matches("[data-link]")) {
+  const anchor = e.target.closest("[data-link]");
+  if (anchor) {
     // Prevent the default browser behavior of navigating to the link
     e.preventDefault();
 
     // Update the browser's history stack with the new URL without reloading the page
-    history.pushState(null, "", e.target.href);
+    history.pushState(null, "", anchor.href);
 
     // Invoke the router to update the view based on the new URL
     router();
