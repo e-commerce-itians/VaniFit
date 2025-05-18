@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 @import "../../variables.css";
 #hero{
   background-color: #f0f0f0;
+=======
+@import "../../style.css";
+
+.hero-section {
+  background-color: #f8f9fa;
+  padding: 60px 0;
+>>>>>>> 807c4d6e5d8c9dc1604946d88745c8d3e26056e0
 }
     .hero-section {
       background-color: #F2F0F1;
