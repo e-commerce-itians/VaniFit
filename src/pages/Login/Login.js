@@ -1,7 +1,8 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { observer } from "../../observer";
 import {
-  googleSignin,
+  firebaseAuthErrors,
+  signInWithGoogle,
   validateEmail,
   validatePassword,
 } from "../../utils/loginRegister";
@@ -57,7 +58,7 @@ export default function Login() {
                 </button>
                 <button
                   type="button"
-                  id="googleSigninBtn"
+                  id="signInWithGoogleBtn"
                   class="btn btn-dark d-block w-100 my-2"
                 >
                   <i class="fa-brands fa-google mx-1"></i>
@@ -98,7 +99,7 @@ const compLoaded = () => {
   const loginError = document.querySelector("#loginError");
 
   const loginBtn = document.querySelector("#loginBtn");
-  const googleBtn = document.querySelector("#googleSigninBtn");
+  const googleBtn = document.querySelector("#signInWithGoogleBtn");
 
   // change google signin button styling while waiting for response
   googleBtn.addEventListener("click", async () => {
@@ -107,12 +108,13 @@ const compLoaded = () => {
     try {
       Array.from(form.elements).forEach((item) => (item.disabled = true));
       form.classList.add("was-validated");
-      await googleSignin();
+      await signInWithGoogle();
       App.navigator("/");
     } catch (error) {
       Array.from(e.target.elements).forEach((item) => (item.disabled = false));
       form.classList.remove("was-validated");
-      loginError.textContent = `An unknown error occurred`;
+      loginError.textContent =
+        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
       loginError.classList.remove("d-none");
     }
     googleBtn.disabled = false;
@@ -155,7 +157,8 @@ const compLoaded = () => {
       Array.from(e.target.elements).forEach((item) => (item.disabled = false));
       form.classList.remove("was-validated");
       loginBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Login with Email</span>`;
-      loginError.textContent = `Invalid email or password`;
+      loginError.textContent =
+        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
       loginError.classList.remove("d-none");
     }
   });

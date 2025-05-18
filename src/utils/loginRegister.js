@@ -1,5 +1,38 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
+// firebase error messages
+export const firebaseAuthErrors = {
+  "auth/user-not-found":
+    "No account found with this email. Please check your email or register.",
+  "auth/wrong-password":
+    "The password you entered is incorrect. Please try again.",
+  "auth/invalid-email":
+    "The email address is not valid. Please enter a valid email.",
+  "auth/email-already-in-use":
+    "This email address is already registered. Please login or use a different email.",
+  "auth/weak-password":
+    "The password is too weak. Please use at least 6 characters.",
+  "auth/too-many-requests":
+    "Too many login attempts. Please try again later or reset your password.",
+  "auth/network-request-failed":
+    "A network error occurred. Please check your internet connection.",
+  "auth/operation-not-allowed":
+    "Email/password sign-in is not enabled. Please contact support.",
+  "auth/account-exists-with-different-credential":
+    "An account already exists with the same email, but signed in differently. Please try logging in with Google or reset your password if you used email/password.",
+  "auth/popup-closed-by-user": "Sign-in was cancelled. Please try again.",
+  "auth/unauthorized-domain":
+    "This domain is not authorized for sign-in. Please contact support.",
+  "auth/internal-error":
+    "An unexpected authentication error occurred. Please try again.",
+  "auth/invalid-credential": "Your session has expired. Please log in again.",
+  "auth/requires-recent-login":
+    "This action requires a recent login. Please log in again.",
+  "auth/user-disabled":
+    "This account has been disabled. Please contact support.",
+  default: "An unknown error occurred. Please try again.",
+};
+
 // check credentials validity
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -101,7 +134,7 @@ export function validateConfirmPassword(
   return formValid;
 }
 
-export async function googleSignin() {
+export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(App.firebase.auth, provider);

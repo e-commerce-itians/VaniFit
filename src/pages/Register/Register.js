@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { observer } from "../../observer";
 import {
+  firebaseAuthErrors,
   validateEmail,
   validatePassword,
   validateConfirmPassword,
@@ -157,8 +158,10 @@ const compLoaded = () => {
       Array.from(form.elements).forEach((item) => (item.disabled = false));
       form.classList.remove("was-validated");
       registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
-      registerError.textContent = `Invalid email or password`;
+      registerError.textContent =
+        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
       registerError.classList.remove("d-none");
+      console.log(error);
     }
   });
 };
