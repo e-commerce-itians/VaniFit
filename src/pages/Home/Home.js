@@ -6,8 +6,8 @@ export default async function Home() {
   observer(componentID, compLoaded);
   return /*html*/ `
 
-
-<section class="container py-5">
+<div id="hero">
+<section class="container py-2">
   <div class="row align-items-center">
     <!-- Text Section -->
     <div class="col-md-6 text-center text-md-start">
@@ -39,8 +39,8 @@ export default async function Home() {
       <img src="images/hero.jpg"  alt="Models">
     </div>
   </div>
+  </div>
 </section>
-  <a></a>
 <!-- Brand Logos -->
 <div class="container-fluid bg-black py-4">
   <div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
@@ -51,9 +51,126 @@ export default async function Home() {
     <a href="#" class="text-white fs-3 fw-light text-decoration-none">Calvin Klein</a>
   </div>
 </div>
+  <div class="container py-5">
 
+    <!-- New Arrivals Section -->
+    <div>
+      <h2 class="section-title">NEW ARRIVALS</h2>
+      <div id="new-arrivals" class="row g-4 justify-content-center">
+        <!-- Placeholder cards -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+                <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+                <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+                <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+                <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
 
+      </div>
+      <div class="text-center mt-4">
+        <button class="btn btn-outline-dark">View All</button>
+      </div>
+    </div>
 
+    <hr class="my-5" />
+
+    <!-- Top Selling Section -->
+    <div>
+      <h2 class="section-title">TOP SELLING</h2>
+      <div id="top-selling" class="row g-4 justify-content-center">
+        <!-- Placeholder cards -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+                <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+                <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+                <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+                <div class="col-6 col-md-4 col-lg-2">
+          <div class="product-card">
+            <div class="product-img placeholder-glow"></div>
+            <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+            <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          </div>
+        </div>
+        
+      </div>
+      <div class="text-center mt-4">
+        <button class="btn btn-outline-dark">View All</button>
+      </div>
+    </div>
+  </div>
+    <div class="container rounded-5" id="style-container">
+    <h2 class="section-title py-3">BROWSE BY dress STYLE</h2>
+    <div class="d-sm-block d-md-block d-lg-flex">
+    <a href="#" class=""><img class="ms-5 " src="images/casual.png" class="rounded float-start" alt="..."></a>
+    <a href="#" > <img class="ms-5" src="images/formal.png" class="rounded float-start" alt="..."></a>
+    </div>
+    <div class="d-sm-block d-md-block d-lg-flex">
+    <a href="#"> <img class="ms-5 py-4" src="images/party.png" class="rounded float-start" alt="..."></a>
+    <a href="#"> <img class="ms-5 py-4" src="images/gym.png" class="rounded float-start" alt="..."></a>
+    </div>
+
+    </div>
   `;
 }
 
