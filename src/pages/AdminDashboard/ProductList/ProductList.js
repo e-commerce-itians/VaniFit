@@ -2,16 +2,13 @@ import { observer } from "/src/observer";
 import { deleteProduct as delProd } from "/src/utils/DeleteProduct";
 import "./ProductList.css";
 import { collection, getDocs } from "firebase/firestore";
+import EditProduct from "../EditProduct/EditProduct";
 
 const componentID = "ProductList";
 
 export default function ProductList() {
-  // Call observer after component is rendered
-  observer(componentID, () => {
-    setTimeout(() => {
-      compLoaded();
-    }, 0);
-  });
+  // Directly call observer without setTimeout to avoid race conditions
+  observer(componentID, compLoaded);
 
   return /*html*/ `
     <div component="${componentID}" id="${componentID}" class="${componentID}">
@@ -58,25 +55,33 @@ export default function ProductList() {
 
 // JavaScript code to be executed once the component is loaded
 const compLoaded = () => {
-  // Fetch and display products
+  console.log("ProductList component loaded");
+
+  // Immediately fetch products when loaded
   fetchProducts();
 
   // Add event listeners
   const refreshBtn = document.getElementById("refreshProductsBtn");
-  refreshBtn.addEventListener("click", () => {
-    fetchProducts();
-  });
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", () => {
+      fetchProducts();
+    });
+  }
 
   const searchInput = document.getElementById("productSearchInput");
   if (searchInput) {
     searchInput.addEventListener("input", filterProducts);
   }
+
+  // Remove the productListReady event handler as it's causing issues
+  // Just use the normal observer pattern
 };
 
 // Fetch products from Firestore
 async function fetchProducts() {
   try {
     showLoadingIndicator();
+    console.log("Fetching products...");
 
     const productsCollection = collection(App.firebase.db, "products");
     const productsSnapshot = await getDocs(productsCollection);
@@ -95,6 +100,27 @@ async function fetchProducts() {
     console.error("Error fetching products:", error);
     showErrorMessage();
   }
+}
+
+// Add proper event delegation for edit and delete buttons
+function addActionListeners() {
+  // Use event delegation for better reliability
+  document
+    .getElementById("productsTableBody")
+    ?.addEventListener("click", (e) => {
+      // Find the closest button if we clicked on an icon inside the button
+      const button = e.target.closest(".edit-btn, .delete-btn");
+      if (!button) return;
+
+      const productId = button.getAttribute("data-id");
+      if (!productId) return;
+
+      if (button.classList.contains("edit-btn")) {
+        editProduct(productId);
+      } else if (button.classList.contains("delete-btn")) {
+        confirmDeleteProduct(productId);
+      }
+    });
 }
 
 // Render products to the table
@@ -126,35 +152,25 @@ function renderProducts(products) {
       </td>
       <td>${product.name || "Unnamed Product"}</td>
       <td>${product.category || "Uncategorized"}</td>
-      <td>$${product.price ? product.price.toFixed(2) : "0.00"}</td>
+      <td>${product.price ? product.price.toFixed(2) : "0.00"} EGP</td>
       <td>${calculateTotalStock(product) || 0}</td>
       <td class="actions-cell">
-        <button class="edit-btn" id="edit-btn" data-id="${
+        <button class="edit-btn" data-id="${
           product.id
-        }"><i class="fa-solid fa-pen-to-square"></i></button>
-        <button class="delete-btn" id="delte-btn" data-id="${
+        }"><i class="fa-solid fa-pen-to-square" data-id="${
+        product.id
+      }"></i></button>
+        <button class="delete-btn" data-id="${
           product.id
-        }"><i class="fa-solid fa-trash"></i></button>
+        }"><i class="fa-solid fa-trash" data-id="${product.id}"></i></button>
       </td>
     </tr>
   `;
     })
     .join("");
 
-  // Add event listeners to action buttons
-  document.querySelectorAll(".edit-btn").forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const productId = e.target.getAttribute("data-id");
-      editProduct(productId);
-    });
-  });
-
-  document.querySelectorAll(".delete-btn").forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const productId = e.target.getAttribute("data-id");
-      confirmDeleteProduct(productId);
-    });
-  });
+  // Use the dedicated function for event listeners
+  addActionListeners();
 }
 
 // Filter products based on search input
@@ -172,9 +188,9 @@ function filterProducts() {
 
 // Edit product function
 function editProduct(productId) {
-  console.log(`Edit product with ID: ${productId}`);
-  // Implement navigation to edit product page or show edit modal
-  // Example: window.location.href = `/admin/edit-product/${productId}`;
+  console.log("Editing product:", productId);
+  const contentContainer = document.querySelector(".dashboard-content");
+  contentContainer.innerHTML = EditProduct(productId);
 }
 
 // Delete product confirmation
@@ -191,7 +207,7 @@ async function deleteProduct(productId) {
   fetchProducts();
 }
 
-// Add this helper function to calculate total stock across all colors and sizes
+// Helper function to calculate total stock across all colors and sizes
 function calculateTotalStock(product) {
   return (
     product.colors?.reduce((total, color) => {
