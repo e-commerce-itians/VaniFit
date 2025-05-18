@@ -105,11 +105,14 @@ const compLoaded = () => {
     googleBtn.disabled = true;
     googleBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...`;
     try {
+      Array.from(form.elements).forEach((item) => (item.disabled = true));
+      form.classList.add("was-validated");
       await googleSignin();
       App.navigator("/");
     } catch (error) {
-      loginError.textContent =
-        errors[error.message.toString()] || "An unknown error occurred";
+      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+      form.classList.remove("was-validated");
+      loginError.textContent = `An unknown error occurred`;
       loginError.classList.remove("d-none");
     }
     googleBtn.disabled = false;
@@ -136,7 +139,7 @@ const compLoaded = () => {
       validatePassword(password, passwordInput, passwordError);
 
     if (!formIsValid) {
-      form.classList.add("was-validated");
+      form.classList.remove("was-validated");
       return;
     }
 
@@ -150,7 +153,7 @@ const compLoaded = () => {
     } catch (error) {
       // enable inputs and update error state
       Array.from(e.target.elements).forEach((item) => (item.disabled = false));
-      form.classList.add("was-validated");
+      form.classList.remove("was-validated");
       loginBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Login with Email</span>`;
       loginError.textContent = `Invalid email or password`;
       loginError.classList.remove("d-none");
