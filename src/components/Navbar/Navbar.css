@@ -1,4 +1,4 @@
-@import "../../variables.css";
+@import "../../style.css";
 
 .navbar-brand {
     font-family: var(--lucky), Arial, Helvetica, sans-serif;

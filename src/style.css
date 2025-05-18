@@ -1,4 +1,14 @@
-@import "./variables.css";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Luckiest+Guy&display=swap");
+
+:root {
+  --inter: "inter";
+  --lucky: "Luckiest Guy";
+  --light-gray: rgba(0, 0, 0, 0.1);
+  --dark-grey: rgba(0, 0, 0, 0.6);
+  --off-white: rgba(240, 240, 240, 1);
+  --white: rgba(255, 255, 255, 1);
+  --black: rgba(0, 0, 0, 1);
+}
 
 *,
 *::before,
