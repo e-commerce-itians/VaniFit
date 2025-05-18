@@ -1,24 +1,14 @@
-import { observer } from "../../../observer";
+import { observer } from "/src/observer";
 import "./Sidebar.css";
-const componentID = "Sidebar";
+const componentID = "dashboard-sidebar";
 
 export default function Sidebar() {
   observer(componentID, compLoaded);
   return /*html*/ `
-    <div component="${componentID}" id="${componentID}" class="sidebar">
-        <div class="sidebar-header">
-          <h2>Main Panel</h2>
-        </div>
-        <div class="sidebar-menu">
-          <a href="#/admin/productlist" class="sidebar-link active" id="products-link">
-            <i class="fas fa-list"></i>
-            <span>Product List</span>
-          </a>
-          <a href="#/admin/add-product" class="sidebar-link" id="add-product-link">
-            <i class="fas fa-plus-circle"></i>
-            <span>Add Product</span>
-          </a>
-        </div>
+    <div component="${componentID}" id="${componentID}" class="${componentID}">
+        <h2>Admin Panel</h2>
+        <button id="productListBtn">Product List</button>
+        <button id="addProductBtn">Add Product</button>
     </div>
     `;
 }
