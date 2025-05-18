@@ -20,37 +20,38 @@ export default async function Home() {
       <!-- Stats -->
       <div class="row mt-4 text-center">
         <div class="col-4">
-          <h5 class="mb-0">200+</h5>
+          <h3 class="mb-0">200+</h3>
           <small class="text-muted">Brands</small>
         </div>
         <div class="col-4">
-          <h5 class="mb-0">2,000+</h5>
+          <h3 class="mb-0">2,000+</h3>
           <small class="text-muted">Products</small>
         </div>
         <div class="col-4">
-          <h5 class="mb-0">30,000+</h5>
+          <h3 class="mb-0">30,000+</h3>
           <small class="text-muted">Customers</small>
         </div>
       </div>
     </div>
 
     <!-- Image Section -->
-    <div class="col-md-6 text-center mt-4 mt-md-0">
-      <img src="images/hero.jpg" class="img-fluid" alt="Models">
+    <div class="col-md-6  mt-4 mt-md-0">
+      <img src="images/hero.jpg"  alt="Models">
     </div>
   </div>
 </section>
-
+  <a></a>
 <!-- Brand Logos -->
-<div class="bg-black text-white py-3">
-  <div class="container d-flex flex-wrap justify-content-center gap-4">
-    <span class="fw-bold">VERSACE</span>
-    <span class="fw-bold">ZARA</span>
-    <span class="fw-bold">GUCCI</span>
-    <span class="fw-bold">PRADA</span>
-    <span class="fw-bold">Calvin Klein</span>
+<div class="container-fluid bg-black py-4">
+  <div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
+    <a href="#" class="text-white fs-3 fw-light text-decoration-none">VERSACE</a>
+    <a href="#" class="text-white fs-3 fw-light text-decoration-none">ZARA</a>
+    <a href="#" class="text-white fs-3 fw-light text-decoration-none">GUCCI</a>
+    <a href="#" class="text-white fs-3 fw-bold text-decoration-none">PRADA</a>
+    <a href="#" class="text-white fs-3 fw-light text-decoration-none">Calvin Klein</a>
   </div>
 </div>
+
 
 
   `;
