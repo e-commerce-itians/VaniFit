@@ -5,7 +5,6 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from "../../utils/loginRegister";
-
 import "./Register.css";
 
 const componentID = "register";
@@ -140,7 +139,7 @@ const compLoaded = () => {
       );
 
     if (!formIsValid) {
-      form.classList.add("was-validated");
+      form.classList.remove("was-validated");
       return;
     }
 
@@ -156,7 +155,7 @@ const compLoaded = () => {
     } catch (error) {
       // enable inputs and update error state
       Array.from(form.elements).forEach((item) => (item.disabled = false));
-      form.classList.add("was-validated");
+      form.classList.remove("was-validated");
       registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
       registerError.textContent = `Invalid email or password`;
       registerError.classList.remove("d-none");
