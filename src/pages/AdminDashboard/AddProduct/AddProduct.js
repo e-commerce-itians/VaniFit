@@ -355,7 +355,6 @@ const compLoaded = () => {
       form.reset();
       // Clear color sections
       colorsContainer.innerHTML = `<div class="no-colors-message">Click "Add Color" to add product colors, images, and sizes.</div>`;
-      colorSections.length = 0;
     } catch (error) {
       console.error("Error adding product to Firestore:", error);
       alert(`Error adding product: ${error.message}`);

@@ -1,4 +1,5 @@
 import { observer } from "/src/observer";
+import { deleteProduct as delProd } from "/src/utils/DeleteProduct";
 import "./ProductList.css";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -128,10 +129,10 @@ function renderProducts(products) {
       <td>$${product.price ? product.price.toFixed(2) : "0.00"}</td>
       <td>${calculateTotalStock(product) || 0}</td>
       <td class="actions-cell">
-        <button class="edit-btn" data-id="${
+        <button class="edit-btn" id="edit-btn" data-id="${
           product.id
         }"><i class="fa-solid fa-pen-to-square"></i></button>
-        <button class="delete-btn" data-id="${
+        <button class="delete-btn" id="delte-btn" data-id="${
           product.id
         }"><i class="fa-solid fa-trash"></i></button>
       </td>
@@ -185,8 +186,7 @@ function confirmDeleteProduct(productId) {
 
 // Delete product from Firestore
 async function deleteProduct(productId) {
-  // Implement deletion logic here
-  console.log(`Delete product with ID: ${productId}`);
+  delProd(productId);
   // After successful deletion, refresh the product list
   fetchProducts();
 }
