@@ -1,5 +1,5 @@
 class Product {
-  constructor(name, desc, price, category, brand, tags, colors = []) {
+  constructor(name, desc, price, category, brand, tags, gender, colors = []) {
     this.name = name;
     this.description = desc;
     this.price = price;
@@ -7,6 +7,7 @@ class Product {
     this.brand = brand;
     this.tags = tags;
     this.colors = colors;
+    this.gender = gender;
   }
 
   setName(name) {
@@ -36,41 +37,45 @@ class Product {
   setTags(tags) {
     this.tags = tags;
   }
+
+  setGender(gender) {
+    this.gender = gender;
+  }
 }
 
 class Shirt extends Product {
-  constructor(name, desc, price, category, brand, tags, colors) {
-    super(name, desc, price, category, brand, tags, colors);
+  constructor(name, desc, price, category, brand, tags, colors, gender) {
+    super(name, desc, price, category, brand, tags, colors, gender);
   }
 }
 
 class TShirt extends Product {
-  constructor(name, desc, price, category, brand, tags, colors) {
-    super(name, desc, price, category, brand, tags, colors);
+  constructor(name, desc, price, category, brand, tags, colors, gender) {
+    super(name, desc, price, category, brand, tags, colors, gender);
   }
 }
 
 class Pants extends Product {
-  constructor(name, desc, price, category, brand, tags, colors) {
-    super(name, desc, price, category, brand, tags, colors);
+  constructor(name, desc, price, category, brand, tags, colors, gender) {
+    super(name, desc, price, category, brand, tags, colors, gender);
   }
 }
 
 class Shoes extends Product {
-  constructor(name, desc, price, category, brand, tags, colors) {
-    super(name, desc, price, category, brand, tags, colors);
+  constructor(name, desc, price, category, brand, tags, colors, gender) {
+    super(name, desc, price, category, brand, tags, colors, gender);
   }
 }
 
 class Hoodie extends Product {
-  constructor(name, desc, price, category, brand, tags, colors) {
-    super(name, desc, price, category, brand, tags, colors);
+  constructor(name, desc, price, category, brand, tags, colors, gender) {
+    super(name, desc, price, category, brand, tags, colors, gender);
   }
 }
 
 class Jacket extends Product {
-  constructor(name, desc, price, category, brand, tags, colors) {
-    super(name, desc, price, category, brand, tags, colors);
+  constructor(name, desc, price, category, brand, tags, colors, gender) {
+    super(name, desc, price, category, brand, tags, colors, gender);
   }
 }
 

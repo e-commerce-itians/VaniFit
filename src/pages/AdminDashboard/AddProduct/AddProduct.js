@@ -10,13 +10,14 @@ export default function AddProduct() {
 <div component="${componentID}">
    <form id="newProductForm">
     <h2> Add a New Product </h2>
+    
     <label for="productName">Product Name</label>
     <input type="text" id="productName" name="productName" required>
 
     <label for="description">Description</label>
     <textarea id="description" name="description" rows="4" required></textarea>
 
-    <label for="price">Price ($)</label>
+    <label for="price">Price (EGP)</label>
     <input type="number" id="price" name="price" step="0.01" min="0" required>
 
     <label for="category">Category</label>
@@ -28,6 +29,14 @@ export default function AddProduct() {
       <option value="jackets">Jackets</option>
       <option value="shoes">Shoes</option>
       <option value="t-shirt">T-Shirt</option>
+    </select>
+    
+    <label for="gender">Gender</label>
+    <select id="gender" name="gender" required>
+      <option disabled selected>Select a gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="unisex">Unisex</option>
     </select>
 
     <label for="brand">Brand Name</label>
@@ -80,6 +89,8 @@ const compLoaded = () => {
     colorSection.className = "color-section";
     colorSection.dataset.colorId = colorId;
 
+    const selectedCategory = categorySelect.value;
+
     colorSection.innerHTML = `
       <div class="color-header">
         <h4>Color Details</h4>
@@ -127,24 +138,7 @@ const compLoaded = () => {
           <!-- Size inputs will be added here dynamically -->
           <div class="size-row">
             <select class="size-select" required>
-              <option value="" disabled selected>Select Size</option>
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="XXL">XXL</option>
-              <option value="3XL">3XL</option>
-              <option value="4XL">4XL</option>
-              <option value="5XL">5XL</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="onesize">One Size</option>
+              ${getSizeOptionsByCategory(selectedCategory)}
             </select>
             <input type="number" class="stock-input" min="0" required placeholder="Stock" value="0">
             <button type="button" class="remove-size-btn danger-button">✕</button>
@@ -214,26 +208,11 @@ const compLoaded = () => {
     const sizeRow = document.createElement("div");
     sizeRow.className = "size-row";
 
+    const selectedCategory = document.getElementById("category").value;
+
     sizeRow.innerHTML = `
       <select class="size-select" required>
-        <option value="" disabled selected>Select Size</option>
-        <option value="XS">XS</option>
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="XXL">XXL</option>
-        <option value="3XL">3XL</option>
-        <option value="4XL">4XL</option>
-        <option value="5XL">5XL</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="onesize">One Size</option>
+        ${getSizeOptionsByCategory(selectedCategory)}
       </select>
       <input type="number" class="stock-input" min="0" required placeholder="Stock" value="0">
       <button type="button" class="remove-size-btn danger-button">✕</button>
@@ -247,8 +226,81 @@ const compLoaded = () => {
     });
   }
 
+  // Function to get size options based on category
+  function getSizeOptionsByCategory(category) {
+    if (!category || category === "Select a category") {
+      return `
+        <option value="" disabled selected>Select Size</option>
+        <option value="onesize">One Size</option>
+      `;
+    }
+
+    switch (category.toLowerCase()) {
+      case "shoes":
+        return `
+          <option value="" disabled selected>Select Size</option>
+          <option value="35">35</option>
+          <option value="36">36</option>
+          <option value="37">37</option>
+          <option value="38">38</option>
+          <option value="39">39</option>
+          <option value="40">40</option>
+          <option value="41">41</option>
+          <option value="42">42</option>
+          <option value="43">43</option>
+          <option value="44">44</option>
+          <option value="45">45</option>
+          <option value="46">46</option>
+        `;
+      case "shirts":
+      case "t-shirt":
+      case "hoodies":
+      case "jackets":
+      case "pants":
+      default:
+        return `
+          <option value="" disabled selected>Select Size</option>
+          <option value="XXS">XXS</option>
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
+          <option value="3XL">3XL</option>
+          <option value="4XL">4XL</option>
+        `;
+    }
+  }
+
   // Add Color button event listener
   addColorBtn.addEventListener("click", addColorSection);
+
+  // Add category change event listener to update size options
+  categorySelect.addEventListener("change", function () {
+    const selectedCategory = this.value;
+
+    // Update size options in existing color sections
+    document.querySelectorAll(".color-section").forEach((section) => {
+      section.querySelectorAll(".size-row").forEach((row) => {
+        const currentSelect = row.querySelector(".size-select");
+        const currentValue = currentSelect.value;
+
+        // Save current selection
+        currentSelect.innerHTML = getSizeOptionsByCategory(selectedCategory);
+
+        // Try to restore previous selection if it exists in new options
+        if (currentValue) {
+          const optionExists = Array.from(currentSelect.options).some(
+            (option) => option.value === currentValue
+          );
+          if (optionExists) {
+            currentSelect.value = currentValue;
+          }
+        }
+      });
+    });
+  });
 
   // Form submission handler
   form.addEventListener("submit", async (event) => {
@@ -258,6 +310,7 @@ const compLoaded = () => {
     const desc = descriptionInput.value.trim();
     const price = parseFloat(priceInput.value);
     const category = categorySelect.value;
+    const gender = document.getElementById("gender").value;
     const brand = brandInput.value.trim();
     const tags = tagsInput.value
       .split(",")
@@ -339,6 +392,9 @@ const compLoaded = () => {
         console.error("Unknown product category:", category);
         return;
     }
+
+    // Add gender to the product
+    productInstance.setGender(gender);
 
     // Add colors data to the product
     productInstance.setColors(colors);
