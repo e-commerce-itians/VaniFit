@@ -25,7 +25,7 @@ export const firebaseAuthErrors = {
     "This domain is not authorized for sign-in. Please contact support.",
   "auth/internal-error":
     "An unexpected authentication error occurred. Please try again.",
-  "auth/invalid-credential": "Your session has expired. Please log in again.",
+  "auth/invalid-credential": "Incorrect username or password",
   "auth/requires-recent-login":
     "This action requires a recent login. Please log in again.",
   "auth/user-disabled":
