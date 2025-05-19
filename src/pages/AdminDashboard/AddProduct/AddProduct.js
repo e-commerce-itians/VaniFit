@@ -57,7 +57,7 @@ export default function AddProduct() {
       <div class="no-colors-message">Click "Add Color" to add product colors, images, and sizes.</div>
     </div>
 
-    <button type="submit">Add Product</button>
+    <button type="submit" class="add-product-btn">Add Product</button>
   </form>
   </div>
     `;

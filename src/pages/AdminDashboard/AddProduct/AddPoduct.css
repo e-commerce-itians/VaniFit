@@ -110,7 +110,7 @@ textarea {
 }
 
 /* Buttons */
-button[type="submit"] {
+.add-product-btn {
   width: 200px;
   padding: 12px;
   background-color: #28a745;
