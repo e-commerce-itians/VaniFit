@@ -10,7 +10,7 @@ export default async function Product({ id }) {
   return /*html*/ `
    <div component="${componentID}">
      <div id="product" class="m-5 product">
-      loading...
+      loading.....
      </div>
    </div>
   `;

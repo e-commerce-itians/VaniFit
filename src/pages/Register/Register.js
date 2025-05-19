@@ -6,7 +6,6 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from "../../utils/loginRegister";
-import "./Register.css";
 
 const componentID = "register";
 
