@@ -20,8 +20,11 @@ onAuthStateChanged(App.firebase.auth, async (user) => {
   if (user) {
     //User is logged in
     App.firebase.user = user;
-    await getDoc(doc(App.firebase.db, "roles", user.uid)).then(() => {
-      App.firebase.user.role = "admin";
+    await getDoc(doc(App.firebase.db, "roles", user.uid)).then((res) => {
+      let data = res.data();
+      if (data.admin === true) {
+        App.firebase.user.role = "admin";
+      }
     });
   } else {
     //User is not logged in
