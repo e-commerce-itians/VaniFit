@@ -6,7 +6,6 @@ import {
   validateEmail,
   validatePassword,
 } from "../../utils/loginRegister";
-import "./Login.css";
 
 const componentID = "login";
 
