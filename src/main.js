@@ -22,7 +22,7 @@ onAuthStateChanged(App.firebase.auth, async (user) => {
     App.firebase.user = user;
     await getDoc(doc(App.firebase.db, "roles", user.uid)).then((res) => {
       let data = res.exists() ? res.data() : null;
-      if (data.admin === true) {
+      if (data && data.admin === true) {
         App.firebase.user.role = "admin";
       }
     });
