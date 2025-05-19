@@ -17,5 +17,9 @@ export default function Profile() {
 
 //Javascript code to be executed once the home component is loaded
 const compLoaded = () => {
+  if (!App.firebase.user.uid) {
+    App.navigator("/login");
+    return;
+  }
   console.log(App.firebase.user.displayName);
 };

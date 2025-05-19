@@ -3,10 +3,10 @@ import {
   firebaseAuth,
   firebaseAnalytics,
   firebasedb,
-} from "./utils/Firebase";
+} from "./utils/firebase.js";
 import router from "./router.js";
-import Setdata from "./utils/Setdata.js";
-import Getdata from "./utils/Getdata.js";
+import setdata from "./utils/setData.js";
+import getdata from "./utils/getData.js";
 
 // Global vars accessible anywhere in any component
 window.App = {
@@ -22,8 +22,8 @@ window.App = {
     auth: firebaseAuth, //firebase auth init
     analytics: firebaseAnalytics, //firebase analytics init
     db: firebasedb,
-    setData: Setdata,
-    getData: Getdata,
+    setData: setdata,
+    getData: getdata,
     user: {}, //user data once logged in
   },
 };
