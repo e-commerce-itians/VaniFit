@@ -108,7 +108,7 @@ async function compLoaded(productId) {
     form.price.value = product.price;
     form.category.value = product.category;
     form.brand.value = product.brand;
-    form.gender.value = product.gender || "unisex"; // Set gender value with fallback
+    form.gender.value = product.gender || "unisex";
     form.tags.value = product.tags?.join(", ") || "";
 
     // Setup colors with the product category
@@ -369,4 +369,36 @@ function setupColorSectionEvents(colorSection) {
       sizeRow.remove();
     });
   });
+}
+
+// Function to collect color data from the form
+function getColorsData() {
+  const colors = [];
+  document.querySelectorAll(".color-section").forEach((section) => {
+    const colorId = section.dataset.colorId;
+
+    const colorData = {
+      name: document.getElementById(`${colorId}-name`).value,
+      hex: document.getElementById(`${colorId}-hex`).value,
+      image_urls: [
+        document.getElementById(`${colorId}-img1`).value,
+        document.getElementById(`${colorId}-img2`).value,
+        document.getElementById(`${colorId}-img3`).value,
+      ],
+      sizes: {},
+    };
+
+    // Collect sizes data
+    section.querySelectorAll(".size-row").forEach((row) => {
+      const size = row.querySelector(".size-select").value;
+      const stock = parseInt(row.querySelector(".stock-input").value);
+      if (size && !isNaN(stock)) {
+        colorData.sizes[size] = stock;
+      }
+    });
+
+    colors.push(colorData);
+  });
+
+  return colors;
 }
