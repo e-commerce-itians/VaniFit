@@ -10,13 +10,29 @@ export default function Navbar() {
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="/" data-link>${App.title}</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-evenly w-100">
+            <ul
+              class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-evenly w-100"
+            >
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   Shop
                 </a>
                 <ul class="dropdown-menu">
@@ -26,7 +42,13 @@ export default function Navbar() {
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#" data-link>On Sale</a>
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="#"
+                  data-link
+                  >On Sale</a
+                >
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" data-link>New Arrivals</a>
@@ -35,7 +57,7 @@ export default function Navbar() {
                 <a class="nav-link" href="#" data-link>Brands</a>
               </li>
             </ul>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ">
               ${
                 App.firebase.user.email
                   ? /*html*/ `
@@ -46,8 +68,7 @@ export default function Navbar() {
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fa-solid fa-user"></i>
-                      ${App.firebase.user.email}
+                      <span>${App.firebase.user.displayName}</span>
                     </a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="/profile" data-link>Profile</a></li>
@@ -84,5 +105,6 @@ const compLoaded = () => {
         console.error(error);
       }
     });
+    console.log(App.firebase.user);
   }
 };
