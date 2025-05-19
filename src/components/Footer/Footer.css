@@ -1,4 +1,6 @@
 footer {
+  position: absolute;
+  bottom: 0;
   background-color: var(--off-white);
   color: var(--light-grey);
   padding: 1rem;

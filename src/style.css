@@ -95,3 +95,8 @@ input.form-control.is-valid:focus,
 input.form-control.is-invalid:focus {
   box-shadow: none !important;
 }
+
+#app {
+  position: relative;
+  min-height: 100dvh;
+}

@@ -4,7 +4,7 @@ const componentID = "footer";
 
 export default function Footer() {
   observer(componentID, compLoaded);
-  return /*html*/ `<footer>
+  return /*html*/ `<footer component="${componentID}">
         <ul class="footer-links">
             <li><a href="#">Conditions of Use</a></li>
             <li><a href="#">Privacy Notice</a></li>
