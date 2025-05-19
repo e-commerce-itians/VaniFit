@@ -13,7 +13,7 @@ export default function Profile() {
               <div class="card-body text-center py-4">
                 <img
                   id="userProfileAvatar"
-                  src="#"
+                  src="${App.firebase.user.photoURL}"
                   alt="Profile Avatar"
                   class="profile-avatar mb-3"
                 />
