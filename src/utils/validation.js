@@ -169,3 +169,7 @@ export async function signInWithGoogle() {
     throw error;
   }
 }
+
+// profile validations
+export function validatePhone() {}
+export function validateAddress() {}

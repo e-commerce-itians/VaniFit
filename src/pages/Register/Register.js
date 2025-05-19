@@ -10,7 +10,7 @@ import {
   validateEmail,
   validatePassword,
   validateConfirmPassword,
-} from "../../utils/loginRegister";
+} from "../../utils/validation";
 
 const componentID = "register";
 

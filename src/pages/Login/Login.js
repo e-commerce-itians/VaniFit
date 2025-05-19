@@ -5,7 +5,7 @@ import {
   signInWithGoogle,
   validateEmail,
   validatePassword,
-} from "../../utils/loginRegister";
+} from "../../utils/validation";
 
 const componentID = "login";
 

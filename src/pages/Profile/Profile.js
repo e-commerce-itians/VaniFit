@@ -1,4 +1,6 @@
 import { observer } from "../../observer";
+import { validatePhone, validateAddress } from "../../utils/validation";
+
 const componentID = "profile";
 
 export default function Profile() {
