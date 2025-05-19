@@ -148,19 +148,19 @@ const compLoaded = () => {
     form.classList.add("was-validated");
     registerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing up...`;
 
-    try {
-      const auth = getAuth();
-      await createUserWithEmailAndPassword(auth, email, password);
-      App.navigator("/");
-    } catch (error) {
-      // enable inputs and update error state
-      Array.from(form.elements).forEach((item) => (item.disabled = false));
-      form.classList.remove("was-validated");
-      registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
-      registerError.textContent =
-        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
-      registerError.classList.remove("d-none");
-      console.log(error);
-    }
+    const auth = getAuth();
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        App.navigator("/");
+      })
+      .catch((error) => {
+        // enable inputs and update error state
+        Array.from(form.elements).forEach((item) => (item.disabled = false));
+        form.classList.remove("was-validated");
+        registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
+        registerError.textContent =
+          firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
+        registerError.classList.remove("d-none");
+      });
   });
 };

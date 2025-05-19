@@ -14,4 +14,6 @@ export default function Profile() {
 }
 
 //Javascript code to be executed once the home component is loaded
-const compLoaded = () => {};
+const compLoaded = () => {
+  console.log(App.firebase);
+};
