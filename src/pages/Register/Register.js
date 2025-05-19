@@ -1,16 +1,6 @@
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  updateProfile,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { observer } from "../../observer";
-import {
-  firebaseAuthErrors,
-  validateName,
-  validateEmail,
-  validatePassword,
-  validateConfirmPassword,
-} from "../../utils/validation";
+import { firebaseAuthErrors, validateData } from "../../utils/validation";
 
 const componentID = "register";
 
@@ -145,27 +135,38 @@ const compLoaded = () => {
 
   // event listeners
   firstNameInput.addEventListener("input", () => {
-    validateName(firstNameInput.value.trim(), firstNameInput, firstNameError);
+    validateData(
+      firstNameInput.value.trim(),
+      firstNameInput,
+      firstNameError,
+      "name"
+    );
   });
 
   lastNameInput.addEventListener("input", () => {
-    validateName(lastNameInput.value.trim(), lastNameInput, lastNameError);
+    validateData(
+      lastNameInput.value.trim(),
+      lastNameInput,
+      lastNameError,
+      "name"
+    );
   });
 
   emailInput.addEventListener("input", () => {
-    validateEmail(emailInput.value.trim(), emailInput, emailError);
+    validateData(emailInput.value.trim(), emailInput, emailError, "email");
   });
 
   passwordInput.addEventListener("input", () => {
-    validatePassword(passwordInput.value, passwordInput, passwordError);
+    validateData(passwordInput.value, passwordInput, passwordError, "password");
   });
 
   confirmPasswordInput.addEventListener("input", () => {
-    validateConfirmPassword(
+    validateData(
       passwordInput.value,
       confirmPasswordInput.value,
       confirmPasswordInput,
-      confirmPasswordError
+      confirmPasswordError,
+      "confirm password"
     );
   });
 
@@ -177,16 +178,18 @@ const compLoaded = () => {
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
 
+    // repeat validation for submission case
     const formIsValid =
-      validateName(firstName, firstNameInput, firstNameError) &&
-      validateName(lastName, lastNameInput, lastNameError) &&
-      validateEmail(email, emailInput, emailError) &&
-      validatePassword(password, passwordInput, passwordError) &&
-      validateConfirmPassword(
+      validateData(firstName, firstNameInput, firstNameError, "name") &&
+      validateData(lastName, lastNameInput, lastNameError, "name") &&
+      validateData(email, emailInput, emailError, "email") &&
+      validateData(password, passwordInput, passwordError, "password") &&
+      validateData(
         password,
         confirmPassword,
         confirmPasswordInput,
-        confirmPasswordError
+        confirmPasswordError,
+        "confirm password"
       );
 
     if (!formIsValid) {

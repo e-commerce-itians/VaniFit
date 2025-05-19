@@ -3,8 +3,7 @@ import { observer } from "../../observer";
 import {
   firebaseAuthErrors,
   signInWithGoogle,
-  validateEmail,
-  validatePassword,
+  validateData,
 } from "../../utils/validation";
 
 const componentID = "login";
@@ -112,7 +111,7 @@ const compLoaded = () => {
       await signInWithGoogle();
       App.navigator("/");
     } catch (error) {
-      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+      Array.from(form.elements).forEach((item) => (item.disabled = false));
       form.classList.remove("was-validated");
       loginError.textContent =
         firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
@@ -124,11 +123,11 @@ const compLoaded = () => {
 
   // event listeners
   emailInput.addEventListener("input", () => {
-    validateEmail(emailInput.value.trim(), emailInput, emailError);
+    validateData(emailInput.value.trim(), emailInput, emailError, "email");
   });
 
   passwordInput.addEventListener("input", () => {
-    validatePassword(passwordInput.value, passwordInput, passwordError);
+    validateData(passwordInput.value, passwordInput, passwordError, "password");
   });
 
   form.addEventListener("submit", async (e) => {
@@ -138,8 +137,8 @@ const compLoaded = () => {
     const password = passwordInput.value;
 
     const formIsValid =
-      validateEmail(email, emailInput, emailError) &&
-      validatePassword(password, passwordInput, passwordError);
+      validateData(email, emailInput, emailError, "email") &&
+      validateData(password, passwordInput, passwordError, "password");
 
     if (!formIsValid) {
       form.classList.remove("was-validated");

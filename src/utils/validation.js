@@ -1,6 +1,28 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 // firebase error messages
+const formErrors = {
+  email: "invalid email format.",
+  password: "passwords are at least 6 characters length.",
+  "password confirmation": "password confirmation must match password.",
+  name: "names must be alphabetic with 3 to 32 characters length.",
+  phone: "invalid phone number format.",
+  address: "invalid address format.",
+  default: "incorrect data.",
+};
+
+const isValid = {
+  email: isValidEmail,
+  password: isValidPassword,
+  "password confirmation": isValidPassword,
+  name: isValidName,
+  phone: isValidPhone,
+  address: isValidAddress,
+  default: () => {
+    return false;
+  },
+};
+
 export const firebaseAuthErrors = {
   "auth/user-not-found":
     "No account found with this email. Please check your email or register.",
@@ -43,8 +65,17 @@ function isValidName(name) {
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
 function isValidPassword(password) {
   return password.length >= 6;
+}
+
+function isValidPhone(phone) {
+  return /^\+?[\d\s\-\(\)]+$/.test(phone);
+}
+
+function isValidAddress(address) {
+  return address.length < 10;
 }
 
 // validation to update form styling and show error message
@@ -64,112 +95,35 @@ function setValidationFeedback(
   }
 }
 
-export function validateEmail(email, emailInput, emailError) {
-  // flag for form submission case
+export function validateData(data, dataInput, dataError, dataType = "default") {
+  // flag for submission case
   let formValid = true;
-  // check if email is empty or invalid format
-  if (email === "") {
-    setValidationFeedback(emailInput, emailError, false, "Email is required.");
-    formValid = false;
-  } else if (!isValidEmail(email)) {
+  // check for empty or invalid input
+  if (data == "") {
     setValidationFeedback(
-      emailInput,
-      emailError,
+      dataInput,
+      dataError,
       false,
-      "Please enter a valid email address."
+      `${dataType} is required.`
     );
+    formValid = false;
+  } else if (!isValid[dataType](data)) {
+    setValidationFeedback(dataInput, dataError, false, formErrors[dataType]);
     formValid = false;
   } else {
-    setValidationFeedback(emailInput, emailError, true);
-  }
-  return formValid;
-}
-
-export function validatePassword(password, passwordInput, passwordError) {
-  let formValid = true;
-  // check for empty or weak password
-  if (password === "") {
-    setValidationFeedback(
-      passwordInput,
-      passwordError,
-      false,
-      "Password is required."
-    );
-    formValid = false;
-  } else if (!isValidPassword(password)) {
-    setValidationFeedback(
-      passwordInput,
-      passwordError,
-      false,
-      "Password must be at least 6 characters long."
-    );
-    formValid = false;
-  } else {
-    setValidationFeedback(passwordInput, passwordError, true);
-  }
-  return formValid;
-}
-
-export function validateConfirmPassword(
-  password,
-  confirmPassword,
-  confirmPasswordInput,
-  confirmPasswordError
-) {
-  let formValid = true;
-  // check for empty password confirmation or inequality with password
-  if (confirmPassword === "") {
-    setValidationFeedback(
-      confirmPasswordInput,
-      confirmPasswordError,
-      false,
-      "Please confirm your password."
-    );
-    formValid = false;
-  } else if (password !== confirmPassword) {
-    setValidationFeedback(
-      confirmPasswordInput,
-      confirmPasswordError,
-      false,
-      "Passwords do not match."
-    );
-    formValid = false;
-  } else {
-    setValidationFeedback(confirmPasswordInput, confirmPasswordError, true);
-  }
-  return formValid;
-}
-
-export function validateName(name, nameInput, nameError) {
-  let formValid = true;
-  if (name === "") {
-    setValidationFeedback(nameInput, nameError, false, "Name cannot be empty.");
-    formValid = false;
-  } else if (!isValidName(name)) {
-    setValidationFeedback(
-      nameInput,
-      nameError,
-      false,
-      "Names must be alphabetical and between 3 and 32 characters."
-    );
-    formValid = false;
-  } else {
-    setValidationFeedback(nameInput, nameError, true);
+    setValidationFeedback(dataInput, dataError, true);
   }
   return formValid;
 }
 
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
-  try {
-    const result = await signInWithPopup(App.firebase.auth, provider);
-    // The signed-in user info and token
-    return result.user;
-  } catch (error) {
-    throw error;
-  }
+  // return user with its information
+  await signInWithPopup(App.firebase.auth, provider)
+    .then((userCredential) => {
+      return userCredential.user;
+    })
+    .catch((error) => {
+      throw error;
+    });
 }
-
-// profile validations
-export function validatePhone() {}
-export function validateAddress() {}
