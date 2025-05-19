@@ -34,6 +34,12 @@ export const firebaseAuthErrors = {
 };
 
 // check credentials validity
+function isValidName(name) {
+  const regex = /^[a-zA-Z\p{L}'\-\s]+$/u.test(name);
+  const nameLength = name.length >= 3 && name.length <= 32;
+  return regex && nameLength;
+}
+
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -130,6 +136,25 @@ export function validateConfirmPassword(
     formValid = false;
   } else {
     setValidationFeedback(confirmPasswordInput, confirmPasswordError, true);
+  }
+  return formValid;
+}
+
+export function validateName(name, nameInput, nameError) {
+  let formValid = true;
+  if (name === "") {
+    setValidationFeedback(nameInput, nameError, false, "Name cannot be empty.");
+    formValid = false;
+  } else if (!isValidName(name)) {
+    setValidationFeedback(
+      nameInput,
+      nameError,
+      false,
+      "Names must be alphabetical and between 3 and 32 characters."
+    );
+    formValid = false;
+  } else {
+    setValidationFeedback(nameInput, nameError, true);
   }
   return formValid;
 }

@@ -26,6 +26,7 @@ export default function Login() {
                 >
                 <input
                   type="email"
+                  name="email"
                   id="email"
                   class="form-control"
                   placeholder="user@example.com"
@@ -39,6 +40,7 @@ export default function Login() {
                 >
                 <input
                   type="password"
+                  name="password"
                   id="password"
                   class="form-control"
                   placeholder="enter your password"

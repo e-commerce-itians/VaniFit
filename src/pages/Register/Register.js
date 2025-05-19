@@ -1,7 +1,12 @@
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from "firebase/auth";
 import { observer } from "../../observer";
 import {
   firebaseAuthErrors,
+  validateName,
   validateEmail,
   validatePassword,
   validateConfirmPassword,
@@ -21,11 +26,40 @@ export default function Register() {
             <form id="registerForm" novalidate>
               <h2 class="mb-4 text-center">Register</h2>
               <div class="mb-3">
+                <label for="firstName" class="form-label"
+                  >First Name<span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  class="form-control"
+                  placeholder="John"
+                  required
+                />
+                <div class="invalid-feedback" id="firstNameError"></div>
+              </div>
+              <div class="mb-3">
+                <label for="lastName" class="form-label"
+                  >Last Name<span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  class="form-control"
+                  placeholder="Doe"
+                  required
+                />
+                <div class="invalid-feedback" id="lastNameError"></div>
+              </div>
+              <div class="mb-3">
                 <label for="email" class="form-label"
                   >Email<span class="text-danger">*</span></label
                 >
                 <input
                   type="email"
+                  name="email"
                   id="email"
                   class="form-control"
                   placeholder="user@example.com"
@@ -39,6 +73,7 @@ export default function Register() {
                 >
                 <input
                   type="password"
+                  name="password"
                   id="password"
                   class="form-control"
                   placeholder="enter your password"
@@ -52,6 +87,7 @@ export default function Register() {
                 >
                 <input
                   type="password"
+                  name="confirmPassword"
                   id="confirmPassword"
                   class="form-control"
                   placeholder="confirm password"
@@ -92,10 +128,14 @@ export default function Register() {
 
 const compLoaded = () => {
   const form = document.querySelector("#registerForm");
+  const firstNameInput = document.querySelector("#firstName");
+  const lastNameInput = document.querySelector("#lastName");
   const emailInput = document.querySelector("#email");
   const passwordInput = document.querySelector("#password");
   const confirmPasswordInput = document.querySelector("#confirmPassword");
 
+  const firstNameError = document.querySelector("#firstNameError");
+  const lastNameError = document.querySelector("#lastNameError");
   const emailError = document.querySelector("#emailError");
   const passwordError = document.querySelector("#passwordError");
   const confirmPasswordError = document.querySelector("#confirmPasswordError");
@@ -104,6 +144,14 @@ const compLoaded = () => {
   const registerBtn = document.querySelector("#registerBtn");
 
   // event listeners
+  firstNameInput.addEventListener("input", () => {
+    validateName(firstNameInput.value.trim(), firstNameInput, firstNameError);
+  });
+
+  lastNameInput.addEventListener("input", () => {
+    validateName(lastNameInput.value.trim(), lastNameInput, lastNameError);
+  });
+
   emailInput.addEventListener("input", () => {
     validateEmail(emailInput.value.trim(), emailInput, emailError);
   });
@@ -123,12 +171,15 @@ const compLoaded = () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
+    const firstName = firstNameInput.value.trim();
+    const lastName = lastNameInput.value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
 
     const formIsValid =
+      validateName(firstName, firstNameInput, firstNameError) &&
+      validateName(lastName, lastNameInput, lastNameError) &&
       validateEmail(email, emailInput, emailError) &&
       validatePassword(password, passwordInput, passwordError) &&
       validateConfirmPassword(
@@ -148,8 +199,13 @@ const compLoaded = () => {
     form.classList.add("was-validated");
     registerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing up...`;
 
-    const auth = getAuth();
-    await createUserWithEmailAndPassword(auth, email, password)
+    await createUserWithEmailAndPassword(App.firebase.auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        return updateProfile(user, {
+          displayName: `${firstName} ${lastName}`,
+        });
+      })
       .then(() => {
         App.navigator("/");
       })
