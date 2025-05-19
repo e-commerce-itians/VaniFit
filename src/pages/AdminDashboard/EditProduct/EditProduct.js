@@ -51,6 +51,7 @@ export default function EditProduct(productId) {
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="unisex">Unisex</option>
+              <option value="children">Children</option>
             </select>
           </div>
 

@@ -23,9 +23,7 @@ export default function MainDashboard() {
   `;
 
   observer(componentID, () => {
-    setTimeout(() => {
-      initDashboard();
-    }, 0);
+    initDashboard();
   });
 
   return html;
