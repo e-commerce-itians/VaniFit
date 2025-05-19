@@ -7,6 +7,7 @@ import "@fortawesome/fontawesome-free";
 import "./globals.js";
 import router from "./router.js";
 import "./style.css";
+import { doc, getDoc } from "firebase/firestore";
 
 // Run the router once the initial HTML document has been completely loaded and parsed
 window.addEventListener("DOMContentLoaded", router);
@@ -15,10 +16,13 @@ window.addEventListener("DOMContentLoaded", router);
 window.addEventListener("popstate", router);
 
 // Run router when user login state changes
-onAuthStateChanged(App.firebase.auth, (user) => {
+onAuthStateChanged(App.firebase.auth, async (user) => {
   if (user) {
     //User is logged in
     App.firebase.user = user;
+    await getDoc(doc(App.firebase.db, "roles", user.uid)).then(() => {
+      App.firebase.user.role = "admin";
+    });
   } else {
     //User is not logged in
     App.firebase.user = {};

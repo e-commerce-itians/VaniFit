@@ -23,6 +23,10 @@ export default function MainDashboard() {
   `;
 
   observer(componentID, () => {
+    if (App.firebase.user.role !== "admin") {
+      App.navigator("/");
+      return;
+    }
     initDashboard();
   });
 
