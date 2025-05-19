@@ -36,8 +36,9 @@ export default function Navbar() {
               </li>
             </ul>
             <ul class="navbar-nav">
-              ${App.firebase.user.email
-      ? /*html*/`
+              ${
+                App.firebase.user.email
+                  ? /*html*/ `
                   <li class="nav-item me-3">
                     <a id="cartBtn" class="nav-link" aria-current="page" href="/cart" data-link>
                       <i class="fa-solid fa-cart-shopping"></i>
@@ -54,14 +55,15 @@ export default function Navbar() {
                     </ul>
                   </li>
                 `
-      : /*html*/`
+                  : /*html*/ `
                   <li class="nav-item me-3">
                     <a href="/login" class="nav-link" data-link>Login</a>
                   </li>
                   <li class="nav-item">
                     <a href="/register" class="nav-link" data-link>Register</a>
                   </li>
-                `}
+                `
+              }
             </ul>
           </div>
         </div>
@@ -82,13 +84,5 @@ const compLoaded = () => {
         console.error(error);
       }
     });
-  }
-
-  const cartBtn = document.querySelector("#cartBtn");
-  if (cartBtn) {
-    cartBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      App.navigator("/cart");
-    })
   }
 };
