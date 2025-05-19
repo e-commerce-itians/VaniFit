@@ -2,4 +2,8 @@
   .product {
     background-color: red;
   }
+
+  #productTitle {
+    text-transform: capitalize;
+  }
 }

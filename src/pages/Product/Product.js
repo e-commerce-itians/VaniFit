@@ -1,6 +1,7 @@
 import "./Product.css";
 import Getdata from "../../utils/getData";
 import { observer } from "../../observer";
+import { doc, getDoc } from "firebase/firestore";
 const componentID = "product";
 
 export default async function Product({ id }) {
@@ -10,7 +11,7 @@ export default async function Product({ id }) {
   return /*html*/ `
     <div component="${componentID}">
       <!-- Breadcrumb -->
-      <div class="container my-5">
+      <div class="container mt-5">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -59,7 +60,7 @@ export default async function Product({ id }) {
 
           <!-- Product Details -->
           <div class="col-md-8">
-            <h1 class="fw-bold">ONELIFE GRAPHIC T-SHIRT</h1>
+            <h1 class="fw-bold" id="productTitle"></h1>
 
             <div class="d-flex align-items-center mb-3">
               <div class="d-flex text-warning me-2">
@@ -73,7 +74,7 @@ export default async function Product({ id }) {
             </div>
 
             <div class="d-flex align-items-center mb-3">
-              <h3 class="fw-bold me-3">$260</h3>
+              <h3 class="fw-bold me-3" id="productPrice"></h3>
               <h3 class="fw-bold text-decoration-line-through text-muted">
                 $300
               </h3>
@@ -82,10 +83,7 @@ export default async function Product({ id }) {
               >
             </div>
 
-            <p class="text-muted mb-4">
-              This graphic t-shirt which is perfect for any occasion. Crafted
-              from a soft and breathable fabric, it offers superior comfort and
-              style.
+            <p class="text-muted mb-4" id="productDesc">
             </p>
 
             <hr />
@@ -124,9 +122,9 @@ export default async function Product({ id }) {
 
             <div class="d-flex align-items-center mb-5">
               <div class="btn-group me-3" role="group">
-                <button class="btn btn-light rounded-pill">-</button>
+                <button class="btn btn-light">-</button>
                 <button class="btn btn-light">1</button>
-                <button class="btn btn-light rounded-pill">+</button>
+                <button class="btn btn-light">+</button>
               </div>
               <button class="btn btn-dark rounded-pill px-5">
                 Add to Cart
@@ -458,6 +456,31 @@ export default async function Product({ id }) {
 
 //Javascript code to be executed once the home component is loaded
 const compLoaded = async (id) => {
-  // const product = await Getdata("products", id);
-  // document.querySelector("#product").innerHTML = product.brand;
+  await getDoc(doc(App.firebase.db, "products", id))
+    .then((res) => {
+      let data = res.exists() ? res.data() : null;
+      console.log(data);
+      if (data) {
+        const productTitle = document.querySelector("#productTitle");
+        const productPrice = document.querySelector("#productPrice");
+        const productDesc = document.querySelector("#productDesc");
+
+        if (productTitle && data.name) {
+          productTitle.innerText = data.name;
+        }
+
+        if (productPrice && data.price) {
+          productPrice.innerText = data.price + "$";
+        }
+
+        if (productDesc && data.productDesc) {
+          productDesc.innerText = data.description;
+        }
+      } else {
+        App.navigator("/");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
