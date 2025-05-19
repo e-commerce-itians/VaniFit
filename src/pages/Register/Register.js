@@ -101,7 +101,7 @@ export default function Register() {
                   id="registerBtn"
                   class="btn btn-dark d-block w-100 my-2"
                 >
-                  <i class="fa-solid fa-envelope mx-1"></i
+                  <i class="fa-solid fa-envelope me-1"></i
                   ><span class="d-none d-sm-inline">Register with Email</span>
                 </button>
               </div>

@@ -1,5 +1,5 @@
 import { observer } from "/src/observer";
-import { deleteProduct as delProd } from "/src/utils/DeleteProduct";
+import { deleteProduct as delProd } from "/src/utils/deleteProduct";
 import "./ProductList.css";
 import { collection, getDocs } from "firebase/firestore";
 import EditProduct from "../EditProduct/EditProduct";
