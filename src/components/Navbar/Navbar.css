@@ -1,4 +1,13 @@
-.navbar-brand {
-    font-family: var(--lucky), Arial, Helvetica, sans-serif;
-    font-size: 38px;
+[component="navbar"] {
+  .navbar-brand {
+    font-size: 35px;
+  }
+  .search-bar-collapse {
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  .search-bar-collapse.collapsing {
+    height: 0;
+    transition: height 0.3s ease;
+  }
 }

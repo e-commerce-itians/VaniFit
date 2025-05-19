@@ -7,7 +7,7 @@ export default function Profile() {
   observer(componentID, compLoaded);
   return /*html*/ `
     <div component=${componentID}>
-      <div class="container">
+      <div class="container my-5">
         <div class="row justify-content-center">
           <div class="col-md-8 col-lg-7">
             <h1 class="mb-4 text-center">My Profile</h1>

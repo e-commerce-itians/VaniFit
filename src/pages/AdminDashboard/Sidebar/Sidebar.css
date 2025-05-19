@@ -1,51 +1,54 @@
-.dashboard-sidebar {
-  background-color: #1c1c1e;
-  color: white;
-  width: 250px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-}
-
-.dashboard-sidebar h2 {
-  margin-bottom: 20px;
-}
-
-.dashboard-sidebar button {
-  background-color: #2d2d2f;
-  color: white;
-  border: none;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-}
-
-.dashboard-sidebar button:hover {
-  background: linear-gradient(135deg, #3a3a3d, #4f4f52);
-}
-
-@media (max-width: 768px) {
+[component="MainDashboard"],
+[component="dashboard-sidebar"] {
   .dashboard-sidebar {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
+    background-color: #1c1c1e;
+    color: white;
+    width: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
   }
 
   .dashboard-sidebar h2 {
-    display: none;
+    margin-bottom: 20px;
   }
 
   .dashboard-sidebar button {
-    flex: 1;
-    margin: 0 5px;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 6px;
+    background-color: #2d2d2f;
+    color: white;
+    border: none;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .dashboard-sidebar button:hover {
+    background: linear-gradient(135deg, #3a3a3d, #4f4f52);
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-sidebar {
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .dashboard-sidebar h2 {
+      display: none;
+    }
+
+    .dashboard-sidebar button {
+      flex: 1;
+      margin: 0 5px;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+    }
   }
 }

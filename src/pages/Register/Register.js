@@ -8,8 +8,15 @@ export default function Register() {
   observer(componentID, compLoaded);
   return /*html*/ `
     <div component="${componentID}">
-      <div class="container">
-        <div class="row justify-content-center align-items-center mt-5">
+      <div class="container my-5">
+       <div class="row justify-content-center align-items-center">
+          <div
+          id="registerError"
+          class="alert alert-danger text-center d-none"
+          role="alert"
+        ></div>
+        </div>
+        <div class="row justify-content-center align-items-center">
           <div
             class="bg-body-secondary col-10 col-md-7 col-lg-5 m-3 p-4 rounded-4"
           >
@@ -103,11 +110,6 @@ export default function Register() {
                   >
                 </span>
               </div>
-              <div
-                id="registerError"
-                class="alert alert-danger mt-2 text-center d-none"
-                role="alert"
-              ></div>
             </form>
           </div>
         </div>

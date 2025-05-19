@@ -5,11 +5,13 @@ const componentID = "splash";
 export default function Splash() {
   observer(componentID, compLoaded);
   return /*html*/ `
-    <div class="splash-spinner-container">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+   <div component="${componentID}">
+        <div class="splash-spinner-container">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
-    </div>
+   </div>
     `;
 }
 

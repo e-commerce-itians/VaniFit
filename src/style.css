@@ -78,24 +78,6 @@ a {
   color: inherit;
 }
 
-button {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  font-size: inherit;
-  cursor: pointer;
-}
-
-/* bootstrap box-shadow input */
-input.form-control,
-input.form-control:focus,
-input.form-control.is-valid,
-input.form-control.is-invalid,
-input.form-control.is-valid:focus,
-input.form-control.is-invalid:focus {
-  box-shadow: none !important;
-}
-
 #app {
   position: relative;
   min-height: 100dvh;

@@ -1,3 +1,5 @@
-.product {
+[component="product"] {
+  .product {
     background-color: red;
+  }
 }

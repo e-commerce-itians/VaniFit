@@ -4,7 +4,7 @@ const componentID = "About";
 export default function About() {
   observer(componentID, compLoaded);
   return /*html*/ `
-    <div component="${componentID}">
+    <div component="${componentID}" class="container my-5">
       About Page <br>
       <a href="/" data-link>Go to home</a> 
     </div>
