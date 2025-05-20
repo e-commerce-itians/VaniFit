@@ -280,12 +280,17 @@ const compLoaded = async (id) => {
   const moreProducts = document.querySelector("#moreProducts");
 
   if (moreProducts) {
+    //Get all products from products collection
     getDocs(collection(App.firebase.db, "products"))
       .then((querySnapshot) => {
+        //If success go through each doc
         querySnapshot.forEach((doc) => {
+          //Get the product ID
           const productID = doc.id;
+          //Get data
           const data = doc.data();
-          moreProducts.innerHTML = productCard(
+          //Call productCard component
+          const renderCard = productCard(
             productID,
             data.name,
             data.price,
@@ -293,6 +298,8 @@ const compLoaded = async (id) => {
             data.colors[0].image_urls[0],
             data.colors
           );
+          //Push into the html
+          moreProducts.innerHTML += renderCard;
         });
       })
       .catch((error) => {});

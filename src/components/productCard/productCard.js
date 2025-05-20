@@ -21,34 +21,34 @@ export default function productCard(
     );
   });
   return /*html*/ `
-    <div component="${componentID}" class="container my-5">
-        <div class="col-md-3 mb-4">
-            <a class="card border-0" href="/product/${productID}" data-link>
-                <div class="text-center bg-light rounded-3">
-                <img style="height: 300px;" id="imgContainer_${productID}">
-                </div>
-                <div class="card-body">
+    <div component="${componentID}" class="col-md-3 mb-4">
+      <a class="card border-0" href="/product/${productID}" data-link>
+        <div class="text-center bg-light rounded-3">
+          <img style="height: 300px;" id="imgContainer_${productID}" />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title fw-bold" id="prodTitle_${productID}"></h5>
 
-                    <h5 class="card-title fw-bold" id="prodTitle_${productID}">
-                    </h5>
+          <div
+            class="d-flex align-items-center mb-3"
+            id="prodColors_${productID}"
+          ></div>
 
-                    <div class="d-flex align-items-center mb-3" id="prodColors_${productID}">
-                    </div>
-
-                    <div class="d-flex align-items-center">
-                    <h5 class="fw-bold me-2" id="prodPrice_${productID}">
-                    </h5>
-                    <h5 class="fw-bold text-decoration-line-through text-muted" id="prodOldPrice_${productID}">
-                    </h5>
-                    <span class="badge bg-danger bg-opacity-10 text-danger ms-2" id="prodPrecentage_${productID}"
-                        ></span
-                    >
-                    </div>
-                </div>
-            </div>
-        </a>
+          <div class="d-flex align-items-center">
+            <h5 class="fw-bold me-2" id="prodPrice_${productID}"></h5>
+            <h5
+              class="fw-bold text-decoration-line-through text-muted"
+              id="prodOldPrice_${productID}"
+            ></h5>
+            <span
+              class="badge bg-danger bg-opacity-10 text-danger ms-2"
+              id="prodPrecentage_${productID}"
+            ></span>
+          </div>
+        </div>
+      </a>
     </div>
-    `;
+  `;
 }
 
 //Javascript code to be executed once the home component is loaded
