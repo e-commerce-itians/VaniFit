@@ -3,6 +3,11 @@
     background-color: red;
   }
 
+  #productGender,
+  #productCategory {
+    text-transform: capitalize;
+  }
+
   #productTitle {
     text-transform: capitalize;
   }

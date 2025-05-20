@@ -66,6 +66,7 @@ export default function Shop() {
         <div class="col-lg-9 col-md-8">
           <h1 class="fw-bold mb-4">Shop Collection</h1>
           <div id="product-list" class="row">
+            ${renderProductPlaceholders(6)}
           </div>
         </div>
       </div>
@@ -73,8 +74,28 @@ export default function Shop() {
   `;
 }
 
-// Store products in module scope so they're accessible to all functions
-let allProducts = [];
+function renderProductPlaceholders(count) {
+  let placeholders = "";
+  for (let i = 0; i < count; i++) {
+    placeholders += /*html*/ `
+      <div class="col-md-4 mb-4">
+        <div class="product-card minimal-card skeleton">
+          <div class="w-100 d-flex justify-content-center mb-3 position-relative">
+            <div class="skeleton-img"></div>
+          </div>
+          <div class="w-100">
+            <div class="skeleton-text" style="width: 80%; height: 24px; margin-bottom: 8px;"></div>
+            <div class="skeleton-text" style="width: 60%; height: 20px; margin-bottom: 12px;"></div>
+            <div class="skeleton-text" style="width: 40%; height: 24px; margin-bottom: 12px;"></div>
+            <div class="skeleton-text" style="width: 70%; height: 36px; margin-bottom: 8px;"></div>
+            <div class="skeleton-text" style="width: 100%; height: 40px;"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  return placeholders;
+}
 
 const compLoaded = async () => {
   // Reset products array when component loads to prevent duplicates during navigation
@@ -85,6 +106,9 @@ const compLoaded = async () => {
   let allColors = {};
   let allCategories = new Set();
   let selectedColor = null;
+
+  // Show loading state
+  productList.innerHTML = renderProductPlaceholders(6);
 
   getDocs(collection(App.firebase.db, "products"))
     .then((querySnapshot) => {

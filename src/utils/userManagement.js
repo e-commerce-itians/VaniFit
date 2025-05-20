@@ -165,7 +165,6 @@ export function validatePasswordConfirmation(
 }
 
 export async function signInWithGoogle() {
-  // return user with its information
   try {
     const provider = new GoogleAuthProvider();
     const userCredential = await signInWithPopup(App.firebase.auth, provider);
@@ -180,13 +179,14 @@ export async function signInWithGoogle() {
 export async function createUserDocument(user) {
   try {
     const userRef = doc(App.firebase.db, "users", user.uid);
-    const document = await getDoc(userRef);
-    if (!document.exists()) {
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
       await setDoc(userRef, {
         uid: user.uid,
         email: user.email,
       });
     }
+    return user;
   } catch (error) {
     throw error;
   }
@@ -196,10 +196,11 @@ export async function createUserDocument(user) {
 export async function updateUserDocument(user, data) {
   try {
     const userRef = doc(App.firebase.db, "users", user.uid);
-    const document = await getDoc(userRef);
-    if (document.exists()) {
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
       await setDoc(userRef, data, { merge: true });
     }
+    return user;
   } catch (error) {
     throw error;
   }

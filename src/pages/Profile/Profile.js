@@ -1,9 +1,6 @@
+import { doc, getDoc } from "firebase/firestore";
 import { observer } from "../../observer";
-import {
-  firebaseAuthErrors,
-  validateData,
-  updateUserDocument,
-} from "../../utils/userManagement";
+import { validateData, updateUserDocument } from "../../utils/userManagement";
 import "./Profile.css";
 
 const componentID = "profile";
@@ -20,10 +17,10 @@ export default function Profile() {
               <div class="card-body text-center py-4">
                 <div class="d-flex justify-content-center">
                   <img
-                  id="userProfileAvatar"
-                  src="${App.firebase.user.photoURL || "/images/avatar.png"}"
-                  alt="Avatar"
-                  class="rounded-circle my-3 w-50"
+                    id="userProfileAvatar"
+                    src="${App.firebase.user.photoURL || "/images/avatar.png"}"
+                    alt="Avatar"
+                    class="rounded-circle my-3 w-50"
                   />
                 </div>
                 <h4 class="card-title mb-1" id="profileDisplayName">
@@ -36,11 +33,16 @@ export default function Profile() {
             </div>
             <div class="card profile-section-card mb-4">
               <div class="card-header bg-white py-3">
-                <h5 class="mb-0">
-                 Edit Basic Information
-                </h5>
+                <h5 class="mb-0">Edit Basic Information</h5>
               </div>
               <div class="card-body">
+                <div
+                  id="missingInfoError"
+                  class="alert alert-danger text-center d-none"
+                  role="alert"
+                >
+                Your account is not complete, Please fill incomplete data to be able to order.
+                </div>
                 <form id="profileUpdateForm" novalidate>
                   <div class="mb-3">
                     <label for="phone" class="form-label"
@@ -75,7 +77,7 @@ export default function Profile() {
                     class="btn btn-primary"
                     id="updateProfileBtn"
                   >
-                    <i class="fas fa-save me-1"></i> Save Changes
+                    <i class="fa-solid fa-save me-1"></i> Save Changes
                   </button>
                   <div
                     id="profileUpdateSuccess"
@@ -96,9 +98,7 @@ export default function Profile() {
             </div>
             <div class="card profile-section-card mb-4">
               <div class="card-header bg-white py-3">
-                <h5 class="mb-0">
-                  Account Settings
-                </h5>
+                <h5 class="mb-0">Account Settings</h5>
               </div>
               <div class="card-body">
                 <p class="card-text">
@@ -127,13 +127,19 @@ export default function Profile() {
   `;
 }
 
-const compLoaded = () => {
+const compLoaded = async () => {
   // block profile page for unregistered user
   if (!App.firebase.user.uid) {
     App.navigator("/login");
     return;
   }
 
+  // get current user from firestore
+  const userRef = doc(App.firebase.db, "users", App.firebase.user.uid);
+  const userSnap = (await getDoc(userRef)).data();
+
+  // check for missing profile information
+  const missingInfoError = document.querySelector("#missingInfoError");
   const form = document.querySelector("#profileUpdateForm");
   const phoneInput = document.querySelector("#phone");
   const addressInput = document.querySelector("#address");
@@ -143,11 +149,16 @@ const compLoaded = () => {
   const profileUpdateError = document.querySelector("#profileUpdateError");
   const updateProfileBtn = document.querySelector("#updateProfileBtn");
 
-  // event listeners
+  // inform user about missing data
+  if (!userSnap.phoneNumber || !userSnap.address) {
+    missingInfoError.classList.remove("d-none");
+  }
 
+  // event listeners
   phoneInput.addEventListener("input", () => {
     validateData(phoneInput.value, phoneInput, phoneError, "phone");
   });
+
   addressInput.addEventListener("input", () => {
     validateData(addressInput.value, addressInput, addressError, "address");
   });
@@ -177,6 +188,7 @@ const compLoaded = () => {
         form.classList.remove("was-validated");
         updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
         profileUpdateSuccess.classList.remove("d-none");
+        missingInfoError.classList.add("d-none");
       })
       .catch((error) => {
         // enable inputs and update error state
