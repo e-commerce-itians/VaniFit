@@ -217,7 +217,7 @@ const compLoaded = () => {
     validateData(addressInput.value, addressInput, addressError, "address");
   });
 
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
     const firstName = firstNameInput.value.trim();
     const lastName = lastNameInput.value.trim();
@@ -252,7 +252,7 @@ const compLoaded = () => {
     // additional form data not added to auth but added to firestore
     const data = { phoneNumber: phone, address: address };
     // create new user and copy with the added form information to firestore
-    await createUserWithEmailAndPassword(App.firebase.auth, email, password)
+    createUserWithEmailAndPassword(App.firebase.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         return createUserDocument(user);
