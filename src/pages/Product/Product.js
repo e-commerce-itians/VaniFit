@@ -144,12 +144,9 @@ export default async function Product({ id }) {
 
         <div class="d-flex justify-content-between mb-4">
           <h4 class="fw-bold">
-            All Reviews <span class="text-muted">(1)</span>
+            All Reviews <span class="text-muted" id="reviewsCount"></span>
           </h4>
           <div class="d-flex gap-2">
-            <button class="btn btn-light rounded-pill">
-              <i class="bi bi-funnel"></i>
-            </button>
             <button class="btn btn-light rounded-pill">
               Latest <i class="bi bi-chevron-down"></i>
             </button>
@@ -158,44 +155,10 @@ export default async function Product({ id }) {
         </div>
 
         <!-- Reviews -->
-        <div class="row">
-
-          <div class="col-md-6 mb-4">
-            <div class="card p-4">
-              <div class="d-flex text-warning mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-              </div>
-              <div class="mb-3">
-                <div class="d-flex align-items-center">
-                  <h6 class="fw-bold mb-0 me-2">Samantha D.</h6>
-                  <span class="badge bg-success rounded-circle p-1"
-                    ><i class="bi bi-check"></i
-                  ></span>
-                </div>
-                <p class="text-muted">
-                  "I absolutely love this t-shirt! The design is unique and the
-                  fabric feels so comfortable. As a fellow designer, I
-                  appreciate the attention to detail. It's become my favorite
-                  go-to shirt."
-                </p>
-              </div>
-              <div class="d-flex justify-content-between text-muted">
-                <small>Posted on August 14, 2023</small>
-                <i class="bi bi-three-dots-vertical"></i>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="text-center my-5">
-          <button class="btn btn-outline-dark rounded-pill px-5">
-            Load More Reviews
-          </button>
+        <div class="row" id="reviewsContainer">
+          <p class="d-block col-12 text-center my-5 placeholder-glow">
+            <span class="placeholder col-8" style="height:20px;"></span>
+          </p>
         </div>
       </div>
 
@@ -203,6 +166,9 @@ export default async function Product({ id }) {
       <div class="container my-5">
         <h2 class="text-center fw-bold mb-5">YOU MIGHT ALSO LIKE</h2>
         <div class="row" id="moreProducts">
+          <p class="d-block col-12 placeholder-glow text-center">
+            <span class="placeholder col-8" style="height:20px;"></span>
+          </p>
         </div>
       </div>
     </div>
@@ -217,14 +183,30 @@ const compLoaded = async (id) => {
     .then(async (res) => {
       const data = res.exists() ? res.data() : null;
       if (data) {
-        const reviewsSnap = await getDoc(doc(App.firebase.db, "reviews", id));
-        const reviewsData = reviewsSnap.exists() ? reviewsSnap.data() : null;
+        const productReview = document.querySelector("#productReview");
+        const ReviewsContainer = document.querySelector("#reviewsContainer");
+        await getDoc(doc(App.firebase.db, "reviews", id))
+          .then((reviewsSnap) => {
+            const reviewsData = reviewsSnap.exists()
+              ? reviewsSnap.data()
+              : null;
+            //Product Review
+            if (reviewsData && reviewsData.reviews) {
+              renderReviews(ReviewsContainer, reviewsData.reviews);
+              const avgReview = getAverageRate(reviewsData.reviews);
+              productReview.innerHTML = getStarRating(avgReview);
+            } else {
+              productReview.innerHTML = "";
+              ReviewsContainer.innerHTML = `<span class="mx-5">No reviews available for this Product</span>`;
+            }
+          })
+          .catch((error) => {
+            ReviewsContainer.innerHTML = error;
+          });
 
         const productTitle = document.querySelector("#productTitle");
         const productPrice = document.querySelector("#productPrice");
         const productDesc = document.querySelector("#productDesc");
-        const productReview = document.querySelector("#productReview");
-
         const discountOldPrice = document.querySelector("#discountOldPrice");
         const discountPrecentage = document.querySelector(
           "#discountPrecentage"
@@ -252,14 +234,6 @@ const compLoaded = async (id) => {
           productDesc.innerText = data.description;
         }
 
-        //Product Review
-        if (reviewsData && reviewsData.reviews) {
-          const avgReview = getAverageRate(reviewsData.reviews);
-          productReview.innerHTML = getStarRating(avgReview);
-        } else {
-          productReview.innerHTML = "";
-        }
-
         //Colors
         if (data.colors) {
           productColors.innerHTML = generateColorButtonsHTML(data.colors);
@@ -280,6 +254,7 @@ const compLoaded = async (id) => {
   const moreProducts = document.querySelector("#moreProducts");
 
   if (moreProducts) {
+    moreProducts.innerHTML = "";
     //Get all products from products collection
     getDocs(collection(App.firebase.db, "products"))
       .then((querySnapshot) => {
@@ -401,12 +376,69 @@ const compLoaded = async (id) => {
     imgIds.forEach((id) => {
       const img = document.getElementById(id);
       if (img) {
-        img.style.cursor = "pointer"; // optional: show pointer cursor
+        img.style.cursor = "pointer";
         img.addEventListener("click", () => {
           imgContainer.src = img.src;
         });
       }
     });
     document.querySelector("#imgFront").click();
+  }
+
+  function generateStars(rate) {
+    rate = parseFloat(rate);
+    const fullStars = Math.floor(rate);
+    const halfStar = rate % 1 >= 0.25 && rate % 1 < 0.75;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+    return (
+      '<div class="d-flex text-warning mb-3" id="userReview">' +
+      '<i class="bi bi-star-fill"></i>'.repeat(fullStars) +
+      (halfStar ? '<i class="bi bi-star-half"></i>' : "") +
+      '<i class="bi bi-star"></i>'.repeat(emptyStars) +
+      "</div>"
+    );
+  }
+
+  function formatDateFromTimestamp(createdAt) {
+    const date = new Date(createdAt.seconds * 1000);
+    return date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  function renderReviews(container, reviews) {
+    container.innerHTML = "";
+    const reviewsCount = document.getElementById("reviewsCount");
+    reviewsCount.innerText = `(${reviews.length})`;
+    reviews.forEach((review) => {
+      const starsHtml = generateStars(review.rate);
+      const formattedDate = formatDateFromTimestamp(review.createdAt);
+
+      const html = `
+        <div class="col-md-6 mb-4">
+          <div class="card p-4">
+            ${starsHtml}
+            <div class="mb-3">
+              <div class="d-flex align-items-center">
+                <h6 class="fw-bold mb-0 me-2">${review.displayName}</h6>
+                <span class="badge bg-success rounded-circle p-1">
+                  <i class="bi bi-check"></i>
+                </span>
+              </div>
+              <p class="text-muted mt-2">
+                "${review.message}"
+              </p>
+            </div>
+            <div class="d-flex justify-content-between text-muted">
+              <small>Posted on ${formattedDate}</small>
+            </div>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML("beforeend", html);
+    });
   }
 };
