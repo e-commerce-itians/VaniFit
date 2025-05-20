@@ -276,7 +276,7 @@ const compLoaded = async (id) => {
       console.log(error);
     });
 
-  //disable more products
+  //display more products
   const moreProducts = document.querySelector("#moreProducts");
 
   if (moreProducts) {
