@@ -1,4 +1,9 @@
-[component="EditProduct"] {
+[component="EditProduct"],
+[component="AddProduct"],
+[component="ProductList"],
+[component="MainDashboard"],
+[component="dashboard-sidebar"],
+[component="ProductList"] {
   .EditProduct {
     display: flex;
     flex-direction: column;

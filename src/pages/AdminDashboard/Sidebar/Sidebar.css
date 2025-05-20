@@ -1,5 +1,10 @@
 [component="MainDashboard"],
-[component="dashboard-sidebar"] {
+[component="dashboard-sidebar"],
+[component="EditProduct"],
+[component="AddProduct"],
+[component="ProductList"],
+[component="dashboard-sidebar"],
+[component="ProductList"] {
   .dashboard-sidebar {
     background-color: #1c1c1e;
     color: white;
@@ -29,26 +34,26 @@
   .dashboard-sidebar button:hover {
     background: linear-gradient(135deg, #3a3a3d, #4f4f52);
   }
+}
 
-  @media (max-width: 768px) {
-    .dashboard-sidebar {
-      width: 100%;
-      flex-direction: row;
-      justify-content: space-around;
-      align-items: center;
-      padding: 10px;
-    }
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+  }
 
-    .dashboard-sidebar h2 {
-      display: none;
-    }
+  .dashboard-sidebar h2 {
+    display: none;
+  }
 
-    .dashboard-sidebar button {
-      flex: 1;
-      margin: 0 5px;
-      padding: 10px;
-      font-size: 14px;
-      border-radius: 6px;
-    }
+  .dashboard-sidebar button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
   }
 }

@@ -60,48 +60,41 @@ export default async function Product({ id }) {
 
           <!-- Product Details -->
           <div class="col-md-8">
-            <h1 class="fw-bold" id="productTitle"></h1>
+            <h1 class="fw-bold" id="productTitle">
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-4"></span>
+              </p>
+            </h1>
 
-            <div class="d-flex align-items-center mb-3">
-              <div class="d-flex text-warning me-2">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-              </div>
-              <span>4.5/5</span>
+            <div class="d-flex align-items-center mb-3" id="productReview">
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-1"></span>
+              </p>
             </div>
 
             <div class="d-flex align-items-center mb-3">
-              <h3 class="fw-bold me-3" id="productPrice"></h3>
-              <h3 class="fw-bold text-decoration-line-through text-muted">
-                $300
+              <h3 class="fw-bold me-3" id="productPrice">
+              </h3>
+              <h3 class="fw-bold text-decoration-line-through text-muted" id="discountOldPrice">
               </h3>
               <span class="badge bg-danger bg-opacity-10 text-danger ms-2"
-                >-40%</span
+              id="discountPrecentage"></span
               >
             </div>
 
-            <p class="text-muted mb-4" id="productDesc">
-            </p>
+            <div class="text-muted mb-4" id="productDesc">
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-2"></span>
+              </p>
+            </div>
 
             <hr />
 
             <h6 class="text-muted mb-3">Select Colors</h6>
-            <div class="d-flex gap-2 mb-4">
-              <button
-                class="btn btn-dark rounded-circle"
-                style="width: 40px; height: 40px;"
-              ></button>
-              <button
-                class="btn btn-primary rounded-circle"
-                style="width: 40px; height: 40px;"
-              ></button>
-              <button
-                class="btn btn-info rounded-circle"
-                style="width: 40px; height: 40px;"
-              ></button>
+            <div class="d-flex gap-2 mb-4" id="productColors">
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-6"></span>
+              </p>
             </div>
 
             <h6 class="text-muted mb-3">Choose Size</h6>
@@ -464,23 +457,80 @@ const compLoaded = async (id) => {
         const productTitle = document.querySelector("#productTitle");
         const productPrice = document.querySelector("#productPrice");
         const productDesc = document.querySelector("#productDesc");
+        const productReview = document.querySelector("#productReview");
 
+        const discountOldPrice = document.querySelector("#discountOldPrice");
+        const discountPrecentage = document.querySelector(
+          "#discountPrecentage"
+        );
+
+        const productColors = document.querySelector("#productColors");
+
+        //Product name
         if (productTitle && data.name) {
           productTitle.innerText = data.name;
         }
 
+        //Product Price
         if (productPrice && data.price) {
+          if (data.discount) {
+            discountOldPrice.innerText = `${data.price}$`;
+            data.price = data.price - (data.price * data.discount) / 100;
+            discountPrecentage.innerText = `-${data.discount}%`;
+          }
           productPrice.innerText = data.price + "$";
         }
 
-        if (productDesc && data.productDesc) {
+        //Product Desc
+        if (productDesc && data.description) {
           productDesc.innerText = data.description;
+        }
+
+        //Product Review
+        if (data.avgReview) {
+          productReview.innerHTML = getStarRating(data.avgReview);
+        }
+
+        //Colors
+        if (data.colors) {
+          productColors.innerHTML = generateColors(data.colors);
         }
       } else {
         App.navigator("/");
       }
     })
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch((error) => {});
+
+  function getStarRating(rating) {
+    const full = Math.floor(rating);
+    const half = rating % 1 >= 0.25 && rating % 1 < 0.75 ? 1 : 0;
+    const empty = 5 - full - half;
+
+    const stars =
+      '<i class="bi bi-star-fill"></i>'.repeat(full) +
+      (half ? '<i class="bi bi-star-half"></i>' : "") +
+      '<i class="bi bi-star"></i>'.repeat(empty);
+
+    return `<div class="d-flex text-warning me-2">${stars}</div><span>${rating.toFixed(
+      1
+    )}/5</span>`;
+  }
+
+  function generateColors(colors) {
+    return `
+      <div class="d-flex gap-2 mb-4">
+        ${colors
+          .map(
+            (c) => `
+          <button
+            class="btn rounded-circle"
+            style="width:32px; height:32px; background-color:${c.hex}"
+            title="${c.name}"
+          ></button>
+        `
+          )
+          .join("")}
+      </div>
+    `;
+  }
 };

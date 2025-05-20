@@ -1,4 +1,9 @@
-[component="AddProduct"] {
+[component="EditProduct"],
+[component="AddProduct"],
+[component="ProductList"],
+[component="MainDashboard"],
+[component="dashboard-sidebar"],
+[component="ProductList"] {
   /* Reset conflicting styles */
   #newProductForm {
     display: block;
@@ -157,11 +162,11 @@
     border: 1px dashed #ddd;
     border-radius: 5px;
   }
+}
 
-  /* Make sure the form works when scrolling */
-  @media (max-height: 800px) {
-    #newProductForm {
-      padding-bottom: 100px;
-    }
+/* Make sure the form works when scrolling */
+@media (max-height: 800px) {
+  #newProductForm {
+    padding-bottom: 100px;
   }
 }

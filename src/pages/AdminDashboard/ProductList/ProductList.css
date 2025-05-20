@@ -1,3 +1,8 @@
+[component="EditProduct"],
+[component="AddProduct"],
+[component="ProductList"],
+[component="MainDashboard"],
+[component="dashboard-sidebar"],
 [component="ProductList"] {
   .ProductList {
     padding: 20px;
@@ -119,54 +124,54 @@
   .no-data-message {
     color: #6c757d;
   }
+}
 
-  /* Responsive styles */
-  @media (max-width: 992px) {
-    .product-search input {
-      width: 200px;
-    }
+ /* Responsive styles */
+ @media (max-width: 992px) {
+  .product-search input {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-list-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
   }
 
-  @media (max-width: 768px) {
-    .product-list-header {
-      flex-direction: column;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    .product-search input {
-      width: 100%;
-    }
-
-    .products-table th,
-    .products-table td {
-      padding: 10px 8px;
-      font-size: 0.9rem;
-    }
+  .product-search input {
+    width: 100%;
   }
 
-  @media (max-width: 576px) {
-    .products-table {
-      display: block;
-      overflow-x: auto;
-    }
+  .products-table th,
+  .products-table td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+}
 
-    .product-thumbnail {
-      width: 40px;
-      height: 40px;
-    }
+@media (max-width: 576px) {
+  .products-table {
+    display: block;
+    overflow-x: auto;
+  }
 
-    .edit-btn,
-    .delete-btn {
-      padding: 4px 6px;
-      font-size: 0.75rem;
-    }
+  .product-thumbnail {
+    width: 40px;
+    height: 40px;
+  }
 
-    .actions-cell {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 8px 5px;
-    }
+  .edit-btn,
+  .delete-btn {
+    padding: 4px 6px;
+    font-size: 0.75rem;
+  }
+
+  .actions-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px 5px;
   }
 }
