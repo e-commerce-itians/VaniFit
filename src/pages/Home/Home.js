@@ -1,4 +1,5 @@
 import { observer } from "../../observer";
+import { collection, query, where, getDocs, limit } from "firebase/firestore";
 import "./Home.css";
 const componentID = "home";
 
@@ -53,110 +54,55 @@ export default async function Home() {
       </div>
     </div>
       <div class="container py-5">
-
-        <!-- New Arrivals Section -->
+        <!-- Men's Section -->
         <div>
-          <h2 class="section-title">NEW ARRIVALS</h2>
-          <div id="new-arrivals" class="row g-4 justify-content-center">
-            <!-- Placeholder cards -->
-            <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          <h2 class="section-title">MEN'S COLLECTION</h2>
+          <div id="mens-products" class="row g-4 justify-content-center">
+            <!-- Placeholder cards that will be replaced with actual products -->
+            ${Array(5)
+              .fill(
+                `
+              <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                  <div class="product-img placeholder-glow"></div>
+                  <p class="placeholder-glow"><span class="placeholder col-6"></span></p> 
+                  <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+                  <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+                </div>
               </div>
-            </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
-              </div>
-            </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
-              </div>
-            </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
-              </div>
-            </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
-              </div>
-            </div>
-
+            `
+              )
+              .join("")}
           </div>
           <div class="text-center mt-4">
-            <button class="btn btn-outline-dark">View All</button>
+            <a href="/shop?gender=male" class="btn btn-outline-dark" data-link>View All Men's</a>
           </div>
         </div>
 
         <hr class="my-5" />
 
-        <!-- Top Selling Section -->
+        <!-- Women's Section -->
         <div>
-          <h2 class="section-title">TOP SELLING</h2>
-          <div id="top-selling" class="row g-4 justify-content-center">
-            <!-- Placeholder cards -->
-            <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+          <h2 class="section-title">WOMEN'S COLLECTION</h2>
+          <div id="womens-products" class="row g-4 justify-content-center">
+            <!-- Placeholder cards that will be replaced with actual products -->
+            ${Array(5)
+              .fill(
+                `
+              <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                  <div class="product-img placeholder-glow"></div>
+                  <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                  <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+                  <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+                </div>
               </div>
-            </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
-              </div>
-            </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
-              </div>
-            </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
-              </div>
-            </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-              <div class="product-card">
-                <div class="product-img placeholder-glow"></div>
-                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-                <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
-              </div>
-            </div>
-            
+            `
+              )
+              .join("")}
           </div>
           <div class="text-center mt-4">
-            <button class="btn btn-outline-dark">View All</button>
+            <a href="/shop?gender=female" class="btn btn-outline-dark" data-link>View All Women's</a>
           </div>
         </div>
       </div>
@@ -173,4 +119,74 @@ export default async function Home() {
   `;
 }
 
-const compLoaded = () => {};
+const compLoaded = async () => {
+  try {
+    // Fetch men's products
+    const mensQuery = query(
+      collection(App.firebase.db, "products"),
+      where("gender", "==", "male"),
+      limit(5)
+    );
+    const mensSnapshot = await getDocs(mensQuery);
+    const mensProducts = [];
+    mensSnapshot.forEach((doc) => {
+      mensProducts.push({ id: doc.id, ...doc.data() });
+    });
+
+    // Fetch women's products
+    const womensQuery = query(
+      collection(App.firebase.db, "products"),
+      where("gender", "==", "female"),
+      limit(5)
+    );
+    const womensSnapshot = await getDocs(womensQuery);
+    const womensProducts = [];
+    womensSnapshot.forEach((doc) => {
+      womensProducts.push({ id: doc.id, ...doc.data() });
+    });
+
+    // Update men's section
+    const mensContainer = document.getElementById("mens-products");
+    if (mensProducts.length > 0) {
+      mensContainer.innerHTML = mensProducts
+        .map(
+          (product) => `
+          <div class="col-6 col-md-4 col-lg-2">
+            <a href="/product/${product.id}" class="text-decoration-none" data-link>
+              <div class="product-card">
+                <img src="${product.colors[0].image_urls[0]}" class="product-img" alt="${product.name}">
+                <h5 class="product-title">${product.name}</h5>
+                <p class="product-brand text-muted">${product.brand}</p>
+                <p class="product-price">EGP ${product.price}</p>
+              </div>
+            </a>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    // Update women's section
+    const womensContainer = document.getElementById("womens-products");
+    if (womensProducts.length > 0) {
+      womensContainer.innerHTML = womensProducts
+        .map(
+          (product) => `
+          <div class="col-6 col-md-4 col-lg-2">
+            <a href="/product/${product.id}" class="text-decoration-none" data-link>
+              <div class="product-card">
+                <img src="${product.colors[0].image_urls[0]}" class="product-img" alt="${product.name}">
+                <h5 class="product-title">${product.name}</h5>
+                <p class="product-brand text-muted">${product.brand}</p>
+                <p class="product-price">EGP ${product.price}</p>
+              </div>
+            </a>
+          </div>
+        `
+        )
+        .join("");
+    }
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+};
