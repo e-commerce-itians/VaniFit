@@ -163,7 +163,7 @@ function renderProducts(products) {
       </td>
       <td>${product.name || "Unnamed Product"}</td>
       <td>${product.category || "Uncategorized"}</td>
-      <td>${product.price ? product.price.toFixed(2) : "0.00"} EGP</td>
+      <td>$${product.price ? product.price.toFixed(2) : "0.00"}</td>
       <td><span class="${discountClass}">${discountDisplay}</span></td>
       <td>${calculateTotalStock(product) || 0}</td>
       <td class="actions-cell">

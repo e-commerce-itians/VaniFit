@@ -16,7 +16,7 @@ export default async function Home() {
           <p class="text-muted">
             Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
           </p>
-          <a href="#" class="btn btn-dark btn-lg mt-3 rounded-pill">Shop Now</a>
+          <a href="/shop" class="btn btn-dark btn-lg mt-3 rounded-pill" data-link>Shop Now</a>
 
           <!-- Stats -->
           <div class="row mt-4">
@@ -105,6 +105,33 @@ export default async function Home() {
             <a href="/shop?gender=female" class="btn btn-outline-dark" data-link>View All Women's</a>
           </div>
         </div>
+
+        <hr class="my-5" />
+
+        <!-- Children's Section -->
+        <div>
+          <h2 class="section-title">CHILDREN'S COLLECTION</h2>
+          <div id="childrens-products" class="row g-4 justify-content-center">
+            <!-- Placeholder cards that will be replaced with actual products -->
+            ${Array(5)
+              .fill(
+                `
+              <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                  <div class="product-img placeholder-glow"></div>
+                  <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                  <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+                  <p class="placeholder-glow"><span class="placeholder col-3"></span></p>
+                </div>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+          <div class="text-center mt-4">
+            <a href="/shop?gender=children" class="btn btn-outline-dark" data-link>View All Children's</a>
+          </div>
+        </div>
       </div>
         <div class="container rounded-5" id="style-container">
         <h2 class="section-title py-3">BROWSE BY dress STYLE</h2>
@@ -125,7 +152,7 @@ const compLoaded = async () => {
     const mensQuery = query(
       collection(App.firebase.db, "products"),
       where("gender", "==", "male"),
-      limit(5)
+      limit(6)
     );
     const mensSnapshot = await getDocs(mensQuery);
     const mensProducts = [];
@@ -137,12 +164,24 @@ const compLoaded = async () => {
     const womensQuery = query(
       collection(App.firebase.db, "products"),
       where("gender", "==", "female"),
-      limit(5)
+      limit(6)
     );
     const womensSnapshot = await getDocs(womensQuery);
     const womensProducts = [];
     womensSnapshot.forEach((doc) => {
       womensProducts.push({ id: doc.id, ...doc.data() });
+    });
+
+    // Fetch children's products
+    const childrensQuery = query(
+      collection(App.firebase.db, "products"),
+      where("gender", "==", "children"),
+      limit(6)
+    );
+    const childrensSnapshot = await getDocs(childrensQuery);
+    const childrensProducts = [];
+    childrensSnapshot.forEach((doc) => {
+      childrensProducts.push({ id: doc.id, ...doc.data() });
     });
 
     // Update men's section
@@ -170,6 +209,27 @@ const compLoaded = async () => {
     const womensContainer = document.getElementById("womens-products");
     if (womensProducts.length > 0) {
       womensContainer.innerHTML = womensProducts
+        .map(
+          (product) => `
+          <div class="col-6 col-md-4 col-lg-2">
+            <a href="/product/${product.id}" class="text-decoration-none" data-link>
+              <div class="product-card">
+                <img src="${product.colors[0].image_urls[0]}" class="product-img" alt="${product.name}">
+                <h5 class="product-title">${product.name}</h5>
+                <p class="product-brand text-muted">${product.brand}</p>
+                <p class="product-price">EGP ${product.price}</p>
+              </div>
+            </a>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    // Update children's section
+    const childrensContainer = document.getElementById("childrens-products");
+    if (childrensProducts.length > 0) {
+      childrensContainer.innerHTML = childrensProducts
         .map(
           (product) => `
           <div class="col-6 col-md-4 col-lg-2">

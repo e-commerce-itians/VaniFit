@@ -19,6 +19,7 @@ export default function Shop() {
                 <button class="btn btn-outline-dark rounded-pill gender-btn active" data-gender="">All</button>
                 <button class="btn btn-outline-dark rounded-pill gender-btn" data-gender="male">Men</button>
                 <button class="btn btn-outline-dark rounded-pill gender-btn" data-gender="female">Women</button>
+                <button class="btn btn-outline-dark rounded-pill gender-btn" data-gender="children">Children</button>
                 <button class="btn btn-outline-dark rounded-pill gender-btn" data-gender="unisex">Unisex</button>
               </div>
             </div>
@@ -70,9 +71,12 @@ export default function Shop() {
           </div>
         </div>
       </div>
-    </div>
+    </div>  
   `;
 }
+
+// Store products in module scope so they're accessible to all functions
+let allProducts = [];
 
 function renderProductPlaceholders(count) {
   let placeholders = "";
