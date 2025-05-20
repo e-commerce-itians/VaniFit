@@ -219,6 +219,7 @@ const compLoaded = () => {
     });
 
     // Setup image uploaders
+    const colorId = colorSection.dataset.colorId;
 
     // Front image uploader
     setupImageUploader(
