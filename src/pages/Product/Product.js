@@ -1,7 +1,8 @@
 import "./Product.css";
 import Getdata from "../../utils/getData";
 import { observer } from "../../observer";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import productCard from "../../components/productCard/productCard";
 const componentID = "product";
 
 export default async function Product({ id }) {
@@ -201,35 +202,7 @@ export default async function Product({ id }) {
       <!-- You Might Also Like -->
       <div class="container my-5">
         <h2 class="text-center fw-bold mb-5">YOU MIGHT ALSO LIKE</h2>
-
-        <div class="row">
-        
-          <div class="col-md-3 mb-4">
-            <div class="card border-0">
-              <div class="bg-light rounded-3" style="height: 300px;"></div>
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Polo with Contrast Trims</h5>
-                <div class="d-flex text-warning mb-2">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star"></i>
-                  <span class="text-dark ms-2">4.0/5</span>
-                </div>
-                <div class="d-flex align-items-center">
-                  <h5 class="fw-bold me-2">$212</h5>
-                  <h5 class="fw-bold text-decoration-line-through text-muted">
-                    $242
-                  </h5>
-                  <span class="badge bg-danger bg-opacity-10 text-danger ms-2"
-                    >-30%</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <div class="row" id="moreProducts">
         </div>
       </div>
     </div>
@@ -238,13 +211,15 @@ export default async function Product({ id }) {
 
 //Javascript code to be executed once the home component is loaded
 const compLoaded = async (id) => {
-  App.cartAdd("123", "M", "red", 2);
+  //App.cartAdd("123", "M", "red", 2);
 
   await getDoc(doc(App.firebase.db, "products", id))
-    .then((res) => {
-      let data = res.exists() ? res.data() : null;
-      console.log(data);
+    .then(async (res) => {
+      const data = res.exists() ? res.data() : null;
       if (data) {
+        const reviewsSnap = await getDoc(doc(App.firebase.db, "reviews", id));
+        const reviewsData = reviewsSnap.exists() ? reviewsSnap.data() : null;
+
         const productTitle = document.querySelector("#productTitle");
         const productPrice = document.querySelector("#productPrice");
         const productDesc = document.querySelector("#productDesc");
@@ -278,8 +253,11 @@ const compLoaded = async (id) => {
         }
 
         //Product Review
-        if (data.avgReview) {
-          productReview.innerHTML = getStarRating(data.avgReview);
+        if (reviewsData && reviewsData.reviews) {
+          const avgReview = getAverageRate(reviewsData.reviews);
+          productReview.innerHTML = getStarRating(avgReview);
+        } else {
+          productReview.innerHTML = "";
         }
 
         //Colors
@@ -294,7 +272,45 @@ const compLoaded = async (id) => {
         App.navigator("/");
       }
     })
-    .catch((error) => {});
+    .catch((error) => {
+      console.log(error);
+    });
+
+  //disable more products
+  const moreProducts = document.querySelector("#moreProducts");
+
+  if (moreProducts) {
+    getDocs(collection(App.firebase.db, "products"))
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const productID = doc.id;
+          const data = doc.data();
+          moreProducts.innerHTML = productCard(
+            productID,
+            data.name,
+            data.price,
+            data.discount,
+            data.colors[0].image_urls[0],
+            data.colors
+          );
+        });
+      })
+      .catch((error) => {});
+  }
+
+  function getAverageRate(reviews) {
+    if (!reviews || reviews.length === 0) return 0;
+
+    // Convert all rates to numbers and filter out invalid ones
+    const rates = reviews
+      .map((r) => Number(r.rate))
+      .filter((rate) => !isNaN(rate));
+
+    if (rates.length === 0) return 0;
+
+    const sum = rates.reduce((acc, rate) => acc + rate, 0);
+    return sum / rates.length;
+  }
 
   function getStarRating(rating) {
     const full = Math.floor(rating);

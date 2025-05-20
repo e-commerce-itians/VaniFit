@@ -1,0 +1,5 @@
+[component^="productCard"] {
+  .card-title {
+    text-transform: capitalize;
+  }
+}
