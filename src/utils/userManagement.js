@@ -180,8 +180,8 @@ export async function signInWithGoogle() {
 export async function createUserDocument(user) {
   try {
     const userRef = doc(App.firebase.db, "users", user.uid);
-    const document = await getDoc(userRef);
-    if (!document.exists()) {
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
       await setDoc(userRef, {
         uid: user.uid,
         email: user.email,
@@ -196,8 +196,8 @@ export async function createUserDocument(user) {
 export async function updateUserDocument(user, data) {
   try {
     const userRef = doc(App.firebase.db, "users", user.uid);
-    const document = await getDoc(userRef);
-    if (document.exists()) {
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
       await setDoc(userRef, data, { merge: true });
     }
   } catch (error) {
