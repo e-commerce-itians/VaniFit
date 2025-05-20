@@ -35,26 +35,29 @@ export default async function Product({ id }) {
           <!-- Product Images -->
           <div class="col-md-4">
             <div class="mb-3 text-center bg-light rounded-3">
-              <img style="height: 400px;" id="imgContainer">
+              <p class="col-12 placeholder-glow" id="imgPlaceholder">
+                <span class="placeholder col-12 rounded-3" style="height: 400px;width: 100%;"></span>
+              </p>
+              <img class="rounded-3" style="height: 400px;width: 100%;object-fit: cover;display:none;" id="imgContainer">
             </div>
             <div class="row justify-content-around text-center">
               <div class="col-4">
                 <img
-                  class="bg-light rounded-3 mb-3"
+                  class="rounded-3 mb-3"
                   style="height: 100px;"
                   id="imgFront"
                 >
               </div>
               <div class="col-4">
                 <img
-                  class="bg-light rounded-3 mb-3"
+                  class="rounded-3 mb-3"
                   style="height: 100px;"
                   id="imgSide"
                 >
               </div>
               <div class="col-4">
                 <img
-                  class="bg-light rounded-3 mb-3"
+                  class="rounded-3 mb-3"
                   style="height: 100px;"
                   id="imgBack"
                 >
@@ -126,41 +129,55 @@ export default async function Product({ id }) {
 
       <!-- Product Tabs -->
       <div class="container my-5">
-        <ul class="nav nav-tabs border-0 justify-content-center">
-          <li class="nav-item">
-            <li class="nav-item me-1">
-              <a class="nav-link text-muted" href="#">Product Details</a>
-            </li>
-            <a class="nav-link active text-dark fw-bold" href="#"
-              >Rating & Reviews</a
-            >
-          </li>
-          <li class="nav-item ms-1">
-            <a class="nav-link text-muted" href="#">FAQs</a>
-          </li>
-        </ul>
+  <ul class="nav nav-tabs border-0 justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item me-1" role="presentation">
+      <button class="nav-link text-muted" id="product-tab" data-bs-toggle="tab" data-bs-target="#product" type="button" role="tab">Product Details</button>
+    </li>
+    <li class="nav-item me-1" role="presentation">
+      <button class="nav-link active text-dark fw-bold" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-selected="true">Rating & Reviews</button>
+    </li>
+    <li class="nav-item ms-1" role="presentation">
+      <button class="nav-link text-muted" id="faqs-tab" data-bs-toggle="tab" data-bs-target="#faqs" type="button" role="tab">FAQs</button>
+    </li>
+  </ul>
 
-        <hr class="mt-0" />
+  <hr class="mt-0" />
 
-        <div class="d-flex justify-content-between mb-4">
-          <h4 class="fw-bold">
-            All Reviews <span class="text-muted" id="reviewsCount"></span>
-          </h4>
-          <div class="d-flex gap-2">
-            <button class="btn btn-light rounded-pill">
-              Latest <i class="bi bi-chevron-down"></i>
-            </button>
-            <button class="btn btn-dark rounded-pill">Write a Review</button>
-          </div>
-        </div>
-
-        <!-- Reviews -->
-        <div class="row" id="reviewsContainer">
-          <p class="d-block col-12 text-center my-5 placeholder-glow">
-            <span class="placeholder col-8" style="height:20px;"></span>
-          </p>
+  <!-- Tab content -->
+  <div class="tab-content" id="myTabContent">
+    <!-- Product Details Tab -->
+    <div class="tab-pane fade" id="product" role="tabpanel" aria-labelledby="product-tab">
+      <!-- Product details content goes here -->
+    </div>
+    
+    <!-- Reviews Tab (active by default) -->
+    <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+      <div class="d-flex justify-content-between mb-4">
+        <h4 class="fw-bold">
+          All Reviews <span class="text-muted" id="reviewsCount"></span>
+        </h4>
+        <div class="d-flex gap-2">
+          <button class="btn btn-light rounded-pill">
+            Latest <i class="bi bi-chevron-down"></i>
+          </button>
+          <button class="btn btn-dark rounded-pill">Write a Review</button>
         </div>
       </div>
+
+      <!-- Reviews -->
+      <div class="row" id="reviewsContainer">
+        <p class="d-block col-12 text-center my-5 placeholder-glow">
+          <span class="placeholder col-8" style="height:20px;"></span>
+        </p>
+      </div>
+    </div>
+    
+    <!-- FAQs Tab -->
+    <div class="tab-pane fade" id="faqs" role="tabpanel" aria-labelledby="faqs-tab">
+      <!-- FAQs content goes here -->
+    </div>
+  </div>
+</div>
 
       <!-- You Might Also Like -->
       <div class="container my-5">
@@ -177,6 +194,10 @@ export default async function Product({ id }) {
 
 //Javascript code to be executed once the home component is loaded
 const compLoaded = async (id) => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
   //App.cartAdd("123", "M", "red", 2);
 
   await getDoc(doc(App.firebase.db, "products", id))
@@ -243,11 +264,13 @@ const compLoaded = async (id) => {
           }
         }
       } else {
-        App.navigator("/");
+        //product doesn't exist
+        App.navigator("/product-doesnt-exist");
       }
     })
     .catch((error) => {
       console.log(error);
+      App.navigator("/");
     });
 
   //display more products
@@ -277,7 +300,10 @@ const compLoaded = async (id) => {
           moreProducts.innerHTML += renderCard;
         });
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+        moreProducts.innerHTML = `<span class="mx-auto">There is no more available products at the moment</span>`;
+      });
   }
 
   function getAverageRate(reviews) {
@@ -372,13 +398,16 @@ const compLoaded = async (id) => {
   function setupImageClickEvents() {
     const imgIds = ["imgFront", "imgSide", "imgBack"];
     const imgContainer = document.getElementById("imgContainer");
+    const imgPlaceholder = document.querySelector("#imgPlaceholder");
 
     imgIds.forEach((id) => {
       const img = document.getElementById(id);
       if (img) {
         img.style.cursor = "pointer";
         img.addEventListener("click", () => {
+          imgPlaceholder.style.display = "none";
           imgContainer.src = img.src;
+          imgContainer.style.display = "block";
         });
       }
     });
