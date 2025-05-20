@@ -152,7 +152,7 @@ const compLoaded = async () => {
     const mensQuery = query(
       collection(App.firebase.db, "products"),
       where("gender", "==", "male"),
-      limit(6)
+      limit(5)
     );
     const mensSnapshot = await getDocs(mensQuery);
     const mensProducts = [];
@@ -164,7 +164,7 @@ const compLoaded = async () => {
     const womensQuery = query(
       collection(App.firebase.db, "products"),
       where("gender", "==", "female"),
-      limit(6)
+      limit(5)
     );
     const womensSnapshot = await getDocs(womensQuery);
     const womensProducts = [];
@@ -176,7 +176,7 @@ const compLoaded = async () => {
     const childrensQuery = query(
       collection(App.firebase.db, "products"),
       where("gender", "==", "children"),
-      limit(6)
+      limit(5)
     );
     const childrensSnapshot = await getDocs(childrensQuery);
     const childrensProducts = [];
@@ -196,7 +196,7 @@ const compLoaded = async () => {
                 <img src="${product.colors[0].image_urls[0]}" class="product-img" alt="${product.name}">
                 <h5 class="product-title">${product.name}</h5>
                 <p class="product-brand text-muted">${product.brand}</p>
-                <p class="product-price">EGP ${product.price}</p>
+                <p class="product-price">$${product.price}</p>
               </div>
             </a>
           </div>
@@ -217,7 +217,7 @@ const compLoaded = async () => {
                 <img src="${product.colors[0].image_urls[0]}" class="product-img" alt="${product.name}">
                 <h5 class="product-title">${product.name}</h5>
                 <p class="product-brand text-muted">${product.brand}</p>
-                <p class="product-price">EGP ${product.price}</p>
+                <p class="product-price">$${product.price}</p>
               </div>
             </a>
           </div>
@@ -238,7 +238,7 @@ const compLoaded = async () => {
                 <img src="${product.colors[0].image_urls[0]}" class="product-img" alt="${product.name}">
                 <h5 class="product-title">${product.name}</h5>
                 <p class="product-brand text-muted">${product.brand}</p>
-                <p class="product-price">EGP ${product.price}</p>
+                <p class="product-price">$${product.price}</p>
               </div>
             </a>
           </div>
