@@ -26,6 +26,12 @@ window.App = {
     getData: getdata,
     user: {}, //user data once logged in
   },
+  cloudinary: {
+    // Cloudinary config, got UPLOAD_PRESET and CLOUD_NAME from cloudinary dashboard
+    UPLOAD_PRESET: "lq3wdeku",
+    CLOUD_NAME: "dbymxe1wb",
+    UPLOAD_URL: "https://api.cloudinary.com/v1_1/dbymxe1wb/image/upload",
+  },
 
   cart: localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart"))
