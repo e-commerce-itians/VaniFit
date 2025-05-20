@@ -53,25 +53,39 @@ export const firebaseAuthErrors = {
 
 // check credentials validity
 function isValidName(name) {
+  if (!name) return false;
   const regex = /^[a-zA-Z\p{L}'\-\s]+$/u.test(name);
   const nameLength = name.length >= 3 && name.length <= 32;
   return regex && nameLength;
 }
 
 function isValidEmail(email) {
+  if (!email) return false;
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function isValidPassword(password) {
+  if (!password) return false;
   return password.length >= 6;
 }
 
 function isValidPhone(phone) {
-  return /^\+?[\d\s\-\(\)]+$/.test(phone);
+  if (!phone) return false;
+  const phoneTrimmed = phone.trim().replace(/[\s\-()]/g, "");
+  const normalized = phoneTrimmed.startsWith("+20")
+    ? "0" + phoneTrimmed.slice(3)
+    : phoneTrimmed;
+  return /^01[0125][0-9]{8}$/.test(normalized);
 }
 
 function isValidAddress(address) {
-  return address.length < 10;
+  if (!address) return false;
+  const addressTrimmed = address.trim();
+  return (
+    addressTrimmed.length >= 5 &&
+    addressTrimmed.length <= 60 &&
+    !/^\d+$/.test(addressTrimmed)
+  );
 }
 
 // validation to update form styling and show error message

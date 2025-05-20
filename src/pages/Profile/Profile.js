@@ -51,7 +51,7 @@ export default function Profile() {
                       name="phone"
                       id="phone"
                       class="form-control"
-                      placeholder="Enter your phone number"
+                      placeholder="+20 123-4567-890"
                       required
                     />
                     <div class="invalid-feedback" id="phoneError"></div>
@@ -88,7 +88,9 @@ export default function Profile() {
                     id="profileUpdateError"
                     class="alert alert-danger d-none mt-3"
                     role="alert"
-                  ></div>
+                  >
+                    An Error occurred, Please try again.
+                  </div>
                 </form>
               </div>
             </div>
@@ -164,7 +166,7 @@ const compLoaded = () => {
     // modify UI until data is updated in database
     Array.from(e.target.elements).forEach((item) => (item.disabled = true));
     form.classList.add("was-validated");
-    updateProfileBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating in...`;
+    updateProfileBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating...`;
     // add form data to firestore
     const data = { phoneNumber: phone, address: address };
     await updateUserDocument(App.firebase.user, data)
@@ -173,6 +175,7 @@ const compLoaded = () => {
           (item) => (item.disabled = false)
         );
         form.classList.remove("was-validated");
+        updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
         profileUpdateSuccess.classList.remove("d-none");
       })
       .catch((error) => {
@@ -182,7 +185,6 @@ const compLoaded = () => {
         );
         form.classList.remove("was-validated");
         updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
-        profileUpdateError.textContent = `An error occurred`;
         profileUpdateError.classList.remove("d-none");
         console.log(error);
       });
