@@ -47,10 +47,11 @@ export default async function Cart() {
                   />
                   <button class="btn btn-outline-dark">Apply</button>
                 </div>
-
-                <button id="checkout-btn" class="btn btn-dark w-100 mt-3">
-                  Go to Checkout →
-                </button>
+                  ${
+                    App.firebase.user.email
+                      ? `<button id="checkout-btn" class="btn btn-dark w-100 mt-3">Go to Checkout →</button>`
+                      : `<a href="/login" class="btn btn-dark w-100 mt-3" data-link><i class="fa-solid fa-lock me-1"></i> Login to checkout</a>`
+                  }
               </div>
             </div>
           </div>
