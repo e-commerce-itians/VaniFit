@@ -131,6 +131,12 @@ async function compLoaded(productId) {
       e.preventDefault();
 
       try {
+        // Show loading dialog before starting the update
+        document.body.insertAdjacentHTML(
+          "beforeend",
+          MessageDialog("Updating product...", "success", null, true)
+        );
+
         const updatedProduct = {
           name: form.productName.value.trim(),
           description: form.description.value.trim(),
@@ -150,7 +156,10 @@ async function compLoaded(productId) {
           updatedProduct
         );
 
-        // Show success dialog instead of alert
+        // Remove loading dialog
+        document.getElementById("messageDialogOverlay")?.remove();
+
+        // Show success dialog
         const dashboardContent = document.querySelector(".dashboard-content");
 
         // Append the success dialog to the body to make it a modal

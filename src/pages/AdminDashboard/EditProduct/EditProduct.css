@@ -7,15 +7,17 @@
   .EditProduct {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    overflow: hidden;
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+    width: 100%;
   }
 
   #editProductForm {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
+    height: auto;
+    overflow-y: visible;
     padding-bottom: 20px;
     background: white;
     border-radius: 8px;
@@ -108,9 +110,17 @@
     background-color: #5a6268;
   }
 
+  /* Loading indicator styling */
+  .loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    font-size: 1.1rem;
+    color: #666;
+  }
+
   .save-btn {
-    position: sticky;
-    bottom: 20px;
     margin: 20px auto 0;
     width: 200px;
     padding: 10px;
@@ -132,6 +142,165 @@
 
   #colorsContainer {
     padding: 0 15px;
-    margin-bottom: 60px; /* Space for sticky button */
+    margin-bottom: 60px;
+  }
+
+  /* Color section styles */
+  .color-section {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .color-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  /* Color picker */
+  .color-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .color-picker {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Image URLs section */
+  .image-url-inputs {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+  }
+
+  .image-url-group {
+    flex: 1;
+  }
+
+  /* Sizes section */
+  .sizes-container {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    background-color: white;
+    margin-top: 10px;
+  }
+
+  .size-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr; /* Single column on mobile */
+    }
+
+    .edit-product-header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .back-btn {
+      width: 100%;
+    }
+
+    .save-btn {
+      width: 100%;
+      margin: 20px 0 0 0;
+      position: relative;
+    }
+
+    #editProductForm {
+      padding: 16px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-size: 16px;
+      padding: 10px 12px;
+    }
+
+    .color-section {
+      padding: 15px;
+    }
+
+    .size-row {
+      grid-template-columns: 1.5fr 1fr 40px;
+    }
+  }
+
+  /* Extra small devices */
+  @media (max-width: 480px) {
+    .color-section {
+      padding: 12px 10px;
+      margin-bottom: 15px;
+    }
+
+    .edit-product-header h2 {
+      font-size: 1.3rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+    }
+
+    .section-header h3 {
+      font-size: 1.1rem;
+    }
+
+    .color-header h4 {
+      font-size: 1rem;
+    }
+
+    .image-url-inputs {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .image-url-group {
+      width: 100%;
+    }
+
+    .image-url-group label {
+      font-size: 0.8rem;
+    }
+
+    .sizes-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .sizes-header button {
+      width: 100%;
+    }
+
+    .sizes-header h5 {
+      font-size: 0.9rem;
+      margin: 5px 0;
+    }
+
+    .sizes-container {
+      padding: 10px;
+    }
+
+    .size-row {
+      margin-bottom: 8px;
+    }
   }
 }

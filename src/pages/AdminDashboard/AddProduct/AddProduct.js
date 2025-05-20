@@ -422,16 +422,23 @@ const compLoaded = () => {
 
     // Add colors data to the product
     productInstance.setColors(colors);
-
     try {
+      // Show loading dialog before adding product
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        MessageDialog("Adding product...", "success", null, true)
+      );
+
       // Add the product to Firestore
       const docRef = await addDoc(collection(App.firebase.db, "products"), {
         ...productInstance, // Spread class properties
         createdAt: new Date(),
       });
 
-      console.log("Product added with ID:", docRef.id);
+      // Remove loading dialog
+      document.getElementById("messageDialogOverlay")?.remove();
 
+      console.log("Product added with ID:", docRef.id);
       // Show success dialog instead of alert
       document.body.insertAdjacentHTML(
         "beforeend",

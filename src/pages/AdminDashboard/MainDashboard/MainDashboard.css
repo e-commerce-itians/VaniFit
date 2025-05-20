@@ -2,10 +2,10 @@
 .admin-dashboard {
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   background-color: #f5f7fa;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .dashboard-content {
@@ -13,6 +13,7 @@
   padding: 30px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .dashboard-content h1 {
@@ -22,9 +23,13 @@
 @media (max-width: 768px) {
   .admin-dashboard {
     flex-direction: column;
+    height: auto;
   }
 
   .dashboard-content {
     padding: 1.2rem;
+    padding-bottom: 2rem;
+    flex: 1;
+    overflow-y: visible;
   }
 }
