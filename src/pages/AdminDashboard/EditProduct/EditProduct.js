@@ -2,6 +2,8 @@ import { observer } from "/src/observer";
 import ProductList from "../ProductList/ProductList";
 import "./EditProduct.css";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import MessageDialog from "../MessageDialog/MessageDialog";
+import "../MessageDialog/MessageDialog.css";
 
 const componentID = "EditProduct";
 
@@ -147,20 +149,41 @@ async function compLoaded(productId) {
           doc(App.firebase.db, "products", productId),
           updatedProduct
         );
-        alert("Product updated successfully!");
 
-        // Return to product list with proper initialization
+        // Show success dialog instead of alert
         const dashboardContent = document.querySelector(".dashboard-content");
-        dashboardContent.innerHTML = ProductList();
-        // No custom events needed here
+
+        // Append the success dialog to the body to make it a modal
+        document.body.insertAdjacentHTML(
+          "beforeend",
+          MessageDialog("Product updated successfully!", "success", () => {
+            // Return to product list after dialog is closed
+            dashboardContent.innerHTML = ProductList();
+          })
+        );
       } catch (error) {
         console.error("Error updating product:", error);
-        alert("Failed to update product: " + error.message);
+
+        // Show error dialog instead of alert
+        document.body.insertAdjacentHTML(
+          "beforeend",
+          MessageDialog(`Failed to update product: ${error.message}`, "error")
+        );
       }
     });
   } catch (error) {
     console.error("Error:", error);
     loadingIndicator.textContent = "Error loading product: " + error.message;
+
+    // Show error dialog
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      MessageDialog(`Error loading product: ${error.message}`, "error", () => {
+        // Return to product list after dialog is closed
+        const dashboardContent = document.querySelector(".dashboard-content");
+        dashboardContent.innerHTML = ProductList();
+      })
+    );
   }
 }
 

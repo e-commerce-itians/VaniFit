@@ -2,6 +2,8 @@ import "./AddPoduct.css";
 import { observer } from "../../../observer";
 import { Shirt, TShirt, Pants, Shoes, Hoodie, Jacket } from "../ProductClasses";
 import { collection, addDoc } from "firebase/firestore";
+import MessageDialog from "../MessageDialog/MessageDialog";
+import "../MessageDialog/MessageDialog.css";
 const componentID = "AddProduct";
 
 export default function AddProduct() {
@@ -312,8 +314,7 @@ const compLoaded = () => {
 
   // Form submission handler
   form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    // Parse form values
+    event.preventDefault(); // Parse form values
     const name = productNameInput.value.trim();
     const desc = descriptionInput.value.trim();
     const price = parseFloat(priceInput.value);
@@ -331,7 +332,11 @@ const compLoaded = () => {
     const colorSections = document.querySelectorAll(".color-section");
 
     if (colorSections.length === 0) {
-      alert("Please add at least one color.");
+      // Show error dialog instead of alert
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        MessageDialog("Please add at least one color.", "error")
+      );
       return;
     }
 
@@ -363,7 +368,14 @@ const compLoaded = () => {
       }
 
       if (!hasSizes) {
-        alert(`Please add at least one size for color "${colorName}".`);
+        // Show error dialog instead of alert
+        document.body.insertAdjacentHTML(
+          "beforeend",
+          MessageDialog(
+            `Please add at least one size for color "${colorName}".`,
+            "error"
+          )
+        );
         return;
       }
 
@@ -419,13 +431,25 @@ const compLoaded = () => {
       });
 
       console.log("Product added with ID:", docRef.id);
-      alert("Product added successfully!");
-      form.reset();
-      // Clear color sections
-      colorsContainer.innerHTML = `<div class="no-colors-message">Click "Add Color" to add product colors, images, and sizes.</div>`;
+
+      // Show success dialog instead of alert
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        MessageDialog("Product added successfully!", "success", () => {
+          // Reset the form after dialog is closed
+          form.reset();
+          // Clear color sections
+          colorsContainer.innerHTML = `<div class="no-colors-message">Click "Add Color" to add product colors, images, and sizes.</div>`;
+        })
+      );
     } catch (error) {
       console.error("Error adding product to Firestore:", error);
-      alert(`Error adding product: ${error.message}`);
+
+      // Show error dialog instead of alert
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        MessageDialog(`Error adding product: ${error.message}`, "error")
+      );
     }
   });
 };
