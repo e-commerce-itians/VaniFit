@@ -553,9 +553,6 @@ export default async function Product({ id }) {
 
 //Javascript code to be executed once the home component is loaded
 const compLoaded = async (id) => {
-  // Smooth scroll to top
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
   // Initialize product state
   window.selectedItem = {
     productID: id,

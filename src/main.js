@@ -31,7 +31,7 @@ onAuthStateChanged(App.firebase.auth, async (user) => {
     App.firebase.user = {};
   }
   App.authLoaded = true;
-  router();
+  router(false);
 });
 
 // Delegate click events on elements with the 'data-link' attribute for client-side routing

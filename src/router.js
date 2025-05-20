@@ -52,12 +52,13 @@ const routes = [
 ];
 
 // Export the router function that handles view rendering based on the current path
-export default async function router() {
+export default async function router(stp = true) {
   // Determine the view to render based on the current location's pathname
   const currentPath = location.pathname;
   const { view, params } = dynamicRouting(currentPath);
 
   // Render the selected view inside the element with the ID 'app'
+  if (stp) window.scrollTo({ top: 0, behavior: "instant" });
   document.getElementById("app").innerHTML =
     App.authLoaded == true ? layout(await view(params)) : Splash();
 
