@@ -561,6 +561,7 @@ const compLoaded = async (id) => {
     name: "",
     image: "",
     price: 0,
+    max: 0,
   };
 
   // Quantity management
@@ -623,7 +624,8 @@ const compLoaded = async (id) => {
     name,
     image,
     price,
-    discount
+    discount,
+    max
   ) {
     const cart = App.getCart();
     const existingItem = findCartItem(cart, productID, size, color);
@@ -640,6 +642,7 @@ const compLoaded = async (id) => {
         image: image,
         price: price,
         discount: discount,
+        max,
       });
     }
 
@@ -852,6 +855,7 @@ const compLoaded = async (id) => {
 
         window.selectedItem.size = button.dataset.size;
         maxQuantity = parseInt(button.dataset.quantity) || 0;
+        window.selectedItem.max = maxQuantity;
         currentQuantity = 1;
         updateQuantityDisplay();
       });
@@ -897,7 +901,7 @@ const compLoaded = async (id) => {
   elements.addToCartBtn.addEventListener("click", () => {
     if (!validateSelection()) return;
 
-    const { productID, color, size, name, image, price, discount } =
+    const { productID, color, size, name, image, price, discount, max } =
       window.selectedItem;
     const cart = App.getCart();
     const existingItem = findCartItem(cart, productID, size, color);
@@ -925,7 +929,8 @@ const compLoaded = async (id) => {
       name,
       image,
       price,
-      discount
+      discount,
+      max
     );
 
     // Visual feedback

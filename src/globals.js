@@ -33,9 +33,7 @@ window.App = {
     UPLOAD_URL: "https://api.cloudinary.com/v1_1/dbymxe1wb/image/upload",
   },
 
-  cart: localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart"))
-    : [],
+  //Shopping cart functions
   getCart: () => {
     const cart = localStorage.getItem("cart");
     return cart ? JSON.parse(cart) : [];
@@ -50,8 +48,7 @@ window.App = {
     const navbarCounter = document.querySelector("#cartNavbar");
     if (navbarCounter) {
       navbarCounter.textContent = totalItems;
-      navbarCounter.style.display = totalItems > 0 ? "inline-block" : "none";
     }
-    return totalItems;
+    return totalItems || 0;
   },
 };
