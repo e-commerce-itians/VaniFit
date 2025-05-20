@@ -4,6 +4,8 @@ import "./EditProduct.css";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import MessageDialog from "../MessageDialog/MessageDialog";
 import "../MessageDialog/MessageDialog.css";
+import { ImageUploader, setupImageUploader } from "/src/components/ImageUploader/ImageUploader.js";
+import "/src/components/ImageUploader/ImageUploader.css";
 
 const componentID = "EditProduct";
 
@@ -243,22 +245,40 @@ function addColorSection(existingColor = null, category) {
       <h5>Product Images (3 required)</h5>
       <div class="image-url-inputs">
         <div class="image-url-group">
-          <label for="${colorId}-img1">Front Image URL</label>
-          <input type="url" id="${colorId}-img1" name="${colorId}-img1" required 
-                 value="${existingColor?.image_urls?.[0] || ""}"
-                 placeholder="https://example.com/image1.jpg">
+          <label>Front Image</label>
+          ${ImageUploader(
+            `${colorId}-img1-file`, 
+            `${colorId}-img1-preview`, 
+            `${colorId}-img1-progress`,
+            `${colorId}-img1-upload`,
+            `${colorId}-img1-clear`
+          )}
+          <input type="hidden" id="${colorId}-img1" name="${colorId}-img1" required 
+                 value="${existingColor?.image_urls?.[0] || ""}">
         </div>
         <div class="image-url-group">
-          <label for="${colorId}-img2">Side Image URL</label>
-          <input type="url" id="${colorId}-img2" name="${colorId}-img2" required
-                 value="${existingColor?.image_urls?.[1] || ""}"
-                 placeholder="https://example.com/image2.jpg">
+          <label>Side Image</label>
+          ${ImageUploader(
+            `${colorId}-img2-file`, 
+            `${colorId}-img2-preview`, 
+            `${colorId}-img2-progress`,
+            `${colorId}-img2-upload`,
+            `${colorId}-img2-clear`
+          )}
+          <input type="hidden" id="${colorId}-img2" name="${colorId}-img2" required
+                 value="${existingColor?.image_urls?.[1] || ""}">
         </div>
         <div class="image-url-group">
-          <label for="${colorId}-img3">Back Image URL</label>
-          <input type="url" id="${colorId}-img3" name="${colorId}-img3" required
-                 value="${existingColor?.image_urls?.[2] || ""}"
-                 placeholder="https://example.com/image3.jpg">
+          <label>Back Image</label>
+          ${ImageUploader(
+            `${colorId}-img3-file`, 
+            `${colorId}-img3-preview`, 
+            `${colorId}-img3-progress`,
+            `${colorId}-img3-upload`,
+            `${colorId}-img3-clear`
+          )}
+          <input type="hidden" id="${colorId}-img3" name="${colorId}-img3" required
+                 value="${existingColor?.image_urls?.[2] || ""}">
         </div>
       </div>
     </div>
@@ -385,6 +405,101 @@ function setupColorSectionEvents(colorSection) {
   colorInput.addEventListener("input", () => {
     hexInput.value = colorInput.value;
   });
+
+  // Setup image uploaders
+  const colorId = colorSection.dataset.colorId;
+  
+  // Get the Cloudinary upload preset from your environment
+  const UPLOAD_PRESET = 'lq3wdeku'; // Cloudinary upload preset
+  
+  // Front image uploader
+  setupImageUploader(
+    `${colorId}-img1-file`,
+    `${colorId}-img1-preview`,
+    `${colorId}-img1-progress`,
+    `${colorId}-img1-upload`,
+    `${colorId}-img1-clear`,
+    UPLOAD_PRESET,
+    (url) => {
+      document.getElementById(`${colorId}-img1`).value = url;
+      
+      // If there's a URL, set the preview image
+      if (url) {
+        const imgPreview = document.getElementById(`${colorId}-img1-preview`);
+        imgPreview.src = url;
+        imgPreview.style.display = 'block';
+      }
+    }
+  );
+  
+  // Side image uploader
+  setupImageUploader(
+    `${colorId}-img2-file`,
+    `${colorId}-img2-preview`,
+    `${colorId}-img2-progress`,
+    `${colorId}-img2-upload`,
+    `${colorId}-img2-clear`,
+    UPLOAD_PRESET,
+    (url) => {
+      document.getElementById(`${colorId}-img2`).value = url;
+      
+      // If there's a URL, set the preview image
+      if (url) {
+        const imgPreview = document.getElementById(`${colorId}-img2-preview`);
+        imgPreview.src = url;
+        imgPreview.style.display = 'block';
+      }
+    }
+  );
+  
+  // Back image uploader
+  setupImageUploader(
+    `${colorId}-img3-file`,
+    `${colorId}-img3-preview`,
+    `${colorId}-img3-progress`,
+    `${colorId}-img3-upload`,
+    `${colorId}-img3-clear`,
+    UPLOAD_PRESET,
+    (url) => {
+      document.getElementById(`${colorId}-img3`).value = url;
+      
+      // If there's a URL, set the preview image
+      if (url) {
+        const imgPreview = document.getElementById(`${colorId}-img3-preview`);
+        imgPreview.src = url;
+        imgPreview.style.display = 'block';
+      }
+    }
+  );
+
+  // Initialize image previews if URLs exist
+  const img1 = document.getElementById(`${colorId}-img1`).value;
+  const img2 = document.getElementById(`${colorId}-img2`).value;
+  const img3 = document.getElementById(`${colorId}-img3`).value;
+  
+  if (img1) {
+    const preview1 = document.getElementById(`${colorId}-img1-preview`);
+    preview1.src = img1;
+    preview1.style.display = 'block';
+    document.getElementById(`${colorId}-img1-clear`).style.display = 'inline-block';
+    document.getElementById(`${colorId}-img1-upload`).style.display = 'none';
+  }
+  
+  if (img2) {
+    const preview2 = document.getElementById(`${colorId}-img2-preview`);
+    preview2.src = img2;
+    preview2.style.display = 'block';
+    document.getElementById(`${colorId}-img2-clear`).style.display = 'inline-block';
+    document.getElementById(`${colorId}-img2-upload`).style.display = 'none';
+  }
+  
+  if (img3) {
+    const preview3 = document.getElementById(`${colorId}-img3-preview`);
+    preview3.src = img3;
+    preview3.style.display = 'block';
+    document.getElementById(`${colorId}-img3-clear`).style.display = 'inline-block';
+    document.getElementById(`${colorId}-img3-upload`).style.display = 'none';
+  }
 
   // Add size functionality
   colorSection.querySelector(".add-size-btn").addEventListener("click", () => {

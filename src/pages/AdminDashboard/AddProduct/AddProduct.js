@@ -4,6 +4,11 @@ import { Shirt, TShirt, Pants, Shoes, Hoodie, Jacket } from "../ProductClasses";
 import { collection, addDoc } from "firebase/firestore";
 import MessageDialog from "../MessageDialog/MessageDialog";
 import "../MessageDialog/MessageDialog.css";
+import {
+  ImageUploader,
+  setupImageUploader,
+} from "/src/components/ImageUploader/ImageUploader.js";
+import "/src/components/ImageUploader/ImageUploader.css";
 const componentID = "AddProduct";
 
 export default function AddProduct() {
@@ -121,19 +126,37 @@ const compLoaded = () => {
         <h5>Product Images (3 required)</h5>
         <div class="image-url-inputs">
           <div class="image-url-group">
-            <label for="${colorId}-img1">Front Image URL</label>
-            <input type="url" id="${colorId}-img1" name="${colorId}-img1" required 
-                   placeholder="https://example.com/image1.jpg">
+            <label>Front Image</label>
+            ${ImageUploader(
+              `${colorId}-img1-file`,
+              `${colorId}-img1-preview`,
+              `${colorId}-img1-progress`,
+              `${colorId}-img1-upload`,
+              `${colorId}-img1-clear`
+            )}
+            <input type="hidden" id="${colorId}-img1" name="${colorId}-img1" required>
           </div>
           <div class="image-url-group">
-            <label for="${colorId}-img2">Side Image URL</label>
-            <input type="url" id="${colorId}-img2" name="${colorId}-img2" required
-                   placeholder="https://example.com/image2.jpg">
+            <label>Side Image</label>
+            ${ImageUploader(
+              `${colorId}-img2-file`,
+              `${colorId}-img2-preview`,
+              `${colorId}-img2-progress`,
+              `${colorId}-img2-upload`,
+              `${colorId}-img2-clear`
+            )}
+            <input type="hidden" id="${colorId}-img2" name="${colorId}-img2" required>
           </div>
           <div class="image-url-group">
-            <label for="${colorId}-img3">Back Image URL</label>
-            <input type="url" id="${colorId}-img3" name="${colorId}-img3" required
-                   placeholder="https://example.com/image3.jpg">
+            <label>Back Image</label>
+            ${ImageUploader(
+              `${colorId}-img3-file`,
+              `${colorId}-img3-preview`,
+              `${colorId}-img3-progress`,
+              `${colorId}-img3-upload`,
+              `${colorId}-img3-clear`
+            )}
+            <input type="hidden" id="${colorId}-img3" name="${colorId}-img3" required>
           </div>
         </div>
       </div>
@@ -170,7 +193,6 @@ const compLoaded = () => {
     const colorPicker = colorSection.querySelector('input[type="color"]');
 
     colorPicker.addEventListener("input", () => {
-      R;
       hexInput.value = colorPicker.value;
     });
 
@@ -195,6 +217,49 @@ const compLoaded = () => {
         colorsContainer.innerHTML = `<div class="no-colors-message">Click "Add Color" to add product colors, images, and sizes.</div>`;
       }
     });
+
+    // Setup image uploaders
+    const colorId = colorSection.dataset.colorId;
+    const UPLOAD_PRESET = "lq3wdeku"; // Your Cloudinary upload preset
+
+    // Front image uploader
+    setupImageUploader(
+      `${colorId}-img1-file`,
+      `${colorId}-img1-preview`,
+      `${colorId}-img1-progress`,
+      `${colorId}-img1-upload`,
+      `${colorId}-img1-clear`,
+      UPLOAD_PRESET,
+      (url) => {
+        document.getElementById(`${colorId}-img1`).value = url;
+      }
+    );
+
+    // Side image uploader
+    setupImageUploader(
+      `${colorId}-img2-file`,
+      `${colorId}-img2-preview`,
+      `${colorId}-img2-progress`,
+      `${colorId}-img2-upload`,
+      `${colorId}-img2-clear`,
+      UPLOAD_PRESET,
+      (url) => {
+        document.getElementById(`${colorId}-img2`).value = url;
+      }
+    );
+
+    // Back image uploader
+    setupImageUploader(
+      `${colorId}-img3-file`,
+      `${colorId}-img3-preview`,
+      `${colorId}-img3-progress`,
+      `${colorId}-img3-upload`,
+      `${colorId}-img3-clear`,
+      UPLOAD_PRESET,
+      (url) => {
+        document.getElementById(`${colorId}-img3`).value = url;
+      }
+    );
 
     // Add size button
     const addSizeBtn = colorSection.querySelector(".add-size-btn");
