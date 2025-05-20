@@ -1,6 +1,10 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { observer } from "../../observer";
-import { firebaseAuthErrors, validateData } from "../../utils/validation";
+import {
+  firebaseAuthErrors,
+  validateData,
+  validatePasswordConfirmation,
+} from "../../utils/userManagement";
 
 const componentID = "register";
 
@@ -163,12 +167,11 @@ const compLoaded = () => {
   });
 
   confirmPasswordInput.addEventListener("input", () => {
-    validateData(
+    validatePasswordConfirmation(
       passwordInput.value,
       confirmPasswordInput.value,
       confirmPasswordInput,
-      confirmPasswordError,
-      "confirm password"
+      confirmPasswordError
     );
   });
 
@@ -186,12 +189,11 @@ const compLoaded = () => {
       validateData(lastName, lastNameInput, lastNameError, "name") &&
       validateData(email, emailInput, emailError, "email") &&
       validateData(password, passwordInput, passwordError, "password") &&
-      validateData(
+      validatePasswordConfirmation(
         password,
         confirmPassword,
         confirmPasswordInput,
-        confirmPasswordError,
-        "confirm password"
+        confirmPasswordError
       );
 
     if (!formIsValid) {
@@ -211,7 +213,8 @@ const compLoaded = () => {
           displayName: `${firstName} ${lastName}`,
         });
       })
-      .then(() => {
+      .then((result) => {
+        console.log(result);
         App.navigator("/");
       })
       .catch((error) => {

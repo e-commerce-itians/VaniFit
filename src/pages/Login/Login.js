@@ -4,7 +4,7 @@ import {
   firebaseAuthErrors,
   signInWithGoogle,
   validateData,
-} from "../../utils/validation";
+} from "../../utils/userManagement";
 
 const componentID = "login";
 

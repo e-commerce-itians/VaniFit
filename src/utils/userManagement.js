@@ -1,4 +1,5 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { collection } from "firebase/firestore";
 
 // firebase error messages
 const formErrors = {
@@ -8,19 +9,14 @@ const formErrors = {
   name: "names must be alphabetic with 3 to 32 characters length.",
   phone: "invalid phone number format.",
   address: "invalid address format.",
-  default: "incorrect data.",
 };
 
 const isValid = {
   email: isValidEmail,
   password: isValidPassword,
-  "password confirmation": isValidPassword,
   name: isValidName,
   phone: isValidPhone,
   address: isValidAddress,
-  default: () => {
-    return false;
-  },
 };
 
 export const firebaseAuthErrors = {
@@ -116,6 +112,44 @@ export function validateData(data, dataInput, dataError, dataType = "default") {
   return formValid;
 }
 
+// handling password confirmation case to compared to password
+export function validatePasswordConfirmation(
+  password,
+  confirmPassword,
+  confirmPasswordInput,
+  confirmPasswordError
+) {
+  let formValid = true;
+  if (confirmPassword == "") {
+    setValidationFeedback(
+      confirmPasswordInput,
+      confirmPasswordError,
+      false,
+      `password confirmation is required.`
+    );
+    formValid = false;
+  } else if (!isValidPassword(confirmPassword)) {
+    setValidationFeedback(
+      confirmPasswordInput,
+      confirmPasswordError,
+      false,
+      "passwords are at least 6 characters length."
+    );
+    formValid = false;
+  } else if (password !== confirmPassword) {
+    setValidationFeedback(
+      confirmPasswordInput,
+      confirmPasswordError,
+      false,
+      "passwords do not match."
+    );
+    formValid = false;
+  } else {
+    setValidationFeedback(confirmPasswordInput, confirmPasswordError, true);
+  }
+  return formValid;
+}
+
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
   // return user with its information
@@ -126,4 +160,21 @@ export async function signInWithGoogle() {
     .catch((error) => {
       throw error;
     });
+}
+
+// copy auth user data to firestore
+export async function createUserDocument(user) {
+  const userRef = App.firebase.db.collection("users").doc(user.uid);
+
+  const doc = await user.get();
+
+  if (!doc.exists) {
+    await userRef.set({
+      uid: userRef.uid,
+      email: userRef.email,
+    });
+    console.log("User document created in Firestore.");
+  } else {
+    console.log("User document already exists.");
+  }
 }
