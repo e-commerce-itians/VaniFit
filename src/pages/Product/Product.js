@@ -606,6 +606,34 @@ const compLoaded = async (id) => {
     if (e.target !== elements.modalImage) elements.modal.hide();
   });
 
+  function findCartItem(cart, productID, size, color) {
+    return cart.find(
+      (item) =>
+        item.productId === productID &&
+        item.selectedSize === size &&
+        item.selectedColor === color
+    );
+  }
+
+  function updateCartItem(productID, size, color, quantity) {
+    const cart = App.getCart();
+    const existingItem = findCartItem(cart, productID, size, color);
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cart.push({
+        productId: productID,
+        selectedSize: size,
+        selectedColor: color,
+        quantity: quantity,
+      });
+    }
+
+    App.saveCart(cart);
+    return cart;
+  }
+
   // Main product loading function
   async function loadProduct() {
     try {
@@ -772,7 +800,6 @@ const compLoaded = async (id) => {
         elements.displaySizes.innerHTML = generateSizeButtons(color.sizes);
         setupSizeSelection();
         setupImageClickHandlers();
-        document.querySelector("#imgFront")?.click();
         document.querySelector(".size-btn:not([disabled])")?.click();
       });
     });
@@ -847,24 +874,35 @@ const compLoaded = async (id) => {
   });
 
   // Cart functionality
-  elements.addToCartBtn.addEventListener("click", addToCart);
-
-  function addToCart() {
+  elements.addToCartBtn.addEventListener("click", () => {
     if (!validateSelection()) return;
 
     const { productID, color, size } = window.selectedItem;
-    const existingItem = findCartItem(productID, size, color);
-    const currentInCart = existingItem ? Number(existingItem.quantity) : 0;
+    const cart = App.getCart();
+    const existingItem = findCartItem(cart, productID, size, color);
+    const currentInCart = existingItem ? existingItem.quantity : 0;
+    const proposedTotal = currentInCart + currentQuantity;
 
-    if (currentInCart + currentQuantity > maxQuantity) {
-      showQuantityLimitMessage(currentInCart);
+    // Check against max quantity
+    if (proposedTotal > maxQuantity) {
+      const remaining = maxQuantity - currentInCart;
+      const message =
+        remaining > 0
+          ? `You can only add ${remaining} more (${currentInCart} already in cart)`
+          : `Maximum ${maxQuantity} already in cart`;
+
+      alert(message);
       return;
     }
 
-    updateShoppingCart(existingItem);
+    // Update cart in localStorage
+    updateCartItem(productID, size, color, currentQuantity);
+
+    // Visual feedback
     showCartSuccessFeedback();
     resetQuantity();
-  }
+    updateCartCounter();
+  });
 
   function validateSelection() {
     if (!window.selectedItem.size) {
@@ -878,48 +916,19 @@ const compLoaded = async (id) => {
     return true;
   }
 
-  function findCartItem(productID, size, color) {
-    return App.cart.find((item) => {
-      const itemProductId = item.productId?.productID || item.productId;
-      return (
-        itemProductId === productID &&
-        item.selectedSize === size &&
-        item.selectedColor === color
-      );
-    });
-  }
-
-  function showQuantityLimitMessage(currentInCart) {
-    const remaining = Math.max(0, maxQuantity - currentInCart);
-    alert(
-      remaining > 0
-        ? `You can only add ${remaining} more (${currentInCart} already in cart)`
-        : `Maximum ${maxQuantity} already in cart`
-    );
-  }
-
-  function updateShoppingCart(existingItem) {
-    if (existingItem) {
-      existingItem.quantity += currentQuantity;
-    } else {
-      App.cart.push({
-        productId: window.selectedItem.productID,
-        selectedSize: window.selectedItem.size,
-        selectedColor: window.selectedItem.color,
-        quantity: currentQuantity,
-      });
-    }
-  }
-
   function showCartSuccessFeedback() {
-    elements.addToCartBtn.innerHTML = `<span class="me-2">✓ Added ${currentQuantity} item(s)</span>`;
+    elements.addToCartBtn.innerHTML = `
+    <span class="me-2">✓ Added ${currentQuantity} item(s)</span>
+  `;
     elements.addToCartBtn.disabled = true;
-    elements.addToCartBtn.classList.replace("btn-dark", "btn-success");
+    elements.addToCartBtn.classList.remove("btn-dark");
+    elements.addToCartBtn.classList.add("btn-success");
 
     setTimeout(() => {
       elements.addToCartBtn.innerHTML = "Add to Cart";
       elements.addToCartBtn.disabled = false;
-      elements.addToCartBtn.classList.replace("btn-success", "btn-dark");
+      elements.addToCartBtn.classList.remove("btn-success");
+      elements.addToCartBtn.classList.add("btn-dark");
     }, 2000);
   }
 

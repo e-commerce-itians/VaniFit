@@ -36,34 +36,22 @@ window.App = {
   cart: localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart"))
     : [],
-  cartAdd: (productId, selectedSize, selectedColor, quantity) => {
-    // Retrieve current cart from localStorage or initialize empty array
-    let cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
-      : [];
-    // Check if the item already exists in the cart with same size and color
-    const existingItemIndex = cart.findIndex(
-      (item) =>
-        item.productId === productId &&
-        item.selectedSize === selectedSize &&
-        item.selectedColor === selectedColor
-    );
-    if (existingItemIndex !== -1) {
-      // If item exists, update the quantity
-      cart[existingItemIndex].quantity += quantity;
-    } else {
-      // If item doesn't exist, add it as a new item
-      const newItem = {
-        productId,
-        selectedSize,
-        selectedColor,
-        quantity,
-      };
-      cart.push(newItem);
-    }
-    // Save the updated cart back to localStorage
+  getCart: () => {
+    const cart = localStorage.getItem("cart");
+    return cart ? JSON.parse(cart) : [];
+  },
+  saveCart: (cart) => {
     localStorage.setItem("cart", JSON.stringify(cart));
-    //Update navbar cart
-    document.querySelector("#cartNavbar").innerText = cart.length;
+    App.updateCartCounter();
+  },
+  updateCartCounter: () => {
+    const cart = App.getCart();
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const navbarCounter = document.querySelector("#cartNavbar");
+    if (navbarCounter) {
+      navbarCounter.textContent = totalItems;
+      navbarCounter.style.display = totalItems > 0 ? "inline-block" : "none";
+    }
+    return totalItems;
   },
 };
