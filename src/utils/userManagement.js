@@ -2,6 +2,8 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
   deleteUser,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -211,10 +213,26 @@ export async function updateUserDocument(user, data) {
   }
 }
 
-export async function changeUserPassword(newPassword) {
-  const user = App.firebase.auth.currentUser;
+// helper function to compare form password with firebase auth password
+async function verifyOldPassword(user, oldPassword) {
+  try {
+    const credential = EmailAuthProvider.credential(user.email, oldPassword);
+    await reauthenticateWithCredential(user, credential);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
-  updatePassword(user, newPassword)
-    .then(() => {})
-    .catch((error) => {});
+export async function changeUserPassword(user, oldPassword, newPassword) {
+  try {
+    const verified = await verifyOldPassword(user, oldPassword);
+    if (verified) {
+      await updatePassword(user, newPassword);
+    } else {
+      throw new Error("Incorrect old password");
+    }
+  } catch (error) {
+    throw error;
+  }
 }

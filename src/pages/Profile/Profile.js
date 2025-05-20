@@ -7,7 +7,7 @@ const componentID = "profile";
 
 export default function Profile() {
   observer(componentID, compLoaded);
-  return /*html*/`
+  return /*html*/ `
     <div component="${componentID}">
       <div class="container my-5">
         <div class="row justify-content-center">
@@ -161,7 +161,7 @@ const compLoaded = async () => {
     validateData(addressInput.value, addressInput, addressError, "address");
   });
 
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
     const phone = phoneInput.value;
     const address = addressInput.value;
@@ -178,7 +178,7 @@ const compLoaded = async () => {
     updateProfileBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating...`;
     // add form data to firestore
     const data = { phoneNumber: phone, address: address };
-    await updateUserDocument(App.firebase.user, data)
+    updateUserDocument(App.firebase.user, data)
       .then(() => {
         Array.from(e.target.elements).forEach(
           (item) => (item.disabled = false)
@@ -196,7 +196,7 @@ const compLoaded = async () => {
         form.classList.remove("was-validated");
         updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
         profileUpdateError.classList.remove("d-none");
-        console.log(error);
+        profileUpdateError.textContent = error;
       });
   });
 };

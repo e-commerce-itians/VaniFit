@@ -132,7 +132,7 @@ const compLoaded = () => {
     validateData(passwordInput.value, passwordInput, passwordError, "password");
   });
 
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const email = emailInput.value.trim();
@@ -148,7 +148,7 @@ const compLoaded = () => {
     form.classList.add("was-validated");
     loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Logging in...`;
 
-    await signInWithEmailAndPassword(App.firebase.auth, email, password)
+    signInWithEmailAndPassword(App.firebase.auth, email, password)
       .then(() => {
         App.navigator("/");
       })
