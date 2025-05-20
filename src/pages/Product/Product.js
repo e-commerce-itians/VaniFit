@@ -60,14 +60,21 @@ export default async function Product({ id }) {
 
           <!-- Product Details -->
           <div class="col-md-8">
-            <h1 class="fw-bold" id="productTitle"></h1>
+            <h1 class="fw-bold" id="productTitle">
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-4"></span>
+              </p>
+            </h1>
 
             <div class="d-flex align-items-center mb-3" id="productReview">
-              
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-1"></span>
+              </p>
             </div>
 
             <div class="d-flex align-items-center mb-3">
-              <h3 class="fw-bold me-3" id="productPrice"></h3>
+              <h3 class="fw-bold me-3" id="productPrice">
+              </h3>
               <h3 class="fw-bold text-decoration-line-through text-muted" id="discountOldPrice">
               </h3>
               <span class="badge bg-danger bg-opacity-10 text-danger ms-2"
@@ -75,13 +82,19 @@ export default async function Product({ id }) {
               >
             </div>
 
-            <p class="text-muted mb-4" id="productDesc">
-            </p>
+            <div class="text-muted mb-4" id="productDesc">
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-2"></span>
+              </p>
+            </div>
 
             <hr />
 
             <h6 class="text-muted mb-3">Select Colors</h6>
             <div class="d-flex gap-2 mb-4" id="productColors">
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-6"></span>
+              </p>
             </div>
 
             <h6 class="text-muted mb-3">Choose Size</h6>
@@ -469,7 +482,7 @@ const compLoaded = async (id) => {
         }
 
         //Product Desc
-        if (productDesc && data.productDesc) {
+        if (productDesc && data.description) {
           productDesc.innerText = data.description;
         }
 
@@ -486,9 +499,7 @@ const compLoaded = async (id) => {
         App.navigator("/");
       }
     })
-    .catch((error) => {
-      alert(error);
-    });
+    .catch((error) => {});
 
   function getStarRating(rating) {
     const full = Math.floor(rating);
