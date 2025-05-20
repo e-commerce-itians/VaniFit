@@ -1,4 +1,9 @@
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  updatePassword,
+  deleteUser,
+} from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
 // firebase error messages
@@ -204,4 +209,12 @@ export async function updateUserDocument(user, data) {
   } catch (error) {
     throw error;
   }
+}
+
+export async function changeUserPassword(newPassword) {
+  const user = App.firebase.auth.currentUser;
+
+  updatePassword(user, newPassword)
+    .then(() => {})
+    .catch((error) => {});
 }

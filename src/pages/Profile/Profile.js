@@ -7,7 +7,7 @@ const componentID = "profile";
 
 export default function Profile() {
   observer(componentID, compLoaded);
-  return /*html*/ `
+  return /*html*/`
     <div component="${componentID}">
       <div class="container my-5">
         <div class="row justify-content-center">
@@ -41,7 +41,8 @@ export default function Profile() {
                   class="alert alert-danger text-center d-none"
                   role="alert"
                 >
-                Your account is not complete, Please fill incomplete data to be able to order.
+                  Your account is not complete, Please fill incomplete data to
+                  be able to order.
                 </div>
                 <form id="profileUpdateForm" novalidate>
                   <div class="mb-3">
@@ -107,16 +108,10 @@ export default function Profile() {
                 <button
                   type="button"
                   class="btn btn-outline-secondary me-2 mb-2"
-                  id="changePasswordBtn"
                 >
-                  <i class="fa-solid fa-key me-1"></i> Change Password
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-danger mb-2"
-                  id="deleteAccountBtn"
-                >
-                  <i class="fa-solid fa-trash me-1"></i> Delete Account
+                  <a href="./account" data-link>
+                    <i class="fa-solid fa-key me-1"></i>Change Account Settings
+                  </a>
                 </button>
               </div>
             </div>
@@ -153,6 +148,9 @@ const compLoaded = async () => {
   if (!userSnap.phoneNumber || !userSnap.address) {
     missingInfoError.classList.remove("d-none");
   }
+
+  if (userSnap.phoneNumber) phoneInput.value = userSnap.phoneNumber;
+  if (userSnap.address) addressInput.value = userSnap.address;
 
   // event listeners
   phoneInput.addEventListener("input", () => {

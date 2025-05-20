@@ -4,6 +4,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Profile from "./pages/Profile/Profile";
+import Account from "./pages/Account/Account";
 import Product from "./pages/Product/Product";
 import layout from "./layout";
 import Splash from "./pages/Splash/Splash";
@@ -32,6 +33,10 @@ const routes = [
   {
     path: "/profile",
     view: Profile,
+  },
+  {
+    path: "/account",
+    view: Account,
   },
   {
     path: "/product/:id",
