@@ -75,7 +75,7 @@ export default async function Home() {
               .join("")}
           </div>
           <div class="text-center mt-4">
-            <a href="/shop?gender=male" class="btn btn-outline-dark" data-link>View All Men's</a>
+            <a href="/shop/male" class="btn btn-outline-dark" data-link>View All Men's</a>
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export default async function Home() {
               .join("")}
           </div>
           <div class="text-center mt-4">
-            <a href="/shop?gender=female" class="btn btn-outline-dark" data-link>View All Women's</a>
+            <a href="/shop/female" class="btn btn-outline-dark" data-link>View All Women's</a>
           </div>
         </div>
 
@@ -129,7 +129,7 @@ export default async function Home() {
               .join("")}
           </div>
           <div class="text-center mt-4">
-            <a href="/shop?gender=children" class="btn btn-outline-dark" data-link>View All Children's</a>
+            <a href="/shop/children" class="btn btn-outline-dark" data-link>View All Children's</a>
           </div>
         </div>
       </div>

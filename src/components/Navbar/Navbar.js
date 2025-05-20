@@ -31,31 +31,17 @@ export default function Navbar() {
             <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="shopDropdown" role="button" data-bs-toggle="dropdown">
-                            Shop
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">All Products</a></li>
-                            <li><a class="dropdown-item" href="#">Categories</a></li>
-                            <li><a class="dropdown-item" href="#">Collections</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/shop" data-link>Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">On Sale</a>
+                        <a class="nav-link" href="/shop/male" data-link>Men</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">New Arrivals</a>
+                        <a class="nav-link" href="/shop/female" data-link>Women</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="brandsDropdown" role="button" data-bs-toggle="dropdown">
-                            Brands
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Popular Brands</a></li>
-                            <li><a class="dropdown-item" href="#">All Brands</a></li>
-                            <li><a class="dropdown-item" href="#">Brand Stories</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/shop/children" data-link>Kids</a>
                     </li>
                 </ul>
                 

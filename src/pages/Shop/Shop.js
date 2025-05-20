@@ -9,8 +9,10 @@ const ITEMS_PER_PAGE = 9;
 let currentPage = 1;
 let filteredProducts = [];
 
-export default function Shop() {
-  observer(componentID, compLoaded);
+export default function Shop({ gender, page }) {
+  observer(componentID, () => {
+    compLoaded(gender, page);
+  });
   return /*html*/ `
     <div component="${componentID}" class="container my-5">
       <div class="row g-4">
@@ -106,14 +108,13 @@ function renderProductPlaceholders(count) {
   return placeholders;
 }
 
-const compLoaded = async () => {
+const compLoaded = async (gender, page) => {
   // Reset products array when component loads
   allProducts = [];
   filteredProducts = [];
-  
+
   // Get initial page from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  currentPage = parseInt(urlParams.get('page')) || 1;
+  currentPage = parseInt(page) || 1;
 
   const productList = document.querySelector("#product-list");
   const colorFilterContainer = document.getElementById("color-filter-circles");
@@ -279,7 +280,7 @@ const compLoaded = async () => {
       setupFilterEvents();
 
       // Check URL parameters and apply initial filters after all setup is done
-      const genderFromURL = urlParams.get("gender");
+      const genderFromURL = gender;
       if (genderFromURL) {
         // Set active gender button
         document.querySelectorAll(".gender-btn").forEach((btn) => {
@@ -297,9 +298,9 @@ const compLoaded = async () => {
       }
 
       // Add popstate event listener for browser back/forward navigation
-      window.addEventListener('popstate', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        currentPage = parseInt(urlParams.get('page')) || 1;
+      window.addEventListener("popstate", () => {
+        s;
+        currentPage = parseInt(page) || 1;
         applyFilters(); // This will re-render with the correct page
       });
     })
@@ -311,16 +312,16 @@ const compLoaded = async () => {
 function renderProducts(products) {
   const productList = document.querySelector("#product-list");
   productList.innerHTML = "";
-  
+
   // Store filtered products for pagination
   filteredProducts = products;
-  
+
   // Calculate pagination
   const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentProducts = products.slice(startIndex, endIndex);
-  
+
   // Render current page products
   currentProducts.forEach((product) => {
     const renderCard = /*html*/ `
@@ -335,7 +336,9 @@ function renderProducts(products) {
               `
                   : ""
               }
-              <img src="${product.colors[0].image_urls[0]}" alt="${product.name}">
+              <img src="${product.colors[0].image_urls[0]}" alt="${
+      product.name
+    }">
             </div>
             <div class="w-100">
               <div class="product-name">${product.name}</div>
@@ -387,92 +390,95 @@ function renderProducts(products) {
 
 // Add the renderPagination function
 function renderPagination(totalPages) {
-  const paginationContainer = document.createElement('div');
-  paginationContainer.className = 'pagination-container';
-  
+  const paginationContainer = document.createElement("div");
+  paginationContainer.className = "pagination-container";
+
   // Previous button
-  const prevButton = document.createElement('button');
-  prevButton.className = 'pagination-btn';
+  const prevButton = document.createElement("button");
+  prevButton.className = "pagination-btn";
   prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
   prevButton.disabled = currentPage === 1;
   prevButton.onclick = () => changePage(currentPage - 1);
-  
+
   // First page button
-  const firstPageButton = document.createElement('button');
-  firstPageButton.className = 'pagination-btn';
-  firstPageButton.textContent = '1';
-  firstPageButton.classList.toggle('active', currentPage === 1);
+  const firstPageButton = document.createElement("button");
+  firstPageButton.className = "pagination-btn";
+  firstPageButton.textContent = "1";
+  firstPageButton.classList.toggle("active", currentPage === 1);
   firstPageButton.onclick = () => changePage(1);
-  
+
   // Add dots if needed
   const addDots = () => {
-    const dots = document.createElement('span');
-    dots.className = 'pagination-dots';
-    dots.textContent = '...';
+    const dots = document.createElement("span");
+    dots.className = "pagination-dots";
+    dots.textContent = "...";
     return dots;
   };
-  
+
   // Page numbers
   const pageButtons = [];
   const maxVisiblePages = 5;
   let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
   let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-  
+
   if (endPage - startPage + 1 < maxVisiblePages) {
     startPage = Math.max(1, endPage - maxVisiblePages + 1);
   }
-  
+
   if (startPage > 1) {
     pageButtons.push(addDots());
   }
-  
+
   for (let i = startPage; i <= endPage; i++) {
     if (i === 1) continue; // Skip 1 as it's handled separately
-    const pageButton = document.createElement('button');
-    pageButton.className = 'pagination-btn';
+    const pageButton = document.createElement("button");
+    pageButton.className = "pagination-btn";
     pageButton.textContent = i;
-    pageButton.classList.toggle('active', currentPage === i);
+    pageButton.classList.toggle("active", currentPage === i);
     pageButton.onclick = () => changePage(i);
     pageButtons.push(pageButton);
   }
-  
+
   if (endPage < totalPages) {
     pageButtons.push(addDots());
   }
-  
+
   // Last page button
-  const lastPageButton = document.createElement('button');
-  lastPageButton.className = 'pagination-btn';
+  const lastPageButton = document.createElement("button");
+  lastPageButton.className = "pagination-btn";
   lastPageButton.textContent = totalPages;
-  lastPageButton.classList.toggle('active', currentPage === totalPages);
+  lastPageButton.classList.toggle("active", currentPage === totalPages);
   lastPageButton.onclick = () => changePage(totalPages);
-  
+
   // Next button
-  const nextButton = document.createElement('button');
-  nextButton.className = 'pagination-btn';
+  const nextButton = document.createElement("button");
+  nextButton.className = "pagination-btn";
   nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
   nextButton.disabled = currentPage === totalPages;
   nextButton.onclick = () => changePage(currentPage + 1);
-  
+
   // Page info
-  const pageInfo = document.createElement('span');
-  pageInfo.className = 'pagination-info';
+  const pageInfo = document.createElement("span");
+  pageInfo.className = "pagination-info";
   const startItem = (currentPage - 1) * ITEMS_PER_PAGE + 1;
-  const endItem = Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length);
+  const endItem = Math.min(
+    currentPage * ITEMS_PER_PAGE,
+    filteredProducts.length
+  );
   pageInfo.textContent = `Showing ${startItem}-${endItem} of ${filteredProducts.length} items`;
-  
+
   // Assemble pagination
   paginationContainer.appendChild(prevButton);
   if (totalPages > 1) {
     paginationContainer.appendChild(firstPageButton);
-    pageButtons.forEach(button => paginationContainer.appendChild(button));
+    pageButtons.forEach((button) => paginationContainer.appendChild(button));
     if (totalPages > 1) {
       paginationContainer.appendChild(lastPageButton);
     }
   }
   paginationContainer.appendChild(nextButton);
   paginationContainer.appendChild(pageInfo);
-  
+
   // Add pagination to the page
   const productList = document.querySelector("#product-list");
   productList.parentElement.appendChild(paginationContainer);
@@ -480,20 +486,26 @@ function renderPagination(totalPages) {
 
 // Add the changePage function
 function changePage(newPage) {
-  if (newPage < 1 || newPage > Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)) return;
-  
+  if (
+    newPage < 1 ||
+    newPage > Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
+  )
+    return;
+
   currentPage = newPage;
-  
+
   // Update URL without reloading the page
   const url = new URL(window.location.href);
-  url.searchParams.set('page', currentPage);
-  window.history.pushState({}, '', url);
-  
+  url.searchParams.set("page", currentPage);
+  window.history.pushState({}, "", url);
+
   // Re-render products with new page
   renderProducts(filteredProducts);
-  
+
   // Scroll to top of product list
-  document.querySelector("#product-list").scrollIntoView({ behavior: 'smooth' });
+  document
+    .querySelector("#product-list")
+    .scrollIntoView({ behavior: "smooth" });
 }
 
 const applyFilters = () => {

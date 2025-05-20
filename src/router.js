@@ -54,6 +54,14 @@ const routes = [
     path: "/shop",
     view: Shop,
   },
+  {
+    path: "/shop/:gender",
+    view: Shop,
+  },
+  {
+    path: "/shop/:gender/:page",
+    view: Shop,
+  },
 ];
 
 // Export the router function that handles view rendering based on the current path
