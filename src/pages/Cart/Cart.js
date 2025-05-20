@@ -245,6 +245,31 @@ const compLoaded = () => {
   document
     .getElementById("checkout-btn")
     .addEventListener("click", function () {
-      window.location.href = "checkout.html";
+      const total = Number(
+        document.getElementById("total").textContent.replace("$", "")
+      );
+      stripe(total);
     });
+
+  async function stripe(price) {
+    const response = await fetch("https://adel.dev/scripts/stripe.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: price,
+        name: App.title,
+        secertKey:
+          "sk_test_51RQUeBR6Vx60GccVjxM25syN5gooDpXXIqnCsMI4e5c4TGPmohrgAFGR5ea6TnPwYIMbjsZRsUp1bRcGETr8HWt100YMf0mwe9",
+        onSuccess: "http://localhost:5173/success",
+        onCancel: "http://localhost:5173/cart",
+      }),
+    });
+
+    const data = await response.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Error: " + data.error);
+    }
+  }
 };
