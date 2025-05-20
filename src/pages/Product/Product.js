@@ -118,15 +118,15 @@ export default async function Product({ id }) {
 
             <hr />
 
-            <div class="d-flex align-items-center mb-5">
-              <div class="btn-group me-3" role="group">
-                <button class="btn btn-light">-</button>
-                <button class="btn btn-light">1</button>
-                <button class="btn btn-light">+</button>
-              </div>
-              <button class="btn btn-dark rounded-pill px-5">
-                Add to Cart
-              </button>
+              <div class="d-flex align-items-center mb-5">
+                <div class="btn-group me-3" role="group">
+                  <button class="btn btn-light" id="decrement-btn">-</button>
+                  <button class="btn btn-light" id="quantity-display">1</button>
+                  <button class="btn btn-light" id="increment-btn">+</button>
+                </div>
+                <button class="btn btn-dark rounded-pill px-5" id="add-to-cart">
+                  Add to Cart
+                </button>
             </div>
           </div>
         </div>
@@ -561,12 +561,15 @@ const compLoaded = async (id) => {
     size: null,
   };
 
-  // App.cartAdd(
-  //   selectedItem.productID,
-  //   selectedItem.size,
-  //   selectedItem.color,
-  //   selectedItem.quantity
-  // );
+  // Initialize quantity
+  var currentQuantity = 1;
+  const maxQuantity = window.maxQuantity || 0; // Fallback to 10 if maxQuantity not defined
+
+  // Get DOM elements
+  const quantityDisplay = document.getElementById("quantity-display");
+  const incrementBtn = document.getElementById("increment-btn");
+  const decrementBtn = document.getElementById("decrement-btn");
+  const addToCartBtn = document.getElementById("add-to-cart");
 
   const imgContainer = document.getElementById("imgContainer");
   const modal = new bootstrap.Modal(
@@ -726,10 +729,10 @@ const compLoaded = async (id) => {
   }
 
   function generateSizeButtonsHTML(sizes) {
-    return Object.keys(sizes)
+    return Object.entries(sizes)
       .map(
-        (size) => `
-      <button class="btn btn-outline-secondary rounded-pill size-btn" data-size="${size}">
+        ([size, quantity]) => `
+      <button class="btn btn-outline-secondary rounded-pill size-btn" data-size="${size}" data-quantity="${quantity}">
         ${size}
       </button>
     `
@@ -785,6 +788,10 @@ const compLoaded = async (id) => {
       button.addEventListener("click", () => {
         sizeButtons.forEach((btn) => btn.classList.remove("selected"));
         button.classList.add("selected");
+        window.maxQuantity = Number(button.getAttribute("data-quantity"));
+        currentQuantity = 1;
+        updateQuantity();
+
         selectedItem.size = button.innerText;
       });
     });
@@ -866,4 +873,120 @@ const compLoaded = async (id) => {
       container.insertAdjacentHTML("beforeend", html);
     });
   }
+
+  // Update quantity display
+  function updateQuantity() {
+    quantityDisplay.textContent = currentQuantity;
+
+    // Disable buttons when at limits
+    decrementBtn.disabled = currentQuantity <= 1;
+    incrementBtn.disabled = currentQuantity >= maxQuantity;
+  }
+
+  // Increment quantity
+  incrementBtn.addEventListener("click", () => {
+    if (currentQuantity < maxQuantity) {
+      currentQuantity++;
+      updateQuantity();
+    }
+  });
+
+  // Decrement quantity
+  decrementBtn.addEventListener("click", () => {
+    if (currentQuantity > 1) {
+      currentQuantity--;
+      updateQuantity();
+    }
+  });
+
+  // Add to cart functionality with proper quantity validation
+  addToCartBtn.addEventListener("click", () => {
+    // Validate selected item exists
+    if (!window.selectedItem || !window.selectedItem.productID) {
+      alert("Please select product options");
+      return;
+    }
+
+    const { productID, color, size } = window.selectedItem;
+
+    // Calculate current quantity in cart for this exact product variant
+    const existingCartItem = findCartItem(productID, size, color);
+    const currentInCart = existingCartItem
+      ? Number(existingCartItem.quantity)
+      : 0;
+    const proposedTotal = currentInCart + currentQuantity;
+
+    // Check against max quantity
+    if (proposedTotal > maxQuantity) {
+      const remaining = maxQuantity - currentInCart;
+      const message =
+        remaining > 0
+          ? `You can only add ${remaining} more (${currentInCart} already in cart)`
+          : `Maximum ${maxQuantity} already in cart`;
+
+      alert(message);
+      return;
+    }
+
+    // Add/update item in cart
+    if (existingCartItem) {
+      existingCartItem.quantity += currentQuantity;
+    } else {
+      App.cart.push({
+        productId: productID,
+        selectedSize: size,
+        selectedColor: color,
+        quantity: currentQuantity,
+      });
+    }
+
+    // Visual feedback
+    showAddToCartSuccess(currentQuantity);
+
+    // Reset quantity
+    currentQuantity = 1;
+    updateQuantity();
+  });
+
+  // Helper function to find matching cart item
+  function findCartItem(productID, size, color) {
+    return App.cart.find((item) => {
+      // Normalize product ID (handle cases where it might be an object)
+      const itemProductId =
+        typeof item.productId === "object"
+          ? item.productId.productID
+          : item.productId;
+
+      // Normalize quantity (handle string/object cases)
+      const itemQuantity =
+        typeof item.quantity === "number"
+          ? item.quantity
+          : parseInt(item.quantity) || 0;
+
+      // Compare all properties
+      return (
+        itemProductId === productID &&
+        ((!item.selectedSize && !size) || item.selectedSize === size) &&
+        ((!item.selectedColor && !color) || item.selectedColor === color)
+      );
+    });
+  }
+
+  // Show success animation
+  function showAddToCartSuccess(quantity) {
+    addToCartBtn.innerHTML = `
+    <span class="me-2">✓ Added ${quantity} item(s)</span>
+  `;
+    addToCartBtn.classList.remove("btn-dark");
+    addToCartBtn.classList.add("btn-success");
+
+    setTimeout(() => {
+      addToCartBtn.innerHTML = "Add to Cart";
+      addToCartBtn.classList.remove("btn-success");
+      addToCartBtn.classList.add("btn-dark");
+    }, 2000);
+  }
+
+  // Initialize
+  updateQuantity();
 };
