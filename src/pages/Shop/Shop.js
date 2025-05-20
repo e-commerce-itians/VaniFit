@@ -300,7 +300,7 @@ function renderProducts(products) {
       <div class="col-md-4 mb-4">
         <a href="/product/${product.productID}" class="product-link" data-link>
           <div class="product-card minimal-card">
-            <div class="w-100 d-flex justify-content-center mb-3 position-relative">
+            <div class="minimal-img">
               ${
                 product.discount
                   ? `
@@ -308,9 +308,7 @@ function renderProducts(products) {
               `
                   : ""
               }
-              <img src="${
-                product.colors[0].image_urls[0]
-              }" class="minimal-img" alt="${product.name}">
+              <img src="${product.colors[0].image_urls[0]}" alt="${product.name}">
             </div>
             <div class="w-100">
               <div class="product-name">${product.name}</div>
