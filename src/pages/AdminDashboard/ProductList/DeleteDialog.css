@@ -1,0 +1,115 @@
+.DeleteDialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.delete-dialog-container {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  animation: dialog-fade-in 0.3s ease;
+}
+
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delete-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.delete-dialog-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #888;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+.delete-dialog-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.product-name {
+  font-weight: 500;
+  margin: 15px 0;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  color: #333;
+}
+
+.warning-text {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 15px;
+}
+
+.delete-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px 20px;
+  gap: 10px;
+  border-top: 1px solid #eee;
+}
+
+.cancel-btn,
+.delete-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-btn {
+  background-color: #f8f9fa;
+  color: #495057;
+  border: 1px solid #ddd;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+}
+
+.cancel-btn:hover {
+  background-color: #e9ecef;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}

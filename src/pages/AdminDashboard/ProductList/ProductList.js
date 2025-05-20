@@ -3,6 +3,8 @@ import { deleteProduct as delProd } from "/src/utils/deleteProduct";
 import "./ProductList.css";
 import { collection, getDocs } from "firebase/firestore";
 import EditProduct from "../EditProduct/EditProduct";
+import DeleteDialog from "./DeleteDialog";
+import "./DeleteDialog.css"; // Import the CSS for the dialog
 
 const componentID = "ProductList";
 
@@ -36,6 +38,7 @@ export default function ProductList() {
               <th>Name</th>
               <th>Category</th>
               <th>Price</th>
+              <th>Discount</th>
               <th>Stock</th>
               <th>Actions</th>
             </tr>
@@ -143,6 +146,14 @@ function renderProducts(products) {
       const firstImageUrl =
         product.colors?.[0]?.image_urls?.[0] ||
         "/assets/images/placeholder.png";
+
+      // Create styled discount tag with different classes based on value
+      const hasDiscount = product.discount && product.discount > 0;
+      const discountClass = hasDiscount
+        ? "discount-tag"
+        : "discount-tag no-discount";
+      const discountDisplay = hasDiscount ? `${product.discount}%` : "0%";
+
       return `
     <tr data-product-id="${product.id}">
       <td>
@@ -153,16 +164,17 @@ function renderProducts(products) {
       <td>${product.name || "Unnamed Product"}</td>
       <td>${product.category || "Uncategorized"}</td>
       <td>${product.price ? product.price.toFixed(2) : "0.00"} EGP</td>
+      <td><span class="${discountClass}">${discountDisplay}</span></td>
       <td>${calculateTotalStock(product) || 0}</td>
       <td class="actions-cell">
-        <button class="edit-btn" data-id="${
-          product.id
-        }"><i class="fa-solid fa-pen-to-square" data-id="${
-        product.id
-      }"></i></button>
+        <button class="edit-btn" data-id="${product.id}" title="Edit Product">
+          <i class="fa-solid fa-pen-to-square" data-id="${product.id}"></i>
+        </button>
         <button class="delete-btn" data-id="${
           product.id
-        }"><i class="fa-solid fa-trash" data-id="${product.id}"></i></button>
+        }" title="Delete Product">
+          <i class="fa-solid fa-trash" data-id="${product.id}"></i>
+        </button>
       </td>
     </tr>
   `;
@@ -195,16 +207,32 @@ function editProduct(productId) {
 
 // Delete product confirmation
 function confirmDeleteProduct(productId) {
-  if (confirm("Are you sure you want to delete this product?")) {
-    deleteProduct(productId);
-  }
-}
+  // Get the product name
+  const productRow = document.querySelector(
+    `tr[data-product-id="${productId}"]`
+  );
+  const productName = productRow
+    ? productRow.querySelector("td:nth-child(2)").textContent
+    : "";
 
-// Delete product from Firestore
-async function deleteProduct(productId) {
-  delProd(productId);
-  // After successful deletion, refresh the product list
-  fetchProducts();
+  // Create dialog container if it doesn't exist
+  const dialogContainer = document.createElement("div");
+  dialogContainer.id = "deleteDialogContainer";
+  document.body.appendChild(dialogContainer);
+
+  // Render the delete dialog
+  dialogContainer.innerHTML = DeleteDialog(
+    productId,
+    productName,
+    // Cancel callback
+    () => {
+      // Dialog will remove itself
+    },
+    // Success callback
+    () => {
+      fetchProducts(); // Refresh the product list after successful deletion
+    }
+  );
 }
 
 // Helper function to calculate total stock across all colors and sizes
