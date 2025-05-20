@@ -220,7 +220,6 @@ const compLoaded = () => {
 
     // Setup image uploaders
     const colorId = colorSection.dataset.colorId;
-    const UPLOAD_PRESET = "lq3wdeku"; // Your Cloudinary upload preset
 
     // Front image uploader
     setupImageUploader(
@@ -229,7 +228,7 @@ const compLoaded = () => {
       `${colorId}-img1-progress`,
       `${colorId}-img1-upload`,
       `${colorId}-img1-clear`,
-      UPLOAD_PRESET,
+      App.cloudinary.UPLOAD_PRESET,
       (url) => {
         document.getElementById(`${colorId}-img1`).value = url;
       }
@@ -242,7 +241,7 @@ const compLoaded = () => {
       `${colorId}-img2-progress`,
       `${colorId}-img2-upload`,
       `${colorId}-img2-clear`,
-      UPLOAD_PRESET,
+      App.cloudinary.UPLOAD_PRESET,
       (url) => {
         document.getElementById(`${colorId}-img2`).value = url;
       }
@@ -255,7 +254,7 @@ const compLoaded = () => {
       `${colorId}-img3-progress`,
       `${colorId}-img3-upload`,
       `${colorId}-img3-clear`,
-      UPLOAD_PRESET,
+      App.cloudinary.UPLOAD_PRESET,
       (url) => {
         document.getElementById(`${colorId}-img3`).value = url;
       }
