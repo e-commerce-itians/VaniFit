@@ -26,4 +26,38 @@ window.App = {
     getData: getdata,
     user: {}, //user data once logged in
   },
+
+  cart: localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [],
+  cartAdd: (productId, selectedSize, selectedColor, quantity) => {
+    // Retrieve current cart from localStorage or initialize empty array
+    let cart = localStorage.getItem("cart")
+      ? JSON.parse(localStorage.getItem("cart"))
+      : [];
+    // Check if the item already exists in the cart with same size and color
+    const existingItemIndex = cart.findIndex(
+      (item) =>
+        item.productId === productId &&
+        item.selectedSize === selectedSize &&
+        item.selectedColor === selectedColor
+    );
+    if (existingItemIndex !== -1) {
+      // If item exists, update the quantity
+      cart[existingItemIndex].quantity += quantity;
+    } else {
+      // If item doesn't exist, add it as a new item
+      const newItem = {
+        productId,
+        selectedSize,
+        selectedColor,
+        quantity,
+      };
+      cart.push(newItem);
+    }
+    // Save the updated cart back to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    //Update navbar cart
+    document.querySelector("#cartNavbar").innerText = cart.length;
+  },
 };

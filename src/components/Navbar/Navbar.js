@@ -106,8 +106,8 @@ export default function Navbar() {
 
                     <a href="/cart" class="nav-link px-2 position-relative" data-link>
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            0
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartNavbar">
+                            ${App.cart.length}
                         </span>
                     </a>
                     

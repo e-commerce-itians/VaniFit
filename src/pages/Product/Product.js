@@ -33,27 +33,30 @@ export default async function Product({ id }) {
         <div class="row">
           <!-- Product Images -->
           <div class="col-md-4">
-            <div class="mb-3">
-              <div class="bg-light rounded-3" style="height: 300px;"></div>
+            <div class="mb-3 text-center bg-light rounded-3">
+              <img style="height: 400px;" id="imgContainer">
             </div>
-            <div class="row">
+            <div class="row justify-content-around text-center">
               <div class="col-4">
-                <div
+                <img
                   class="bg-light rounded-3 mb-3"
                   style="height: 100px;"
-                ></div>
+                  id="imgFront"
+                >
               </div>
               <div class="col-4">
-                <div
+                <img
                   class="bg-light rounded-3 mb-3"
                   style="height: 100px;"
-                ></div>
+                  id="imgSide"
+                >
               </div>
               <div class="col-4">
-                <div
+                <img
                   class="bg-light rounded-3 mb-3"
                   style="height: 100px;"
-                ></div>
+                  id="imgBack"
+                >
               </div>
             </div>
           </div>
@@ -90,25 +93,18 @@ export default async function Product({ id }) {
 
             <hr />
 
-            <h6 class="text-muted mb-3">Select Colors</h6>
+            <h6 class="text-muted mb-3">Available Colors</h6>
             <div class="d-flex gap-2 mb-4" id="productColors">
               <p class="d-block col-12 placeholder-glow">
                 <span class="placeholder col-6"></span>
               </p>
             </div>
 
-            <h6 class="text-muted mb-3">Choose Size</h6>
-            <div class="d-flex gap-2 mb-4">
-              <button class="btn btn-outline-secondary rounded-pill">
-                Small
-              </button>
-              <button class="btn btn-outline-secondary rounded-pill">
-                Medium
-              </button>
-              <button class="btn btn-dark rounded-pill">Large</button>
-              <button class="btn btn-outline-secondary rounded-pill">
-                X-Large
-              </button>
+            <h6 class="text-muted mb-3">Available Size</h6>
+            <div class="d-flex gap-2 mb-4" id="displaySizes">
+              <p class="d-block col-12 placeholder-glow">
+                <span class="placeholder col-6"></span>
+              </p>
             </div>
 
             <hr />
@@ -131,14 +127,14 @@ export default async function Product({ id }) {
       <div class="container my-5">
         <ul class="nav nav-tabs border-0 justify-content-center">
           <li class="nav-item">
-            <a class="nav-link text-muted" href="#">Product Details</a>
-          </li>
-          <li class="nav-item">
+            <li class="nav-item me-1">
+              <a class="nav-link text-muted" href="#">Product Details</a>
+            </li>
             <a class="nav-link active text-dark fw-bold" href="#"
               >Rating & Reviews</a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item ms-1">
             <a class="nav-link text-muted" href="#">FAQs</a>
           </li>
         </ul>
@@ -147,7 +143,7 @@ export default async function Product({ id }) {
 
         <div class="d-flex justify-content-between mb-4">
           <h4 class="fw-bold">
-            All Reviews <span class="text-muted">(451)</span>
+            All Reviews <span class="text-muted">(1)</span>
           </h4>
           <div class="d-flex gap-2">
             <button class="btn btn-light rounded-pill">
@@ -162,6 +158,7 @@ export default async function Product({ id }) {
 
         <!-- Reviews -->
         <div class="row">
+
           <div class="col-md-6 mb-4">
             <div class="card p-4">
               <div class="d-flex text-warning mb-3">
@@ -192,154 +189,6 @@ export default async function Product({ id }) {
             </div>
           </div>
 
-          <div class="col-md-6 mb-4">
-            <div class="card p-4">
-              <div class="d-flex text-warning mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star"></i>
-              </div>
-              <div class="mb-3">
-                <div class="d-flex align-items-center">
-                  <h6 class="fw-bold mb-0 me-2">Ethan R.</h6>
-                  <span class="badge bg-success rounded-circle p-1"
-                    ><i class="bi bi-check"></i
-                  ></span>
-                </div>
-                <p class="text-muted">
-                  "This t-shirt is a must-have for anyone who appreciates good
-                  design. The minimalistic yet stylish pattern caught my eye,
-                  and the fit is perfect. I can see the designer's touch in
-                  every aspect of this shirt."
-                </p>
-              </div>
-              <div class="d-flex justify-content-between text-muted">
-                <small>Posted on August 16, 2023</small>
-                <i class="bi bi-three-dots-vertical"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4">
-            <div class="card p-4">
-              <div class="d-flex text-warning mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star"></i>
-              </div>
-              <div class="mb-3">
-                <div class="d-flex align-items-center">
-                  <h6 class="fw-bold mb-0 me-2">Liam K.</h6>
-                  <span class="badge bg-success rounded-circle p-1"
-                    ><i class="bi bi-check"></i
-                  ></span>
-                </div>
-                <p class="text-muted">
-                  "This t-shirt is a fusion of comfort and creativity. The
-                  fabric is soft, and the design speaks volumes about the
-                  designer's skill. It's like wearing a piece of art that
-                  reflects my passion for both design and fashion."
-                </p>
-              </div>
-              <div class="d-flex justify-content-between text-muted">
-                <small>Posted on August 18, 2023</small>
-                <i class="bi bi-three-dots-vertical"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4">
-            <div class="card p-4">
-              <div class="d-flex text-warning mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-              </div>
-              <div class="mb-3">
-                <div class="d-flex align-items-center">
-                  <h6 class="fw-bold mb-0 me-2">Alex M.</h6>
-                  <span class="badge bg-success rounded-circle p-1"
-                    ><i class="bi bi-check"></i
-                  ></span>
-                </div>
-                <p class="text-muted">
-                  "The t-shirt exceeded my expectations! The colors are vibrant
-                  and the print quality is top-notch. Being a UI/UX designer
-                  myself, I'm quite picky about aesthetics, and this t-shirt
-                  definitely gets a thumbs up from me."
-                </p>
-              </div>
-              <div class="d-flex justify-content-between text-muted">
-                <small>Posted on August 15, 2023</small>
-                <i class="bi bi-three-dots-vertical"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4">
-            <div class="card p-4">
-              <div class="d-flex text-warning mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star"></i>
-              </div>
-              <div class="mb-3">
-                <div class="d-flex align-items-center">
-                  <h6 class="fw-bold mb-0 me-2">Olivia P.</h6>
-                  <span class="badge bg-success rounded-circle p-1"
-                    ><i class="bi bi-check"></i
-                  ></span>
-                </div>
-                <p class="text-muted">
-                  "As a UI/UX enthusiast, I value simplicity and functionality.
-                  This t-shirt not only represents those principles but also
-                  feels great to wear. It's evident that the designer poured
-                  their creativity into making this t-shirt stand out."
-                </p>
-              </div>
-              <div class="d-flex justify-content-between text-muted">
-                <small>Posted on August 17, 2023</small>
-                <i class="bi bi-three-dots-vertical"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4">
-            <div class="card p-4">
-              <div class="d-flex text-warning mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-              </div>
-              <div class="mb-3">
-                <div class="d-flex align-items-center">
-                  <h6 class="fw-bold mb-0 me-2">Ava H.</h6>
-                  <span class="badge bg-success rounded-circle p-1"
-                    ><i class="bi bi-check"></i
-                  ></span>
-                </div>
-                <p class="text-muted">
-                  "I'm not just wearing a t-shirt; I'm wearing a piece of design
-                  philosophy. The intricate details and thoughtful layout of the
-                  design make this shirt a conversation starter."
-                </p>
-              </div>
-              <div class="d-flex justify-content-between text-muted">
-                <small>Posted on August 19, 2023</small>
-                <i class="bi bi-three-dots-vertical"></i>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div class="text-center my-5">
@@ -354,6 +203,7 @@ export default async function Product({ id }) {
         <h2 class="text-center fw-bold mb-5">YOU MIGHT ALSO LIKE</h2>
 
         <div class="row">
+        
           <div class="col-md-3 mb-4">
             <div class="card border-0">
               <div class="bg-light rounded-3" style="height: 300px;"></div>
@@ -380,67 +230,6 @@ export default async function Product({ id }) {
             </div>
           </div>
 
-          <div class="col-md-3 mb-4">
-            <div class="card border-0">
-              <div class="bg-light rounded-3" style="height: 300px;"></div>
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Gradient Graphic T-shirt</h5>
-                <div class="d-flex text-warning mb-2">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-half"></i>
-                  <i class="bi bi-star"></i>
-                  <span class="text-dark ms-2">3.5/5</span>
-                </div>
-                <h5 class="fw-bold">$145</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 mb-4">
-            <div class="card border-0">
-              <div class="bg-light rounded-3" style="height: 300px;"></div>
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Polo with Tipping Details</h5>
-                <div class="d-flex text-warning mb-2">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-half"></i>
-                  <span class="text-dark ms-2">4.5/5</span>
-                </div>
-                <h5 class="fw-bold">$180</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 mb-4">
-            <div class="card border-0">
-              <div class="bg-light rounded-3" style="height: 300px;"></div>
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Black Stripped T-shirt</h5>
-                <div class="d-flex text-warning mb-2">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <span class="text-dark ms-2">5.0/5</span>
-                </div>
-                <div class="d-flex align-items-center">
-                  <h5 class="fw-bold me-2">$120</h5>
-                  <h5 class="fw-bold text-decoration-line-through text-muted">
-                    $150
-                  </h5>
-                  <span class="badge bg-danger bg-opacity-10 text-danger ms-2"
-                    >-40%</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -449,6 +238,8 @@ export default async function Product({ id }) {
 
 //Javascript code to be executed once the home component is loaded
 const compLoaded = async (id) => {
+  App.cartAdd("123", "M", "red", 2);
+
   await getDoc(doc(App.firebase.db, "products", id))
     .then((res) => {
       let data = res.exists() ? res.data() : null;
@@ -493,7 +284,11 @@ const compLoaded = async (id) => {
 
         //Colors
         if (data.colors) {
-          productColors.innerHTML = generateColors(data.colors);
+          productColors.innerHTML = generateColorButtonsHTML(data.colors);
+          setupColorButtonEvents(data.colors);
+          if (data.colors.length > 0) {
+            document.querySelector(".color-btn").click();
+          }
         }
       } else {
         App.navigator("/");
@@ -516,21 +311,79 @@ const compLoaded = async (id) => {
     )}/5</span>`;
   }
 
-  function generateColors(colors) {
-    return `
-      <div class="d-flex gap-2 mb-4">
-        ${colors
-          .map(
-            (c) => `
-          <button
-            class="btn rounded-circle"
-            style="width:32px; height:32px; background-color:${c.hex}"
-            title="${c.name}"
-          ></button>
-        `
-          )
-          .join("")}
-      </div>
-    `;
+  function generateSizeButtonsHTML(sizes) {
+    return Object.keys(sizes)
+      .map(
+        (size) => `
+      <button class="btn btn-outline-secondary rounded-pill size-btn" data-size="${size}">
+        ${size}
+      </button>
+    `
+      )
+      .join("");
+  }
+
+  function generateColorButtonsHTML(colors) {
+    return colors
+      .map(
+        (color, index) => `
+      <button
+        class="btn rounded-circle color-btn"
+        data-index="${index}"
+        style="width:32px; height:32px; background-color:${color.hex}"
+        title="${color.name}"
+      ></button>
+    `
+      )
+      .join("");
+  }
+
+  function setupColorButtonEvents(colors) {
+    const buttons = document.querySelectorAll(".color-btn");
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        buttons.forEach((btn) => btn.classList.remove("selected"));
+        button.classList.add("selected");
+
+        const index = parseInt(button.dataset.index, 10);
+        const color = colors[index];
+
+        document.getElementById("imgFront").src = color.image_urls[0] || "";
+        document.getElementById("imgSide").src = color.image_urls[1] || "";
+        document.getElementById("imgBack").src = color.image_urls[2] || "";
+
+        document.getElementById("displaySizes").innerHTML =
+          generateSizeButtonsHTML(color.sizes);
+        setupSizeButtonEvents();
+        setupImageClickEvents();
+      });
+    });
+  }
+
+  function setupSizeButtonEvents() {
+    const sizeButtons = document.querySelectorAll(".size-btn");
+    sizeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        sizeButtons.forEach((btn) => btn.classList.remove("selected"));
+        button.classList.add("selected");
+      });
+    });
+    document.querySelector(".size-btn").click();
+  }
+
+  function setupImageClickEvents() {
+    const imgIds = ["imgFront", "imgSide", "imgBack"];
+    const imgContainer = document.getElementById("imgContainer");
+
+    imgIds.forEach((id) => {
+      const img = document.getElementById(id);
+      if (img) {
+        img.style.cursor = "pointer"; // optional: show pointer cursor
+        img.addEventListener("click", () => {
+          imgContainer.src = img.src;
+        });
+      }
+    });
+    document.querySelector("#imgFront").click();
   }
 };

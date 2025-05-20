@@ -6,4 +6,27 @@
   #productTitle {
     text-transform: capitalize;
   }
+  .color-btn {
+    cursor: pointer;
+  }
+
+  .color-btn.selected {
+    border: 3px solid #007bff;
+    cursor: default;
+  }
+
+  .size-btn {
+    cursor: pointer;
+  }
+
+  .size-btn.selected {
+    border-color: #007bff;
+    background-color: #e7f1ff;
+    color: #007bff;
+    cursor: default;
+  }
+  img {
+    display: inline-block;
+    max-width: 100%;
+  }
 }
