@@ -24,7 +24,7 @@ export default function productCard(
     <div component="${componentID}" class="col-md-3 mb-4">
       <a class="card border-0" href="/product/${productID}" data-link>
         <div class="text-center bg-light rounded-3">
-          <img style="height: 300px;" id="imgContainer_${productID}" />
+          <img style="height: 300px;width: 100%;object-fit: cover;" class="rounded-2" id="imgContainer_${productID}" />
         </div>
         <div class="card-body">
           <h5 class="card-title fw-bold" id="prodTitle_${productID}"></h5>
