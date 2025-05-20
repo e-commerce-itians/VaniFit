@@ -9,6 +9,7 @@ import layout from "./layout";
 import Splash from "./pages/Splash/Splash";
 import MainDashboard from "./pages/AdminDashboard/MainDashboard/MainDashboard";
 import Cart from "./pages/Cart/Cart";
+import Shop from "./pages/Shop/Shop";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
@@ -43,7 +44,10 @@ const routes = [
   {
     path: "/cart",
     view: Cart,
-
+  },
+  {
+    path: "/shop",
+    view: Shop,
   },
 ];
 
