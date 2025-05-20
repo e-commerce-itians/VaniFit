@@ -29,4 +29,59 @@
     display: inline-block;
     max-width: 100%;
   }
+
+  .nav-link.active {
+    font-weight: bold !important;
+    color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
+  }
+
+  #imgContainer {
+    cursor: zoom-in;
+  }
+}
+/* Make modal fullscreen and centered */
+#imagePreviewModal .modal-dialog {
+  margin: 0;
+  max-width: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+}
+
+#imagePreviewModal .modal-content {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border: none;
+  height: 100%;
+}
+
+#imagePreviewModal .modal-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0;
+}
+
+/* Make image fit container while maintaining aspect ratio */
+#modalImage {
+  max-height: 90%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Close button styling */
+#imagePreviewModal .btn-close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1055;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  font-size: 1.5rem;
+}
+
+#imagePreviewModal .btn-close:hover {
+  opacity: 1;
 }
