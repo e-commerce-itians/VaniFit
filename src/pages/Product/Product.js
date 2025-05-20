@@ -800,6 +800,7 @@ const compLoaded = async (id) => {
         elements.displaySizes.innerHTML = generateSizeButtons(color.sizes);
         setupSizeSelection();
         setupImageClickHandlers();
+        document.querySelector("#imgFront")?.click();
         document.querySelector(".size-btn:not([disabled])")?.click();
       });
     });
