@@ -251,12 +251,17 @@ const compLoaded = () => {
 
     // additional form data not added to auth but added to firestore
     const data = { phoneNumber: phone, address: address };
+    // create new user and copy with the added form information to firestore
     await createUserWithEmailAndPassword(App.firebase.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        createUserDocument(user);
-        updateUserDocument(user, data);
-        return updateProfile(user, {
+        return createUserDocument(user);
+      })
+      .then((user) => {
+        return updateUserDocument(user, data);
+      })
+      .then((user) => {
+        updateProfile(user, {
           displayName: `${firstName} ${lastName}`,
           photoURL: "#",
         });
