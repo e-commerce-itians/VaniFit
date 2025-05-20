@@ -20,6 +20,9 @@ export default function AddProduct() {
     <label for="price">Price (EGP)</label>
     <input type="number" id="price" name="price" step="0.01" min="0" required>
 
+    <label for="discount">Discount (%)</label>
+    <input type="number" id="discount" name="discount" min="0" max="100" step="1" placeholder="0">
+
     <label for="category">Category</label>
     <select id="category" name="category" required>
       <option disabled selected>Select a category</option>
@@ -43,6 +46,7 @@ export default function AddProduct() {
     <label for="brand">Brand Name</label>
     <input type="text" id="brand" name="brand" required>
 
+
     <label for="tags">Tags (comma-separated)</label>
     <input type="text" id="tags" name="tags" placeholder="e.g. summer, casual, cotton">
 
@@ -65,9 +69,11 @@ export default function AddProduct() {
 
 //Javascript code to be executed once the home component is loaded
 const compLoaded = () => {
+  // Add discount input to the list of form elements
   const productNameInput = document.getElementById("productName");
   const descriptionInput = document.getElementById("description");
   const priceInput = document.getElementById("price");
+  const discountInput = document.getElementById("discount"); // Add this line
   const categorySelect = document.getElementById("category");
   const brandInput = document.getElementById("brand");
   const tagsInput = document.getElementById("tags");
@@ -162,6 +168,7 @@ const compLoaded = () => {
     const colorPicker = colorSection.querySelector('input[type="color"]');
 
     colorPicker.addEventListener("input", () => {
+      R;
       hexInput.value = colorPicker.value;
     });
 
@@ -310,6 +317,7 @@ const compLoaded = () => {
     const name = productNameInput.value.trim();
     const desc = descriptionInput.value.trim();
     const price = parseFloat(priceInput.value);
+    const discount = parseFloat(discountInput.value) || 0;
     const category = categorySelect.value;
     const gender = document.getElementById("gender").value;
     const brand = brandInput.value.trim();
@@ -396,6 +404,9 @@ const compLoaded = () => {
 
     // Add gender to the product
     productInstance.setGender(gender);
+
+    // Add discount to the product
+    productInstance.setDiscount(discount);
 
     // Add colors data to the product
     productInstance.setColors(colors);

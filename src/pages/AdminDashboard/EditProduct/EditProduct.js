@@ -34,6 +34,11 @@ export default function EditProduct(productId) {
           </div>
 
           <div class="form-group">
+            <label for="discount">Discount (%)</label>
+            <input type="number" id="discount" name="discount" min="0" max="100" step="1" placeholder="0">
+          </div>
+
+          <div class="form-group">
             <label for="category">Category</label>
             <select id="category" name="category" required disabled>
               <option value="shirts">Shirts</option>
@@ -106,6 +111,7 @@ async function compLoaded(productId) {
     form.productName.value = product.name;
     form.description.value = product.description;
     form.price.value = product.price;
+    form.discount.value = product.discount || 0;
     form.category.value = product.category;
     form.brand.value = product.brand;
     form.gender.value = product.gender || "unisex";
@@ -127,6 +133,7 @@ async function compLoaded(productId) {
           name: form.productName.value.trim(),
           description: form.description.value.trim(),
           price: parseFloat(form.price.value),
+          discount: parseFloat(form.discount.value) || 0,
           brand: form.brand.value.trim(),
           gender: form.gender.value,
           tags: form.tags.value
