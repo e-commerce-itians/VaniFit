@@ -1,6 +1,9 @@
-import { getAuth, updatePhoneNumber } from "firebase/auth";
 import { observer } from "../../observer";
-import { firebaseAuthErrors, validateData } from "../../utils/userManagement";
+import {
+  firebaseAuthErrors,
+  validateData,
+  updateUserDocument,
+} from "../../utils/userManagement";
 import "./Profile.css";
 
 const componentID = "profile";
@@ -134,6 +137,7 @@ const compLoaded = () => {
   const addressInput = document.querySelector("#address");
   const phoneError = document.querySelector("#phoneError");
   const addressError = document.querySelector("#addressError");
+  const profileUpdateSuccess = document.querySelector("#profileUpdateSuccess");
   const profileUpdateError = document.querySelector("#profileUpdateError");
   const updateProfileBtn = document.querySelector("#updateProfileBtn");
 
@@ -148,28 +152,39 @@ const compLoaded = () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const phone = phoneInput.value;
+    const address = addressInput.value;
 
     const formIsValid =
-      validateData(phoneInput.value, phoneInput, phoneError, "phone") &&
-      validateData(addressInput.value, addressInput, addressError, "address");
+      validateData(phone, phoneInput, phoneError, "phone") &&
+      validateData(address, addressInput, addressError, "address");
 
-    if (!formIsValid) {
-      form.classList.remove("was-validated");
-      return;
-    }
+    if (!formIsValid) return;
 
-    Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+    // modify UI until data is updated in database
+    Array.from(e.target.elements).forEach((item) => (item.disabled = true));
     form.classList.add("was-validated");
-    updateProfileBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Logging in...`;
-
-    await updatePhoneNumber.then().catch((error) => {
-      // enable inputs and update error state
-      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
-      form.classList.remove("was-validated");
-      updateProfileBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Login with Email</span>`;
-      profileUpdateError.textContent =
-        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
-      profileUpdateError.classList.remove("d-none");
-    });
+    updateProfileBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating in...`;
+    // add form data to firestore
+    const data = { phoneNumber: phone, address: address };
+    await updateUserDocument(App.firebase.user, data)
+      .then(() => {
+        Array.from(e.target.elements).forEach(
+          (item) => (item.disabled = false)
+        );
+        form.classList.remove("was-validated");
+        profileUpdateSuccess.classList.remove("d-none");
+      })
+      .catch((error) => {
+        // enable inputs and update error state
+        Array.from(e.target.elements).forEach(
+          (item) => (item.disabled = false)
+        );
+        form.classList.remove("was-validated");
+        updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
+        profileUpdateError.textContent = `An error occurred`;
+        profileUpdateError.classList.remove("d-none");
+        console.log(error);
+      });
   });
 };

@@ -4,6 +4,7 @@ import {
   firebaseAuthErrors,
   validateData,
   validatePasswordConfirmation,
+  createUserDocument,
 } from "../../utils/userManagement";
 
 const componentID = "register";
@@ -196,10 +197,7 @@ const compLoaded = () => {
         confirmPasswordError
       );
 
-    if (!formIsValid) {
-      form.classList.remove("was-validated");
-      return;
-    }
+    if (!formIsValid) return;
 
     // disable inputs and create spinner effect while resolving
     Array.from(form.elements).forEach((item) => (item.disabled = true));
@@ -209,16 +207,16 @@ const compLoaded = () => {
     await createUserWithEmailAndPassword(App.firebase.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        createUserDocument(user);
         return updateProfile(user, {
           displayName: `${firstName} ${lastName}`,
         });
       })
-      .then((result) => {
-        console.log(result);
+      .then(() => {
         App.navigator("/");
       })
       .catch((error) => {
-        // enable inputs and update error state
+        // reset the form state
         Array.from(form.elements).forEach((item) => (item.disabled = false));
         form.classList.remove("was-validated");
         registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;

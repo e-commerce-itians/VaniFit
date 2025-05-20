@@ -101,12 +101,12 @@ const compLoaded = () => {
   const loginError = document.querySelector("#loginError");
 
   const loginBtn = document.querySelector("#loginBtn");
-  const googleBtn = document.querySelector("#signInWithGoogleBtn");
+  const signInWithGoogleBtn = document.querySelector("#signInWithGoogleBtn");
 
   // change google signin button styling while waiting for response
-  googleBtn.addEventListener("click", async () => {
-    googleBtn.disabled = true;
-    googleBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...`;
+  signInWithGoogleBtn.addEventListener("click", async () => {
+    signInWithGoogleBtn.disabled = true;
+    signInWithGoogleBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...`;
     try {
       Array.from(form.elements).forEach((item) => (item.disabled = true));
       form.classList.add("was-validated");
@@ -119,8 +119,8 @@ const compLoaded = () => {
         firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
       loginError.classList.remove("d-none");
     }
-    googleBtn.disabled = false;
-    googleBtn.innerHTML = `<i class="fa-brands fa-google mx-1"></i><span class="d-none d-sm-inline">Login with Google</span>`;
+    signInWithGoogleBtn.disabled = false;
+    signInWithGoogleBtn.innerHTML = `<i class="fa-brands fa-google mx-1"></i><span class="d-none d-sm-inline">Login with Google</span>`;
   });
 
   // event listeners
@@ -142,10 +142,7 @@ const compLoaded = () => {
       validateData(email, emailInput, emailError, "email") &&
       validateData(password, passwordInput, passwordError, "password");
 
-    if (!formIsValid) {
-      form.classList.remove("was-validated");
-      return;
-    }
+    if (!formIsValid) return;
 
     Array.from(form.elements).forEach((item) => (item.disabled = true));
     form.classList.add("was-validated");

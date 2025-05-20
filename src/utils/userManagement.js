@@ -1,5 +1,5 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { collection } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 // firebase error messages
 const formErrors = {
@@ -151,30 +151,42 @@ export function validatePasswordConfirmation(
 }
 
 export async function signInWithGoogle() {
-  const provider = new GoogleAuthProvider();
   // return user with its information
-  await signInWithPopup(App.firebase.auth, provider)
-    .then((userCredential) => {
-      return userCredential.user;
-    })
-    .catch((error) => {
-      throw error;
-    });
+  try {
+    const provider = new GoogleAuthProvider();
+    const userCredential = await signInWithPopup(App.firebase.auth, provider);
+    createUserDocument(userCredential.user);
+    return userCredential.user;
+  } catch (error) {
+    throw error;
+  }
 }
 
 // copy auth user data to firestore
 export async function createUserDocument(user) {
-  const userRef = App.firebase.db.collection("users").doc(user.uid);
+  try {
+    const userRef = doc(App.firebase.db, "users", user.uid);
+    const document = await getDoc(userRef);
+    if (!document.exists()) {
+      await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
-  const doc = await user.get();
-
-  if (!doc.exists) {
-    await userRef.set({
-      uid: userRef.uid,
-      email: userRef.email,
-    });
-    console.log("User document created in Firestore.");
-  } else {
-    console.log("User document already exists.");
+// add data to document including phone and address
+export async function updateUserDocument(user, data) {
+  try {
+    const userRef = doc(App.firebase.db, "users", user.uid);
+    const document = await getDoc(userRef);
+    if (document.exists()) {
+      await setDoc(userRef, data, { merge: true });
+    }
+  } catch (error) {
+    throw error;
   }
 }
