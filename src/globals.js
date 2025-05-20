@@ -34,21 +34,50 @@ window.App = {
   },
 
   //Shopping cart functions
-  getCart: () => {
-    const cart = localStorage.getItem("cart");
-    return cart ? JSON.parse(cart) : [];
-  },
-  saveCart: (cart) => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+  clearCart: () => {
+    localStorage.setItem("cart", JSON.stringify([]));
     App.updateCartCounter();
   },
+
+  getCart: () => {
+    try {
+      const cart = localStorage.getItem("cart");
+      if (!cart) return [];
+      const parsedCart = JSON.parse(cart);
+      if (Array.isArray(parsedCart)) {
+        return parsedCart.filter(
+          (item) => item && typeof item === "object" && !Array.isArray(item)
+        );
+      }
+      return [];
+    } catch (e) {
+      console.error("Error parsing cart data, returning empty cart", e);
+      return [];
+    }
+  },
+
+  saveCart: (cart) => {
+    const safeCart = Array.isArray(cart)
+      ? cart.filter(
+          (item) => item && typeof item === "object" && !Array.isArray(item)
+        )
+      : [];
+
+    localStorage.setItem("cart", JSON.stringify(safeCart));
+    App.updateCartCounter();
+  },
+
   updateCartCounter: () => {
     const cart = App.getCart();
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalItems = cart.reduce((sum, item) => {
+      const quantity = typeof item.quantity === "number" ? item.quantity : 0;
+      return sum + quantity;
+    }, 0);
+
     const navbarCounter = document.querySelector("#cartNavbar");
     if (navbarCounter) {
       navbarCounter.textContent = totalItems;
     }
-    return totalItems || 0;
+    return totalItems;
   },
 };

@@ -81,7 +81,6 @@ export default function Navbar() {
                               App.firebase.user.email
                                 ? `
                               <li><a class="dropdown-item" href="/profile" data-link><i class="fas fa-user-circle me-2"></i>My Account</a></li>
-                              <li><a class="dropdown-item" href="/wishlist" data-link><i class="fas fa-heart me-2"></i>Wishlist</a></li>
                               <li><a class="dropdown-item" href="/orders" data-link><i class="fas fa-history me-2"></i>Order History</a></li>
                               <li><hr class="dropdown-divider"></li>
                               <li><a class="dropdown-item" id="logoutBtn" href="#" data-link><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>`
@@ -122,6 +121,7 @@ const compLoaded = () => {
       e.preventDefault();
       try {
         await signOut(App.firebase.auth);
+        App.clearCart();
         App.navigator("/");
       } catch (error) {}
     });
