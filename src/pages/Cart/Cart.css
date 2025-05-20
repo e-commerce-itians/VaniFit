@@ -1,2 +1,43 @@
 [component="cart"] {
+  .cart-item {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+  .item-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  .item-details {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  .item-price {
+    font-weight: 600;
+  }
+  .order-summary {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .total-row {
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+  .promo-input {
+    display: flex;
+    margin-top: 20px;
+  }
+  .promo-input input {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
 }

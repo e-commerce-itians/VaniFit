@@ -25,12 +25,12 @@ export default async function Product({ id }) {
             </li>
             <li class="breadcrumb-item">
               <a href="#" class="text-decoration-none text-muted" id="productCategory">
-                <span class="placeholder-glow d-inline">
-                  <span class="placeholder col-4"></span>
-                </span>
+                ...
               </a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" id="productGender"></li>
+            <li class="breadcrumb-item active" aria-current="page" id="productGender">
+                ...
+            </li>
           </ol>
         </nav>
       </div>
@@ -558,6 +558,9 @@ const compLoaded = async (id) => {
     productID: id,
     color: null,
     size: null,
+    name: "",
+    image: "",
+    price: 0,
   };
 
   // Quantity management
@@ -612,7 +615,16 @@ const compLoaded = async (id) => {
     );
   }
 
-  function updateCartItem(productID, size, color, quantity) {
+  function updateCartItem(
+    productID,
+    size,
+    color,
+    quantity,
+    name,
+    image,
+    price,
+    discount
+  ) {
     const cart = App.getCart();
     const existingItem = findCartItem(cart, productID, size, color);
 
@@ -624,6 +636,10 @@ const compLoaded = async (id) => {
         selectedSize: size,
         selectedColor: color,
         quantity: quantity,
+        name: name,
+        image: image,
+        price: price,
+        discount: discount,
       });
     }
 
@@ -680,6 +696,11 @@ const compLoaded = async (id) => {
       elements.productColors.innerHTML = generateColorButtons(data.colors);
       setupColorSelection(data.colors);
     }
+
+    //update selected item
+    window.selectedItem.name = data.name;
+    window.selectedItem.price = data.price;
+    window.selectedItem.discount = data.discount;
   }
 
   async function loadProductReviews(productId) {
@@ -781,6 +802,7 @@ const compLoaded = async (id) => {
 
         const color = colors[button.dataset.index];
         window.selectedItem.color = color.name;
+        window.selectedItem.image = color.image_urls[0];
 
         // Update product images
         [elements.imgFront, elements.imgSide, elements.imgBack].forEach(
@@ -875,7 +897,8 @@ const compLoaded = async (id) => {
   elements.addToCartBtn.addEventListener("click", () => {
     if (!validateSelection()) return;
 
-    const { productID, color, size } = window.selectedItem;
+    const { productID, color, size, name, image, price, discount } =
+      window.selectedItem;
     const cart = App.getCart();
     const existingItem = findCartItem(cart, productID, size, color);
     const currentInCart = existingItem ? existingItem.quantity : 0;
@@ -894,7 +917,16 @@ const compLoaded = async (id) => {
     }
 
     // Update cart in localStorage
-    updateCartItem(productID, size, color, currentQuantity);
+    updateCartItem(
+      productID,
+      size,
+      color,
+      currentQuantity,
+      name,
+      image,
+      price,
+      discount
+    );
 
     // Visual feedback
     showCartSuccessFeedback();
