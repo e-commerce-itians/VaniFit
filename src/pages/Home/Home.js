@@ -16,7 +16,7 @@ export default async function Home() {
           <p class="text-muted">
             Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
           </p>
-          <a href="/shop" class="btn btn-dark btn-lg mt-3 rounded-pill" data-link>Shop Now</a>
+          <a href="/shop" class="shop-now-btn" data-link>Shop Now</a>
 
           <!-- Stats -->
           <div class="row mt-4">

@@ -114,4 +114,58 @@
   #logo-font {
     font-family: var(--lucky), Arial, Helvetica, sans-serif;
   }
+
+  /* Shop Now Button Styles */
+  .shop-now-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #23272f 0%, #111113 100%);
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 800;
+    padding: 1.1rem 2.8rem;
+    border: none;
+    border-radius: 3rem;
+    box-shadow: 0 6px 24px rgba(30, 32, 38, 0.13),
+      0 1.5px 6px rgba(30, 32, 38, 0.1);
+    letter-spacing: 0.7px;
+    transition: background 0.22s, box-shadow 0.22s, transform 0.12s, color 0.18s;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .shop-now-btn:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+  .shop-now-btn:hover:before,
+  .shop-now-btn:focus:before {
+    width: 250%;
+    height: 800%;
+  }
+  .shop-now-btn:hover,
+  .shop-now-btn:focus {
+    background: linear-gradient(90deg, #111113 0%, #23272f 100%);
+    box-shadow: 0 12px 32px rgba(30, 32, 38, 0.22),
+      0 2px 8px rgba(30, 32, 38, 0.13);
+    color: #fff;
+    transform: translateY(-3px) scale(1.045);
+    outline: none;
+  }
+  .shop-now-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(30, 32, 38, 0.1);
+  }
 }
