@@ -676,7 +676,8 @@ const compLoaded = async (id) => {
     if (elements.productGender)
       elements.productGender.textContent = data.category || "";
     if (elements.productCategory)
-      elements.productCategory.textContent = data.gender || "";
+      elements.productCategory.src = `/shop/${data.gender}`;
+    elements.productCategory.textContent = data.gender || "";
     if (elements.productDesc)
       elements.productDesc.textContent = data.description || "";
 
