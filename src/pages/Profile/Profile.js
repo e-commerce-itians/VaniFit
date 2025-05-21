@@ -108,10 +108,11 @@ export default function Profile() {
                 <button
                   type="button"
                   class="btn btn-dark d-block w-100 my-2"
+                  data-link
+                  style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;"
+                  onclick="event.preventDefault(); App.navigator('/account');"
                 >
-                  <a href="./account" data-link>
-                    <i class="fa-solid fa-key me-1"></i>Change Account Settings
-                  </a>
+                  <i class="fa-solid fa-key me-1"></i>Change Account Settings
                 </button>
               </div>
             </div>
