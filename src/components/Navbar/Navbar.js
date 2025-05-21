@@ -47,6 +47,26 @@ export default function Navbar() {
                 <a class="nav-link" href="/shop/children" data-link>Kids</a>
               </li>
             </ul>
+            <div class="m-auto my-3 my-lg-0 flex-grow-1">
+              <form id="searchForm" class="w-100" role="search">
+                <div
+                  class="input-group rounded-pill bg-white shadow-sm overflow-hidden"
+                >
+                  <span class=" border-0 bg-primary">
+                    <i class="fa-solid fa-search text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="searchInput"
+                    class="form-control bg-primary border-0 me-3"
+                    placeholder="Search..."
+                    aria-label="Search"
+                  />
+                </div>
+              </form>
+
+              <div id="searchResults" class="bg-primary rounded-bottom"></div>
+            </div>
             <!-- Icons -->
             <div class="d-flex align-items-center">
               <!-- User Dropdown -->
@@ -93,23 +113,7 @@ export default function Navbar() {
                   ${App.updateCartCounter()}
                 </span>
               </a>
-              </div>
-              <div class="m-auto my-3 my-lg-0">
-                <form id="searchForm">
-                  <div class="input-group bg-light rounded">
-                    <span class="input-group-text bg-transparent border-0 px-3">
-                      <i class="fa-solid fa-search text-muted"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="searchInput"
-                      class="form-control bg-transparent border-0 py-2"
-                      placeholder="Search..."
-                    />
-                  </div>
-                </form>
-                <div id="searchResults"></div>
-              </div>
+            </div>
           </div>
         </div>
       </nav>
@@ -124,14 +128,6 @@ const compLoaded = async () => {
 
   const q = query(collection(App.firebase.db, "products"));
   const querySnapshot = await getDocs(q);
-
-  function debounce(fn, delay) {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => fn.apply(this, args), delay);
-    };
-  }
 
   async function performSearch() {
     const searchText = searchInput.value.trim().toLowerCase();
@@ -174,8 +170,8 @@ const compLoaded = async () => {
     }
   }
 
-  searchInput.addEventListener("input", debounce(performSearch, 300));
-  searchInput.addEventListener("focus", debounce(performSearch, 300));
+  searchInput.addEventListener("input", performSearch);
+  searchInput.addEventListener("focus", performSearch);
 
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async (e) => {
