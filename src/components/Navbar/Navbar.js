@@ -89,7 +89,7 @@ export default function Navbar() {
                       : `<i class="fas fa-user me-2"></i>Login/Register`
                   }
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-start">
                   ${
                     !App.firebase.user.email
                       ? `
