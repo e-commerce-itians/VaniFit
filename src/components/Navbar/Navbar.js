@@ -48,24 +48,30 @@ export default function Navbar() {
               </li>
             </ul>
             <div class="m-auto my-3 my-lg-0 flex-grow-1">
-              <form id="searchForm" class="w-100" role="search">
-                <div
-                  class="input-group rounded-pill bg-white shadow-sm overflow-hidden"
-                >
-                  <span class=" border-0 bg-primary">
-                    <i class="fa-solid fa-search text-muted"></i>
+              <form
+                id="searchForm"
+                class="w-100 position-relative"
+                role="search"
+              >
+                <div class="input-group shadow-sm">
+                  <span
+                    class="input-group-text bg-dark text-white border-0 rounded-start"
+                  >
+                    <i class="fa-solid fa-search"></i>
                   </span>
                   <input
                     type="text"
                     id="searchInput"
-                    class="form-control bg-primary border-0 me-3"
+                    class="form-control border-0 rounded-end"
                     placeholder="Search..."
                     aria-label="Search"
                   />
                 </div>
+                <div
+                  id="searchResults"
+                  class="position-absolute d-none z-3 w-100 bg-white rounded-bottom"
+                ></div>
               </form>
-
-              <div id="searchResults" class="bg-primary rounded-bottom"></div>
             </div>
             <!-- Icons -->
             <div class="d-flex align-items-center">
