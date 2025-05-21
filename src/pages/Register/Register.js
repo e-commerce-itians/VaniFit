@@ -153,6 +153,12 @@ export default function Register() {
 }
 
 const compLoaded = () => {
+  // block register page page for registered user
+  if (App.firebase.user.uid) {
+    App.navigator("/");
+    return;
+  }
+
   const form = document.querySelector("#registerForm");
   const firstNameInput = document.querySelector("#firstName");
   const lastNameInput = document.querySelector("#lastName");

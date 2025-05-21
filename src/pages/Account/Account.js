@@ -2,6 +2,7 @@ import {
   validateData,
   validatePasswordConfirmation,
   changeUserPassword,
+  removeUser,
 } from "../../utils/userManagement";
 import { observer } from "../../observer";
 
@@ -106,12 +107,22 @@ export default function Account() {
                 >
                   <i class="fa-solid fa-trash me-1"></i>Delete Account
                 </button>
-                <div id="deleteAccountOptions" class="alert alert-danger">
-                <p class="card-text">
-                Are you sure you want to proceed with account deletion?
-                </p>
-                  <button id="confirmDeleteBtn" class="btn btn-success">Yes</button>
-                  <button id="cancelDeleteBtn" class="btn btn-danger">No</button>
+                <div id="deleteAccountOptions" class="p-3 d-none">
+                  <p class="card-text my-2">
+                    Are you sure you want to proceed with account deletion?
+                  </p>
+                  <button id="confirmDeleteBtn" class="btn btn-success w-25">
+                    Yes
+                  </button>
+                  <button id="cancelDeleteBtn" class="btn btn-danger w-25">
+                    No
+                  </button>
+                  <p
+                    id="deleteAccountError"
+                    class="alert alert-danger my-2 d-none"
+                  >
+                    An error occurred.
+                  </p>
                 </div>
               </div>
             </div>
@@ -148,6 +159,7 @@ const compLoaded = () => {
   const deleteAccountOptions = document.querySelector("#deleteAccountOptions");
   const confirmDeleteBtn = document.querySelector("#confirmDeleteBtn");
   const cancelDeleteBtn = document.querySelector("#cancelDeleteBtn");
+  const deleteAccountError = document.querySelector("#deleteAccountError");
 
   oldPasswordInput.addEventListener("input", () => {
     validateData(
@@ -235,10 +247,15 @@ const compLoaded = () => {
   });
 
   cancelDeleteBtn.addEventListener("click", () => {
-    deleteAccountBtn.classList.add("d-none");
+    deleteAccountOptions.classList.add("d-none");
   });
 
-  confirmDeleteBtn.addEventListener("click", () => {
-    
+  confirmDeleteBtn.addEventListener("click", async () => {
+    const deletionFlag = await removeUser(App.firebase.user);
+    if (deletionFlag) {
+      App.navigator("/");
+    } else {
+      deleteAccountError.classList.remove("d-none");
+    }
   });
 };
