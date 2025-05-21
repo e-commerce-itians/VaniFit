@@ -92,6 +92,12 @@ export default function Login() {
 }
 
 const compLoaded = () => {
+  // block login page page for registered user
+  if (App.firebase.user.uid) {
+    App.navigator("/");
+    return;
+  }
+
   const form = document.querySelector("#loginForm");
   const emailInput = document.querySelector("#email");
   const passwordInput = document.querySelector("#password");
