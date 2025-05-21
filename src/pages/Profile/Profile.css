@@ -4,3 +4,113 @@ input.form-control:focus,
 input.form-control:focus {
   box-shadow: none !important;
 }
+
+/* Modern profile card styles and animations */
+.profile-section-card {
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  border: none;
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.profile-section-card .card-header {
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+.profile-section-card .card-body {
+  padding: 2rem 2.2rem 2rem 2.2rem;
+}
+#userProfileAvatar {
+  width: 120px !important;
+  height: 120px !important;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 2px 12px rgba(31, 38, 135, 0.1);
+  margin-bottom: 1rem;
+  background: #f3f4f6;
+  transition: box-shadow 0.2s;
+}
+#userProfileAvatar:hover {
+  box-shadow: 0 4px 24px rgba(31, 38, 135, 0.18);
+}
+#profileDisplayName {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #1a1a1a;
+}
+#profileEmail {
+  font-size: 1.08rem;
+  color: #6b7280;
+}
+input.form-control,
+input.form-control:focus {
+  border-radius: 0.9rem;
+  font-size: 1.1rem;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  box-shadow: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input.form-control:focus {
+  border-color: #1a1a1a;
+  background: #fff;
+}
+.btn-dark,
+.btn-dark:focus {
+  border-radius: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 0;
+  box-shadow: 0 2px 8px rgba(31, 38, 135, 0.04);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+.btn-dark:active {
+  transform: scale(0.97);
+}
+.invalid-feedback {
+  font-size: 0.98rem;
+  margin-top: 0.2rem;
+}
+#profileUpdateSuccess,
+#profileUpdateError,
+#missingInfoError {
+  border-radius: 0.7rem;
+  font-size: 1.08rem;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.2rem;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 991.98px) {
+  .profile-section-card .card-body {
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+  }
+  #userProfileAvatar {
+    width: 90px !important;
+    height: 90px !important;
+  }
+}
+@media (max-width: 767.98px) {
+  .profile-section-card {
+    border-radius: 1rem;
+  }
+  .profile-section-card .card-body {
+    padding: 0.7rem 0.3rem 0.7rem 0.3rem;
+  }
+  #userProfileAvatar {
+    width: 70px !important;
+    height: 70px !important;
+  }
+  #profileDisplayName {
+    font-size: 1.1rem;
+  }
+}

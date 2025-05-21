@@ -1,0 +1,145 @@
+/* Modern account settings card styles and animations */
+.profile-section-card {
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  border: none;
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.profile-section-card .card-header {
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+.profile-section-card .card-body {
+  padding: 2rem 2.2rem 2rem 2.2rem;
+}
+input.form-control,
+input.form-control:focus {
+  border-radius: 0.9rem;
+  font-size: 1.1rem;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  box-shadow: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input.form-control:focus {
+  border-color: #1a1a1a;
+  background: #fff;
+}
+.btn-dark,
+.btn-dark:focus,
+.btn-danger,
+.btn-danger:focus,
+.btn-success,
+.btn-success:focus {
+  border-radius: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 0;
+  box-shadow: 0 2px 8px rgba(31, 38, 135, 0.04);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+.btn-danger,
+.btn-danger:focus {
+  background: #ef4444;
+  color: #fff;
+  border: 1.5px solid #ef4444;
+  border-radius: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 0;
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.08);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+.btn-danger:hover,
+.btn-danger:active {
+  background: #b91c1c;
+  color: #fff;
+  border-color: #b91c1c;
+  transform: scale(0.97);
+}
+.btn-success,
+.btn-success:focus {
+  border-radius: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 0;
+  box-shadow: 0 2px 8px rgba(31, 38, 135, 0.04);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+.btn-dark:active,
+.btn-danger:active,
+.btn-success:active {
+  transform: scale(0.97);
+}
+.invalid-feedback {
+  font-size: 0.98rem;
+  margin-top: 0.2rem;
+}
+#passwordUpdateSuccess,
+#passwordUpdateError,
+#deleteAccountError {
+  border-radius: 0.7rem;
+  font-size: 1.08rem;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.2rem;
+}
+.profile-section-card .card-body .alert.alert-danger {
+  background: #fff0f0;
+  color: #b91c1c;
+  border: 1.5px solid #fca5a5;
+  font-size: 1.05rem;
+  border-radius: 0.8rem;
+  margin-bottom: 1.2rem;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.04);
+}
+#deleteAccountOptions {
+  background: #f9fafb;
+  border-radius: 1rem;
+  border: 1px solid #fca5a5;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.04);
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#deleteAccountOptions .btn-success {
+  margin-right: 1rem;
+}
+#deleteAccountOptions .btn-danger {
+  margin-left: 1rem;
+}
+#deleteAccountError {
+  background: #fff0f0;
+  color: #b91c1c;
+  border: 1.5px solid #fca5a5;
+  border-radius: 0.7rem;
+  font-size: 1.05rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0.7rem 1rem;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 991.98px) {
+  .profile-section-card .card-body {
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+  }
+}
+@media (max-width: 767.98px) {
+  .profile-section-card {
+    border-radius: 1rem;
+  }
+  .profile-section-card .card-body {
+    padding: 0.7rem 0.3rem 0.7rem 0.3rem;
+  }
+}

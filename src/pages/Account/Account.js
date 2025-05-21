@@ -5,6 +5,7 @@ import {
   removeUser,
 } from "../../utils/userManagement";
 import { observer } from "../../observer";
+import "./Account.css";
 
 const componentID = "account";
 
