@@ -2,7 +2,7 @@ import "./Product.css";
 import Getdata from "../../utils/getData";
 import { observer } from "../../observer";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import productCard from "../../components/productCard/productCard";
+import Productcard from "../../components/Productcard/Productcard";
 const componentID = "product";
 
 export default async function Product({ id }) {
@@ -765,7 +765,7 @@ const compLoaded = async (id) => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          elements.moreProducts.innerHTML += productCard(
+          elements.moreProducts.innerHTML += Productcard(
             doc.id,
             data.name,
             data.price,
