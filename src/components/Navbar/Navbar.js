@@ -1,4 +1,5 @@
 import "./Navbar.css";
+import { collection, getDocs, query } from "firebase/firestore";
 import { observer } from "../../observer";
 import { signOut } from "firebase/auth";
 const componentID = "navbar";
@@ -51,8 +52,9 @@ export default function Navbar() {
                         <span class="input-group-text bg-transparent border-0 ps-3">
                             <i class="fas fa-search text-muted"></i>
                         </span>
-                        <input type="text" class="form-control bg-transparent border-0" placeholder="Search for products...">
-                    </div>
+                        <input type="text" id="searchInput" class="form-control bg-transparent border-0" placeholder="Search for products...">
+                        <div id="searchResults" class="dropdown"></div>
+                        </div>
                 </form>
                 
                 <!-- Icons -->
@@ -115,6 +117,54 @@ export default function Navbar() {
 }
 
 const compLoaded = () => {
+  const db = App.firebase.db;
+
+  const searchInput = document.getElementById("searchInput");
+  const searchResults = document.getElementById("searchResults");
+
+  if (!searchInput || !searchResults) {
+    console.warn("Search input or result container not found.");
+    return;
+  }
+
+  searchInput.addEventListener("input", async () => {
+    const searchText = searchInput.value.trim().toLowerCase();
+    searchResults.innerHTML = "";
+
+    if (searchText.length === 0) {
+      searchResults.style.display = "none";
+      return;
+    }
+
+    const q = query(collection(db, "products"));
+    const querySnapshot = await getDocs(q);
+
+    let found = false;
+    querySnapshot.forEach((doc) => {
+      const product = doc.data();
+      if (product.name.toLowerCase().includes(searchText)) {
+        found = true;
+
+        const resultItem = document.createElement("div");
+        resultItem.textContent = product.name;
+
+        resultItem.addEventListener("click", () => {
+          window.location.href = `/product.html?id=${doc.id}`;
+        });
+
+        searchResults.appendChild(resultItem);
+      }
+    });
+
+    searchResults.style.display = found ? "block" : "none";
+  });
+
+  // Hide dropdown if clicked outside
+  document.addEventListener("click", (e) => {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.style.display = "none";
+    }
+  });
   const logoutBtn = document.querySelector("#logoutBtn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async (e) => {
