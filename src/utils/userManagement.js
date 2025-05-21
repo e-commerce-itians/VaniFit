@@ -12,7 +12,6 @@ import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 const formErrors = {
   email: "invalid email format.",
   password: "passwords are at least 6 characters length.",
-  "password confirmation": "password confirmation must match password.",
   name: "names must be alphabetic with 3 to 32 characters length.",
   phone: "invalid phone number format.",
   address: "invalid address format.",
