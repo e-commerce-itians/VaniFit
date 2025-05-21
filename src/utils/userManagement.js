@@ -6,7 +6,7 @@ import {
   reauthenticateWithCredential,
   deleteUser,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 
 // firebase error messages
 const formErrors = {
@@ -234,5 +234,16 @@ export async function changeUserPassword(user, oldPassword, newPassword) {
     }
   } catch (error) {
     throw error;
+  }
+}
+
+// delete user from firebase auth and firestore
+export async function removeUser(user) {
+  try {
+    await deleteDoc(doc(App.firebase.db, "users", user.uid));
+    await deleteUser(user);
+    return true;
+  } catch (error) {
+    return false;
   }
 }

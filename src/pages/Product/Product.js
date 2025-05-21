@@ -24,7 +24,7 @@ export default async function Product({ id }) {
               >
             </li>
             <li class="breadcrumb-item">
-              <a href="#" class="text-decoration-none text-muted" id="productCategory">
+              <a href="#" class="text-decoration-none text-muted" id="productCategory" data-link>
                 ...
               </a>
             </li>
@@ -676,7 +676,8 @@ const compLoaded = async (id) => {
     if (elements.productGender)
       elements.productGender.textContent = data.category || "";
     if (elements.productCategory)
-      elements.productCategory.textContent = data.gender || "";
+      elements.productCategory.href = `/shop/${data.gender}`;
+    elements.productCategory.textContent = data.gender || "";
     if (elements.productDesc)
       elements.productDesc.textContent = data.description || "";
 
@@ -936,7 +937,7 @@ const compLoaded = async (id) => {
     // Visual feedback
     showCartSuccessFeedback();
     resetQuantity();
-    updateCartCounter();
+    App.updateCartCounter();
   });
 
   function validateSelection() {

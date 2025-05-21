@@ -1,5 +1,4 @@
 import Home from "./pages/Home/Home";
-import About from "./pages/About/About";
 import NotFound from "./pages/NotFound/NotFound";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -25,10 +24,6 @@ const routes = [
   {
     path: "/register",
     view: Register,
-  },
-  {
-    path: "/about",
-    view: About,
   },
   {
     path: "/profile",
@@ -76,7 +71,7 @@ export default async function router(stp = true) {
     App.authLoaded == true ? layout(await view(params)) : Splash();
 
   // Update navigation links to reflect the active route
-  const links = document.querySelectorAll(".nav-link");
+  const links = document.querySelectorAll(".navbar .nav-link");
   links.forEach((link) => {
     const linkPath = new URL(link.href).pathname;
     // Add 'active' class to the link if it matches the current path

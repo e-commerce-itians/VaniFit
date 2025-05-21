@@ -61,11 +61,14 @@ export default function Account() {
                       placeholder="Confirm new password"
                       required
                     />
-                    <div class="invalid-feedback" id="confirmPasswordError"></div>
+                    <div
+                      class="invalid-feedback"
+                      id="confirmPasswordError"
+                    ></div>
                   </div>
                   <button
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-dark d-block w-100 my-2"
                     id="changePasswordBtn"
                   >
                     <i class="fa-solid fa-key me-1"></i> Change Password
@@ -93,15 +96,23 @@ export default function Account() {
               </div>
               <div class="card-body">
                 <p class="card-text alert alert-danger">
-                  Deleting your account will result in all your data being permanently deleted, this action cannot be undone.
+                  Deleting your account will result in all your data being
+                  permanently deleted, this action cannot be undone.
                 </p>
                 <button
-                    id="deleteAccountBtn"
+                  id="deleteAccountBtn"
                   type="button"
-                  class="btn btn-danger me-2 mb-2"
+                  class="btn btn-danger d-block w-100 my-2"
                 >
-                    <i class="fa-solid fa-trash me-1"></i>Delete Account
+                  <i class="fa-solid fa-trash me-1"></i>Delete Account
                 </button>
+                <div id="deleteAccountOptions" class="alert alert-danger">
+                <p class="card-text">
+                Are you sure you want to proceed with account deletion?
+                </p>
+                  <button id="confirmDeleteBtn" class="btn btn-success">Yes</button>
+                  <button id="cancelDeleteBtn" class="btn btn-danger">No</button>
+                </div>
               </div>
             </div>
           </div>
@@ -134,6 +145,9 @@ const compLoaded = () => {
 
   const changePasswordBtn = document.querySelector("#changePasswordBtn");
   const deleteAccountBtn = document.querySelector("#deleteAccountBtn");
+  const deleteAccountOptions = document.querySelector("#deleteAccountOptions");
+  const confirmDeleteBtn = document.querySelector("#confirmDeleteBtn");
+  const cancelDeleteBtn = document.querySelector("#cancelDeleteBtn");
 
   oldPasswordInput.addEventListener("input", () => {
     validateData(
@@ -213,5 +227,18 @@ const compLoaded = () => {
         passwordUpdateError.classList.remove("d-none");
         passwordUpdateError.textContent = error;
       });
+  });
+
+  // account deletion handling
+  deleteAccountBtn.addEventListener("click", () => {
+    deleteAccountOptions.classList.remove("d-none");
+  });
+
+  cancelDeleteBtn.addEventListener("click", () => {
+    deleteAccountBtn.classList.add("d-none");
+  });
+
+  confirmDeleteBtn.addEventListener("click", () => {
+    
   });
 };
