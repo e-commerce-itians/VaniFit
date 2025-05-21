@@ -1,5 +1,4 @@
 import Home from "./pages/Home/Home";
-import About from "./pages/About/About";
 import NotFound from "./pages/NotFound/NotFound";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -25,10 +24,6 @@ const routes = [
   {
     path: "/register",
     view: Register,
-  },
-  {
-    path: "/about",
-    view: About,
   },
   {
     path: "/profile",
