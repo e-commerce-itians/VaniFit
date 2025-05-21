@@ -133,6 +133,12 @@ const compLoaded = async () => {
   const userRef = doc(App.firebase.db, "users", App.firebase.user.uid);
   const userSnap = (await getDoc(userRef)).data();
 
+  // if user doesn't exist in firestore revert to home
+  if (!userSnap.exists()) {
+    App.navigator("/");
+    return;
+  }
+
   // check for missing profile information
   const missingInfoError = document.querySelector("#missingInfoError");
   const form = document.querySelector("#profileUpdateForm");

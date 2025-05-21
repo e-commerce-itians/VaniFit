@@ -240,8 +240,9 @@ export async function changeUserPassword(user, oldPassword, newPassword) {
 // delete user from firebase auth and firestore
 export async function removeUser(user) {
   try {
-    await deleteDoc(doc(App.firebase.db, "users", user.uid));
+    const userId = user.uid;
     await deleteUser(user);
+    await deleteDoc(doc(App.firebase.db, "users", userId));
     return true;
   } catch (error) {
     return false;
