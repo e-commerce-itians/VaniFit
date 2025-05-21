@@ -71,7 +71,7 @@ export default async function router(stp = true) {
     App.authLoaded == true ? layout(await view(params)) : Splash();
 
   // Update navigation links to reflect the active route
-  const links = document.querySelectorAll(".nav-link");
+  const links = document.querySelectorAll(".navbar .nav-link");
   links.forEach((link) => {
     const linkPath = new URL(link.href).pathname;
     // Add 'active' class to the link if it matches the current path
