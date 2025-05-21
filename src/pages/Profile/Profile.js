@@ -75,7 +75,7 @@ export default function Profile() {
                   </div>
                   <button
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-dark d-block w-100 my-2"
                     id="updateProfileBtn"
                   >
                     <i class="fa-solid fa-save me-1"></i> Save Changes
@@ -107,7 +107,7 @@ export default function Profile() {
                 </p>
                 <button
                   type="button"
-                  class="btn btn-outline-secondary me-2 mb-2"
+                  class="btn btn-dark d-block w-100 my-2"
                 >
                   <a href="./account" data-link>
                     <i class="fa-solid fa-key me-1"></i>Change Account Settings

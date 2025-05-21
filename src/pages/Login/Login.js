@@ -14,7 +14,7 @@ export default function Login() {
     <div component="${componentID}">
       <div class="container my-5">
         <div class="row justify-content-center align-items-center mt-5">
-            <div
+          <div
             id="loginError"
             class="alert alert-danger mb-2 text-center d-none col-10 col-md-7 col-lg-5"
             role="alert"

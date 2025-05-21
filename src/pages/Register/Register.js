@@ -263,7 +263,6 @@ const compLoaded = () => {
       .then((user) => {
         updateProfile(user, {
           displayName: `${firstName} ${lastName}`,
-          photoURL: "#",
         });
       })
       .then(() => {
