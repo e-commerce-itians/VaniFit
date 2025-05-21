@@ -73,10 +73,6 @@
   cursor: pointer;
 }
 
-.search-result-container {
-  
-}
-
 @keyframes fadeInDropdown {
   from {
     opacity: 0;
