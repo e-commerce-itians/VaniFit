@@ -7,6 +7,7 @@ import {
   createUserDocument,
   updateUserDocument,
 } from "../../utils/userManagement";
+import "./Register.css";
 
 const componentID = "register";
 
@@ -24,124 +25,122 @@ export default function Register() {
         </div>
         <div class="row justify-content-center align-items-center">
           <div
-            class="bg-body-secondary col-10 col-md-7 col-lg-5 m-3 p-4 rounded-4"
+            class="register-card bg-body-secondary col-10 col-md-7 col-lg-5 m-3 p-4 rounded-4 shadow"
           >
-            <form id="registerForm" novalidate>
-              <h2 class="mb-4 text-center">Register</h2>
-              <div class="mb-3">
-                <label for="firstName" class="form-label"
+            <form id="registerForm" novalidate autocomplete="on">
+              <h2 class="mb-4 text-center fw-bold register-title">Create Account</h2>
+              <div class="mb-3 position-relative">
+                <label for="firstName" class="form-label fw-semibold"
                   >First Name<span class="text-danger">*</span></label
                 >
                 <input
                   type="text"
                   name="firstName"
                   id="firstName"
-                  class="form-control"
+                  class="form-control register-input"
                   placeholder="John"
                   required
                 />
                 <div class="invalid-feedback" id="firstNameError"></div>
               </div>
-              <div class="mb-3">
-                <label for="lastName" class="form-label"
+              <div class="mb-3 position-relative">
+                <label for="lastName" class="form-label fw-semibold"
                   >Last Name<span class="text-danger">*</span></label
                 >
                 <input
                   type="text"
                   name="lastName"
                   id="lastName"
-                  class="form-control"
+                  class="form-control register-input"
                   placeholder="Doe"
                   required
                 />
                 <div class="invalid-feedback" id="lastNameError"></div>
               </div>
-              <div class="mb-3">
-                <label for="email" class="form-label"
+              <div class="mb-3 position-relative">
+                <label for="email" class="form-label fw-semibold"
                   >Email<span class="text-danger">*</span></label
                 >
                 <input
                   type="email"
                   name="email"
                   id="email"
-                  class="form-control"
+                  class="form-control register-input"
                   placeholder="user@example.com"
                   required
                 />
                 <div class="invalid-feedback" id="emailError"></div>
               </div>
-              <div class="mb-3">
-                <label for="password" class="form-label"
+              <div class="mb-3 position-relative">
+                <label for="password" class="form-label fw-semibold"
                   >Password<span class="text-danger">*</span></label
                 >
                 <input
                   type="password"
                   name="password"
                   id="password"
-                  class="form-control"
-                  placeholder="enter your password"
+                  class="form-control register-input"
+                  placeholder="Enter your password"
                   required
                 />
                 <div class="invalid-feedback" id="passwordError"></div>
               </div>
-              <div class="mb-3">
-                <label for="confirm-password" class="form-label"
+              <div class="mb-3 position-relative">
+                <label for="confirm-password" class="form-label fw-semibold"
                   >Confirm Password<span class="text-danger">*</span></label
                 >
                 <input
                   type="password"
                   name="confirmPassword"
                   id="confirmPassword"
-                  class="form-control"
-                  placeholder="confirm password"
+                  class="form-control register-input"
+                  placeholder="Confirm password"
                   required
                 />
                 <div class="invalid-feedback" id="confirmPasswordError"></div>
               </div>
-              <div class="mb-3">
-                <label for="phone" class="form-label"
+              <div class="mb-3 position-relative">
+                <label for="phone" class="form-label fw-semibold"
                   >Phone Number<span class="text-danger">*</span></label
                 >
                 <input
                   type="tel"
                   name="phone"
                   id="phone"
-                  class="form-control"
+                  class="form-control register-input"
                   placeholder="+20 123-4567-890"
                   required
                 />
                 <div class="invalid-feedback" id="phoneError"></div>
               </div>
-              <div class="mb-3">
-                <label for="address" class="form-label"
+              <div class="mb-3 position-relative">
+                <label for="address" class="form-label fw-semibold"
                   >Address<span class="text-danger">*</span></label
                 >
                 <input
                   type="text"
                   name="address"
                   id="address"
-                  class="form-control"
+                  class="form-control register-input"
                   placeholder="123 Main Street, City, State, ZIP"
                   required
                 />
                 <div class="invalid-feedback" id="addressError"></div>
               </div>
-              <div class="mb-3">
+              <div class="mb-3 d-flex flex-column gap-2">
                 <button
                   type="submit"
                   id="registerBtn"
-                  class="btn btn-dark d-block w-100 my-2"
+                  class="btn btn-dark d-block w-100 my-2 register-btn"
                 >
-                  <i class="fa-solid fa-envelope me-1"></i
-                  ><span class="d-none d-sm-inline">Register with Email</span>
+                  <i class="fa-solid fa-envelope me-1"></i>
+                  <span class="d-none d-sm-inline">Register with Email</span>
                 </button>
               </div>
-              <div class="text-center">
+              <div class="text-center mt-3">
                 <span class="text-muted">
                   Already have an account?
-                  <a href="./login" class="text-decoration-underline" data-link
-                    >Login</a
-                  >
+                  <a href="./login" class="text-decoration-underline" data-link>Login</a>
                 </span>
               </div>
             </form>
