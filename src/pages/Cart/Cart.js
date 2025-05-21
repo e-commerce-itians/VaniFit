@@ -232,25 +232,29 @@ const compLoaded = () => {
   function updateOrderSummary(subtotal, discount, savings) {
     const total = subtotal - discount;
 
-    document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById("discount").textContent = `-$${discount.toFixed(
-      2
-    )}`;
-    document.getElementById("savings").textContent = `$${savings.toFixed(2)}`;
-    document.getElementById("total").textContent = `$${total.toFixed(2)}`;
+    const subtotalElem = document.getElementById("subtotal");
+    const discountElem = document.getElementById("discount");
+    const savingsElem = document.getElementById("savings");
+    const totalElem = document.getElementById("total");
+
+    if (subtotalElem) subtotalElem.textContent = `$${subtotal.toFixed(2)}`;
+    if (discountElem) discountElem.textContent = `-$${discount.toFixed(2)}`;
+    if (savingsElem) savingsElem.textContent = `$${savings.toFixed(2)}`;
+    if (totalElem) totalElem.textContent = `$${total.toFixed(2)}`;
   }
 
   // Initialize
   renderCart();
 
-  document
-    .getElementById("checkout-btn")
-    .addEventListener("click", function () {
+  const checkoutBtn = document.getElementById("checkout-btn");
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", function () {
       const total = Number(
         document.getElementById("total").textContent.replace("$", "")
       );
       stripe(total);
     });
+  }
 
   async function stripe(price) {
     const response = await fetch("https://adel.dev/scripts/stripe.php", {

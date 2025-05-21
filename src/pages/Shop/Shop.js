@@ -116,6 +116,10 @@ const compLoaded = async (gender, page) => {
   // Get initial page from URL
   currentPage = parseInt(page) || 1;
 
+  // Sync currentPage with URL on load
+  const urlParams = new URLSearchParams(window.location.search);
+  currentPage = parseInt(urlParams.get("page")) || 1;
+
   const productList = document.querySelector("#product-list");
   const colorFilterContainer = document.getElementById("color-filter-circles");
   let allColors = {};
@@ -299,9 +303,9 @@ const compLoaded = async (gender, page) => {
 
       // Add popstate event listener for browser back/forward navigation
       window.addEventListener("popstate", () => {
-        s;
-        currentPage = parseInt(page) || 1;
-        applyFilters(); // This will re-render with the correct page
+        const urlParams = new URLSearchParams(window.location.search);
+        currentPage = parseInt(urlParams.get("page")) || 1;
+        applyFilters();
       });
     })
     .catch((error) => {
@@ -390,6 +394,10 @@ function renderProducts(products) {
 
 // Add the renderPagination function
 function renderPagination(totalPages) {
+  // Remove old pagination if it exists
+  const oldPagination = document.querySelector(".pagination-container");
+  if (oldPagination) oldPagination.remove();
+
   const paginationContainer = document.createElement("div");
   paginationContainer.className = "pagination-container";
 
