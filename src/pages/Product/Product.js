@@ -937,7 +937,7 @@ const compLoaded = async (id) => {
     // Visual feedback
     showCartSuccessFeedback();
     resetQuantity();
-    updateCartCounter();
+    App.updateCartCounter();
   });
 
   function validateSelection() {
