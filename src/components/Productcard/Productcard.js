@@ -1,7 +1,7 @@
 import { observer } from "../../observer";
-import "./productCard.css";
+import "./Productcard.css";
 
-export default function productCard(
+export default function Productcard(
   productID,
   productTitle,
   productPrice,

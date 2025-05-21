@@ -1,7 +1,6 @@
 import { observer } from "../../observer";
 import "./Shop.css";
 import { collection, getDocs } from "firebase/firestore";
-import productCard from "../../components/productCard/productCard";
 const componentID = "shop";
 
 // Add these variables at the top of the file, after the imports
