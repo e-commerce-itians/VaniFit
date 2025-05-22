@@ -65,6 +65,7 @@ export default function Navbar() {
                     class="form-control border-0 rounded-end"
                     placeholder="Search..."
                     aria-label="Search"
+                    autocomplete="off"
                   />
                 </div>
                 <div
