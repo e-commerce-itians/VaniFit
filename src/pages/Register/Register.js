@@ -31,7 +31,7 @@ export default function Register() {
               <h2 class="mb-4 text-center fw-bold register-title">Create Account</h2>
               <div class="mb-3 position-relative">
                 <label for="firstName" class="form-label fw-semibold"
-                  >First Name<span class="text-danger">*</span></label
+                  >First Name<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="text"
@@ -45,7 +45,7 @@ export default function Register() {
               </div>
               <div class="mb-3 position-relative">
                 <label for="lastName" class="form-label fw-semibold"
-                  >Last Name<span class="text-danger">*</span></label
+                  >Last Name<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="text"
@@ -59,7 +59,7 @@ export default function Register() {
               </div>
               <div class="mb-3 position-relative">
                 <label for="email" class="form-label fw-semibold"
-                  >Email<span class="text-danger">*</span></label
+                  >Email<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="email"
@@ -73,7 +73,7 @@ export default function Register() {
               </div>
               <div class="mb-3 position-relative">
                 <label for="password" class="form-label fw-semibold"
-                  >Password<span class="text-danger">*</span></label
+                  >Password<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="password"
@@ -87,7 +87,7 @@ export default function Register() {
               </div>
               <div class="mb-3 position-relative">
                 <label for="confirm-password" class="form-label fw-semibold"
-                  >Confirm Password<span class="text-danger">*</span></label
+                  >Confirm Password<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="password"
@@ -101,7 +101,7 @@ export default function Register() {
               </div>
               <div class="mb-3 position-relative">
                 <label for="phone" class="form-label fw-semibold"
-                  >Phone Number<span class="text-danger">*</span></label
+                  >Phone Number<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="tel"
@@ -115,7 +115,7 @@ export default function Register() {
               </div>
               <div class="mb-3 position-relative">
                 <label for="address" class="form-label fw-semibold"
-                  >Address<span class="text-danger">*</span></label
+                  >Address<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="text"

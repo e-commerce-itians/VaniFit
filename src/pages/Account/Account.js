@@ -25,7 +25,7 @@ export default function Account() {
                 <form id="changePasswordForm" novalidate>
                   <div class="mb-3">
                     <label for="oldPassword" class="form-label"
-                      >Old Password<span class="text-danger">*</span></label
+                      >Old Password<span class="text-danger ms-1">*</span></label
                     >
                     <input
                       type="password"
@@ -39,7 +39,7 @@ export default function Account() {
                   </div>
                   <div class="mb-3">
                     <label for="newPassword" class="form-label"
-                      >New Password<span class="text-danger">*</span></label
+                      >New Password<span class="text-danger ms-1">*</span></label
                     >
                     <input
                       type="password"
@@ -53,7 +53,7 @@ export default function Account() {
                   </div>
                   <div class="mb-3">
                     <label for="confirmPassword" class="form-label"
-                      >Confirm Password<span class="text-danger">*</span></label
+                      >Confirm Password<span class="text-danger ms-1">*</span></label
                     >
                     <input
                       type="password"
