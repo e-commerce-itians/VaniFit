@@ -1028,7 +1028,7 @@ const compLoaded = async (id) => {
       elements.addToCartBtn.disabled = false;
       elements.addToCartBtn.classList.remove("btn-success");
       elements.addToCartBtn.classList.add("btn-dark");
-    }, 2000);
+    }, 1000);
   }
 
   function resetQuantity() {

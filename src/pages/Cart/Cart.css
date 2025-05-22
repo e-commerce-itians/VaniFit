@@ -241,4 +241,53 @@
       margin-top: 1rem;
     }
   }
+
+  /* Enhanced Customer Information and Payment Method Styles */
+  .customer-info,
+  .payment-method {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+  }
+
+  .customer-info h5,
+  .payment-method h5 {
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .form-control.rounded-0 {
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    padding-left: 0 !important;
+  }
+
+  .form-control.rounded-0:focus {
+    box-shadow: none;
+    border-color: #495057;
+  }
+
+  .form-check-input {
+    margin-top: 0.25rem;
+  }
+
+  .form-check-label {
+    cursor: pointer;
+  }
+
+  .payment-method .form-check {
+    padding-left: 0;
+  }
+
+  .payment-method .form-check-input {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+
+  .payment-method .fa-money-bill-wave,
+  .payment-method .fa-credit-card {
+    font-size: 1.25rem;
+    color: #6c757d;
+    width: 24px;
+    text-align: center;
+  }
 }
