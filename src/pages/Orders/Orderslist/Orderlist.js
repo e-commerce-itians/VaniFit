@@ -22,11 +22,21 @@ export default function Orderlist() {
                 </div>
                 <p class="mt-3">Loading your orders...</p>
               </div>
-              <div id="noOrdersMessage" class="text-center py-5 d-none">
-                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-                <h4>No orders found</h4>
-                <p class="text-muted">You haven't placed any orders yet</p>
-                <a href="/" class="btn btn-primary mt-3">Start Shopping</a>
+            </div>
+            <div id="noOrdersMessage" class="text-center py-3 d-none">
+              <div
+                class="d-flex flex-column align-items-center justify-content-center py-5"
+              >
+                <div class="mb-4">
+                  <i class="fas fa-shopping-basket fa-4x text-muted"></i>
+                </div>
+                <h3 class="h4 mb-3">No Orders Yet</h3>
+                <p class="text-muted mb-4">
+                  You haven't placed any orders with us yet.
+                </p>
+                <a href="/shop" class="btn btn-primary px-4" data-link>
+                  <i class="fas fa-store me-2"></i> Start Shopping
+                </a>
               </div>
             </div>
           </div>
@@ -57,16 +67,16 @@ async function loadOrders() {
     const orderDocRef = doc(App.firebase.db, "orders", App.firebase.user.uid);
     const orderDocSnap = await getDoc(orderDocRef);
 
-    ordersContainer.innerHTML = `<div class="d-flex flex-column align-items-center justify-content-center py-5">
-    <div class="mb-4">
-        <i class="fas fa-shopping-basket fa-4x text-muted"></i>
-    </div>
-    <h3 class="h4 mb-3">No Orders Yet</h3>
-    <p class="text-muted mb-4">You haven't placed any orders with us yet.</p>
-    <a href="/shop" class="btn btn-primary px-4" data-link>
-        <i class="fas fa-store me-2"></i> Start Shopping
-    </a>
-</div>`;
+    //     ordersContainer.innerHTML = `<div class="d-flex flex-column align-items-center justify-content-center py-5">
+    //     <div class="mb-4">
+    //         <i class="fas fa-shopping-basket fa-4x text-muted"></i>
+    //     </div>
+    //     <h3 class="h4 mb-3">No Orders Yet</h3>
+    //     <p class="text-muted mb-4">You haven't placed any orders with us yet.</p>
+    //     <a href="/shop" class="btn btn-primary px-4" data-link>
+    //         <i class="fas fa-store me-2"></i> Start Shopping
+    //     </a>
+    // </div>`;
 
     // Hide loading indicator
     loadingIndicator.classList.add("d-none");
