@@ -30,7 +30,7 @@ export default async function Cart() {
                   <div class="mb-3">
                     <label for="customer-address" class="form-label small text-muted">Address</label>
                     <input class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-address" rows="2" placeholder="Your Address" value="${
-                      App.firebase.user.address
+                      App.firebase.user.address ? App.firebase.user.address : ``
                     }" required>
                   </div>
                   <div class="mb-3">
