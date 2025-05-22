@@ -116,6 +116,12 @@ export default function Profile() {
                 </button>
               </div>
             </div>
+            <div class="card profile-section-card mb-4">
+              <div class="card-header bg-white py-3">
+              <h5 class="mb-0">Recent Orders</h5>
+              </div>
+              <div class="card-body"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -135,7 +141,7 @@ const compLoaded = async () => {
   const userSnap = (await getDoc(userRef)).data();
 
   // if user doesn't exist in firestore revert to home
-  if (!userSnap.exists()) {
+  if (!userSnap) {
     App.navigator("/");
     return;
   }
@@ -187,6 +193,7 @@ const compLoaded = async () => {
     const data = { phoneNumber: phone, address: address };
     updateUserDocument(App.firebase.user, data)
       .then(() => {
+        // reset ui to initial state on success
         Array.from(e.target.elements).forEach(
           (item) => (item.disabled = false)
         );
