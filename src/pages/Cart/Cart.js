@@ -19,24 +19,66 @@ export default async function Cart() {
               <h3 class="mb-4">Order Summary</h3>
 
               <div id="orderSummary">
-                <div class="summary-row">
-                  <span>Subtotal</span>
-                  <span id="subtotal">$0</span>
+                <div class="customer-info mb-4 p-3 bg-light rounded">
+                  <h5 class="mb-3 fw-bold border-bottom pb-2">Customer Information</h5>
+                  <div class="mb-3">
+                    <label for="customer-name" class="form-label small text-muted">Full Name</label>
+                    <input type="text" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-name" placeholder="John Doe" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="customer-address" class="form-label small text-muted">Address</label>
+                    <input class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-address" rows="2" placeholder="123 Main St, City, Country" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="customer-phone" class="form-label small text-muted">Phone Number</label>
+                    <input type="tel" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-phone" placeholder="+1 (123) 456-7890" required>
+                  </div>
                 </div>
 
-                <div class="summary-row">
-                  <span>Discounts</span>
-                  <span id="discount">-$0</span>
+                <div class="payment-method mb-4 p-3 bg-light rounded">
+                  <h5 class="mb-3 fw-bold border-bottom pb-2">Payment Method</h5>
+                  <div class="form-check py-2 border-bottom">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD" checked>
+                    <label class="form-check-label d-flex align-items-center" for="cod">
+                      <i class="fas fa-money-bill-wave me-2"></i>
+                      <div>
+                        <div class="fw-medium">Cash on Delivery (COD)</div>
+                        <div class="small text-muted">Pay when you receive your order</div>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="form-check py-2">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
+                    <label class="form-check-label d-flex align-items-center" for="creditCard">
+                      <i class="far fa-credit-card me-2"></i>
+                      <div>
+                        <div class="fw-medium">Credit Card Payment</div>
+                        <div class="small text-muted">Secure payment with Stripe</div>
+                      </div>
+                    </label>
+                  </div>
                 </div>
 
-                <div class="summary-row savings-row">
-                  <span>You saved</span>
-                  <span id="savings">$0</span>
-                </div>
+                <div class="summary-details">
+                  <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">$0</span>
+                  </div>
 
-                <div class="summary-row total-row">
-                  <span>Total</span>
-                  <span id="total">$0</span>
+                  <div class="summary-row">
+                    <span>Discounts</span>
+                    <span id="discount">-$0</span>
+                  </div>
+
+                  <div class="summary-row savings-row">
+                    <span>You saved</span>
+                    <span id="savings">$0</span>
+                  </div>
+
+                  <div class="summary-row total-row">
+                    <span>Total</span>
+                    <span id="total">$0</span>
+                  </div>
                 </div>
 
                 <div class="promo-input" style="display:none">
@@ -47,11 +89,11 @@ export default async function Cart() {
                   />
                   <button class="btn btn-outline-dark">Apply</button>
                 </div>
-                  ${
-                    App.firebase.user.email
-                      ? `<button id="checkout-btn" class="btn btn-dark w-100 mt-3">Go to Checkout →</button>`
-                      : `<a href="/login" class="btn btn-dark w-100 mt-3" data-link><i class="fa-solid fa-lock me-1"></i> Login to checkout</a>`
-                  }
+                ${
+                  App.firebase.user.email
+                    ? `<button id="checkout-btn" class="btn btn-dark w-100 mt-3">Place Order</button>`
+                    : `<a href="/login" class="btn btn-dark w-100 mt-3" data-link><i class="fa-solid fa-lock me-1"></i> Login to checkout</a>`
+                }
               </div>
             </div>
           </div>
@@ -60,6 +102,7 @@ export default async function Cart() {
     </div>
   `;
 }
+
 const compLoaded = () => {
   let cart = App.getCart();
   const cartContainer = document.getElementById("cart-items-container");
@@ -74,7 +117,7 @@ const compLoaded = () => {
     summaryContainer.style.display = "block";
     if (cart.length === 0) {
       cartContainer.innerHTML = "<p>Your cart is empty</p>";
-      summaryContainer.innerHTML = `<p class="text-muted text-center">Your cart’s feeling a little lonely!</p>`;
+      summaryContainer.innerHTML = `<p class="text-muted text-center">Your cart's feeling a little lonely!</p>`;
       updateOrderSummary(0, 0, 0);
       return;
     }
@@ -249,32 +292,79 @@ const compLoaded = () => {
   const checkoutBtn = document.getElementById("checkout-btn");
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", function () {
+      // Validate customer info
+      const name = document.getElementById("customer-name").value.trim();
+      const address = document.getElementById("customer-address").value.trim();
+      const phone = document.getElementById("customer-phone").value.trim();
+      const paymentMethod = document.querySelector(
+        'input[name="paymentMethod"]:checked'
+      ).value;
+
+      if (!name || !address || !phone) {
+        alert("Please fill in all customer information fields");
+        return;
+      }
+
       const total = Number(
         document.getElementById("total").textContent.replace("$", "")
       );
-      stripe(total);
+
+      // Prepare order data
+      const orderData = {
+        customer: { name, address, phone },
+        paymentMethod,
+        items: cart,
+        subtotal: document.getElementById("subtotal").textContent,
+        discount: document.getElementById("discount").textContent,
+        total: document.getElementById("total").textContent,
+        timestamp: new Date().toISOString(),
+      };
+
+      if (paymentMethod === "Credit Card") {
+        // Process credit card payment via Stripe
+        stripe(total, orderData);
+      } else {
+        // Process COD order
+        processCODOrder(orderData);
+      }
     });
   }
 
-  async function stripe(price) {
-    const response = await fetch("https://adel.dev/scripts/stripe.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: price,
-        name: App.title,
-        secertKey:
-          "sk_test_51RQUeBR6Vx60GccVjxM25syN5gooDpXXIqnCsMI4e5c4TGPmohrgAFGR5ea6TnPwYIMbjsZRsUp1bRcGETr8HWt100YMf0mwe9",
-        onSuccess: "http://localhost:5173/success",
-        onCancel: "http://localhost:5173/cart",
-      }),
-    });
+  async function processCODOrder(orderData) {
+    try {
+      localStorage.setItem("pendingOrder", JSON.stringify(orderData));
+      App.navigator("/orders/success");
+    } catch (error) {
+      console.error("Error processing COD order:", error);
+    }
+  }
 
-    const data = await response.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      alert("Error: " + data.error);
+  async function stripe(price, orderData) {
+    try {
+      const response = await fetch("https://adel.dev/scripts/stripe.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: price,
+          name: App.title,
+          secertKey:
+            "sk_test_51RQUeBR6Vx60GccVjxM25syN5gooDpXXIqnCsMI4e5c4TGPmohrgAFGR5ea6TnPwYIMbjsZRsUp1bRcGETr8HWt100YMf0mwe9",
+          onSuccess: "http://localhost:5173/orders/success",
+          onCancel: "http://localhost:5173/cart",
+        }),
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        // Save order data temporarily (you might want to save to database instead)
+        localStorage.setItem("pendingOrder", JSON.stringify(orderData));
+        window.location.href = data.url;
+      } else {
+        alert("Error: " + (data.error || "Unable to process payment"));
+      }
+    } catch (error) {
+      console.error("Stripe error:", error);
+      alert("There was an error processing your payment. Please try again.");
     }
   }
 };
