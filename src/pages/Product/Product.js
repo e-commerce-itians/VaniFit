@@ -225,13 +225,22 @@ export default async function Product({ id }) {
                 All Reviews <span class="text-muted" id="reviewsCount"></span>
               </h4>
               <div class="d-flex gap-2">
-                <button class="btn btn-light rounded-pill p-2">
-                  Latest <i class="bi bi-chevron-down"></i>
-                </button>
-                <button class="btn btn-dark rounded-pill p-2" id="writeReviewBtn" data-product-id="${id}">
-                  Write a Review
-                </button>
-              </div>
+  <div class="dropdown">
+    <button class="btn btn-light rounded-pill p-2 dropdown-toggle" id="sortReviewsBtn" data-bs-toggle="dropdown" aria-expanded="false">
+      Latest
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="sortReviewsBtn">
+      <li><a class="dropdown-item" href="#" data-sort="latest">Latest </a></li>
+      <li><a class="dropdown-item" href="#" data-sort="oldest">Oldest </a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#" data-sort="highest">Highest </a></li>
+      <li><a class="dropdown-item" href="#" data-sort="lowest">Lowest </a></li>
+    </ul>
+  </div>
+  <button class="btn btn-dark rounded-pill p-2" id="writeReviewBtn" data-product-id="${id}">
+    Write a Review
+  </button>
+</div>
             </div>
 
             <!-- Review Modal -->
@@ -760,7 +769,6 @@ const compLoaded = async (id) => {
       );
       const reviewsData = reviewsSnap.exists() ? reviewsSnap.data() : null;
 
-      console.log(reviewsData);
       if (reviewsData?.reviews?.length > 0) {
         renderProductReviews(reviewsData.reviews);
         const avgRating = calculateAverageRating(reviewsData.reviews);
@@ -1208,6 +1216,79 @@ const compLoaded = async (id) => {
         submitReviewBtn.disabled = false;
         submitReviewBtn.innerHTML = "Submit Review";
       }
+    });
+  }
+
+  // Sorting functionality
+  const sortReviewsBtn = document.getElementById("sortReviewsBtn");
+  let currentSortMethod = "latest"; // Default sort method
+
+  if (sortReviewsBtn) {
+    // Handle dropdown item clicks
+    document.querySelectorAll("[data-sort]").forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentSortMethod = e.target.dataset.sort;
+
+        // Update button text
+        const dropdownTextMap = {
+          latest: "Latest ",
+          oldest: "Oldest ",
+          highest: "Highest ",
+          lowest: "Lowest ",
+        };
+        sortReviewsBtn.innerHTML = `${dropdownTextMap[currentSortMethod]}`;
+
+        // Reload reviews with new sort method
+        loadProductReviews(id);
+      });
+    });
+  }
+
+  // Modify the renderProductReviews function to handle sorting
+  function renderProductReviews(reviews) {
+    // Sort reviews based on current method
+    const sortedReviews = [...reviews].sort((a, b) => {
+      switch (currentSortMethod) {
+        case "latest":
+          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+        case "oldest":
+          return (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0);
+        case "highest":
+          return (parseFloat(b.rate) || 0) - (parseFloat(a.rate) || 0);
+        case "lowest":
+          return (parseFloat(a.rate) || 0) - (parseFloat(b.rate) || 0);
+        default:
+          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+      }
+    });
+
+    elements.reviewsContainer.innerHTML = "";
+    if (elements.reviewsCount)
+      elements.reviewsCount.textContent = `(${sortedReviews.length})`;
+
+    sortedReviews.forEach((review) => {
+      const reviewHTML = `
+    <div class="col-md-6 mb-4">
+      <div class="card p-4 h-100">
+        ${createReviewStars(review.rate)}
+        <div class="mb-3">
+          <div class="d-flex align-items-center">
+            <h6 class="fw-bold mb-0 me-2">${review.displayName}</h6>
+            <span class="badge bg-success rounded-circle p-1">
+              <i class="bi bi-check"></i>
+            </span>
+          </div>
+          <p class="text-muted mt-2">${review.message}</p>
+        </div>
+        <div class="d-flex justify-content-between text-muted">
+          <small>Posted on ${formatReviewDate(review.createdAt)}</small>
+          <small>Rating: ${review.rate}/5</small>
+        </div>
+      </div>
+    </div>
+    `;
+      elements.reviewsContainer.insertAdjacentHTML("beforeend", reviewHTML);
     });
   }
 
