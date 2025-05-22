@@ -1,7 +1,16 @@
 import "./Product.css";
 import Getdata from "../../utils/getData";
 import { observer } from "../../observer";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  documentId,
+  getDoc,
+  getDocs,
+  limit,
+  query,
+  where,
+} from "firebase/firestore";
 import Productcard from "../../components/Productcard/Productcard";
 const componentID = "product";
 
@@ -121,7 +130,7 @@ export default async function Product({ id }) {
             </div>
 
             <hr />
-
+            <div class="text-danger d-block mb-3" id="cartError"></div>
               <div class="d-flex align-items-center mb-5">
                 <div class="btn-group me-3" role="group">
                   <button class="btn btn-light" id="decrement-btn">-</button>
@@ -213,10 +222,10 @@ export default async function Product({ id }) {
                 All Reviews <span class="text-muted" id="reviewsCount"></span>
               </h4>
               <div class="d-flex gap-2">
-                <button class="btn btn-light rounded-pill">
+                <button class="btn btn-light rounded-pill p-2">
                   Latest <i class="bi bi-chevron-down"></i>
                 </button>
-                <button class="btn btn-dark rounded-pill">
+                <button class="btn btn-dark rounded-pill p-2">
                   Write a Review
                 </button>
               </div>
@@ -537,7 +546,7 @@ export default async function Product({ id }) {
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content bg-transparent border-0">
           <div class="modal-body text-center p-0">
-            <img id="modalImage" src="" class="img-fluid" alt="Preview" />
+            <img id="modalImage" src="" class="img-fluid rounded-4" alt="Preview" />
           </div>
           <button
             type="button"
@@ -571,6 +580,7 @@ const compLoaded = async (id) => {
   // DOM elements
   const elements = {
     quantity: document.getElementById("quantity-display"),
+    cartError: document.getElementById("cartError"),
     incrementBtn: document.getElementById("increment-btn"),
     decrementBtn: document.getElementById("decrement-btn"),
     addToCartBtn: document.getElementById("add-to-cart"),
@@ -662,7 +672,7 @@ const compLoaded = async (id) => {
       const data = productDoc.data();
       updateProductDetails(data);
       await loadProductReviews(id);
-      loadRelatedProducts();
+      loadRelatedProducts(data, id);
     } catch (error) {
       console.error("Product loading error:", error);
       App.navigator("/");
@@ -757,13 +767,64 @@ const compLoaded = async (id) => {
     });
   }
 
-  function loadRelatedProducts() {
-    if (!elements.moreProducts) return;
+  async function loadRelatedProducts(currentProduct, currentProductID) {
+    if (!elements.moreProducts || !currentProduct) return;
 
-    elements.moreProducts.innerHTML = "";
-    getDocs(collection(App.firebase.db, "products"))
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+    try {
+      const productsRef = collection(App.firebase.db, "products");
+      let relatedProducts = [];
+      const maxResults = 4; // Number of related products to show
+
+      //Try to get products with same category AND same gender first
+      if (currentProduct.category && currentProduct.gender) {
+        const strictQuery = query(
+          productsRef,
+          where("category", "==", currentProduct.category),
+          where("gender", "==", currentProduct.gender),
+          where(documentId(), "!=", currentProductID),
+          limit(maxResults)
+        );
+        const strictSnapshot = await getDocs(strictQuery);
+        strictSnapshot.forEach((doc) => relatedProducts.push(doc));
+      }
+
+      //If not enough, try same category OR same gender
+      if (relatedProducts.length < maxResults) {
+        const needed = maxResults - relatedProducts.length;
+        const orConditions = [];
+
+        if (currentProduct.category) {
+          orConditions.push(where("category", "==", currentProduct.category));
+        }
+        if (currentProduct.gender) {
+          orConditions.push(where("gender", "==", currentProduct.gender));
+        }
+
+        // Firestore doesn't support OR directly, so we need separate queries
+        const queries = orConditions.map((condition) =>
+          query(
+            productsRef,
+            condition,
+            where(documentId(), "!=", currentProductID),
+            limit(needed)
+          )
+        );
+
+        for (const q of queries) {
+          if (relatedProducts.length >= maxResults) break;
+          const snapshot = await getDocs(q);
+          snapshot.forEach((doc) => {
+            if (!relatedProducts.some((p) => p.id === doc.id)) {
+              relatedProducts.push(doc);
+            }
+          });
+        }
+      }
+
+      // Display results
+      if (relatedProducts.length > 0) {
+        elements.moreProducts.innerHTML = "";
+        relatedProducts.forEach((doc) => {
           const data = doc.data();
           elements.moreProducts.innerHTML += Productcard(
             doc.id,
@@ -774,11 +835,13 @@ const compLoaded = async (id) => {
             data.colors
           );
         });
-      })
-      .catch((error) => {
-        console.error("Related products error:", error);
-        elements.moreProducts.innerHTML = `<span class="mx-auto">No additional products available</span>`;
-      });
+      } else {
+        elements.moreProducts.innerHTML = `<span class="mx-auto col-12 text-center">No related products available</span>`;
+      }
+    } catch (error) {
+      console.error("Related products error:", error);
+      elements.moreProducts.innerHTML = `<span class="mx-auto col-12 text-center">Error loading related products</span>`;
+    }
   }
 
   // Color and size selection
@@ -901,7 +964,7 @@ const compLoaded = async (id) => {
   // Cart functionality
   elements.addToCartBtn.addEventListener("click", () => {
     if (!validateSelection()) return;
-
+    cartError.innerText = "";
     const { productID, color, size, name, image, price, discount, max } =
       window.selectedItem;
     const cart = App.getCart();
@@ -914,10 +977,10 @@ const compLoaded = async (id) => {
       const remaining = maxQuantity - currentInCart;
       const message =
         remaining > 0
-          ? `You can only add ${remaining} more (${currentInCart} already in cart)`
-          : `Maximum ${maxQuantity} already in cart`;
+          ? `You can only add ${remaining} more items of this product. (${currentInCart} already in cart)`
+          : `You've reached the maximum quantity (50) of this product in your cart`;
 
-      alert(message);
+      cartError.innerText = message;
       return;
     }
 
@@ -942,11 +1005,11 @@ const compLoaded = async (id) => {
 
   function validateSelection() {
     if (!window.selectedItem.size) {
-      alert("Please select a size");
+      cartError.innerText = "Please select a size";
       return false;
     }
     if (!window.selectedItem.color) {
-      alert("Please select a color");
+      cartError.innerText = "Please select a color";
       return false;
     }
     return true;
