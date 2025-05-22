@@ -6,7 +6,7 @@ const componentID = "orderlist";
 export default function Orderlist() {
   observer(componentID, compLoaded);
   return /*html*/ `
-    <div component="${componentID}" class="container py-5">
+    <div component="${componentID}" class="container my-5">
       <div class="container py-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h1 class="mb-0">My Orders</h1>
@@ -57,6 +57,17 @@ async function loadOrders() {
     const orderDocRef = doc(App.firebase.db, "orders", App.firebase.user.uid);
     const orderDocSnap = await getDoc(orderDocRef);
 
+    ordersContainer.innerHTML = `<div class="d-flex flex-column align-items-center justify-content-center py-5">
+    <div class="mb-4">
+        <i class="fas fa-shopping-basket fa-4x text-muted"></i>
+    </div>
+    <h3 class="h4 mb-3">No Orders Yet</h3>
+    <p class="text-muted mb-4">You haven't placed any orders with us yet.</p>
+    <a href="/shop" class="btn btn-primary px-4" data-link>
+        <i class="fas fa-store me-2"></i> Start Shopping
+    </a>
+</div>`;
+
     // Hide loading indicator
     loadingIndicator.classList.add("d-none");
 
@@ -81,7 +92,6 @@ async function loadOrders() {
     }
 
     // Display orders
-    ordersContainer.innerHTML = "You haven't placed any orders yet";
     orders.forEach((order, index) => {
       const orderElement = createOrderElement(order, index);
       ordersContainer.appendChild(orderElement);
