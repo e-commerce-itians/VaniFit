@@ -26,6 +26,7 @@ onAuthStateChanged(App.firebase.auth, async (user) => {
         App.firebase.user.role = "admin";
       }
     });
+    App.userCartGet();
   } else {
     //User is not logged in
     App.firebase.user = {};

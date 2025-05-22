@@ -2,6 +2,7 @@ import { firebaseApp, firebaseAuth, firebasedb } from "./utils/firebase.js";
 import router from "./router.js";
 import setdata from "./utils/setData.js";
 import getdata from "./utils/getData.js";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 // Global vars accessible anywhere in any component
 window.App = {
@@ -59,6 +60,7 @@ window.App = {
 
     localStorage.setItem("cart", JSON.stringify(safeCart));
     App.updateCartCounter();
+    App.userCartSave();
   },
 
   updateCartCounter: () => {
@@ -73,5 +75,44 @@ window.App = {
       navbarCounter.textContent = totalItems;
     }
     return totalItems;
+  },
+
+  //User Cart functions
+  //called on login
+  userCartGet: async () => {
+    try {
+      if (!App.firebase.user || !App.firebase.user.uid) return;
+
+      const cartRef = doc(App.firebase.db, "carts", App.firebase.user.uid);
+      const docSnap = await getDoc(cartRef);
+
+      if (docSnap.exists()) {
+        const firestoreCart = docSnap.data().cart || [];
+        localStorage.setItem("cart", JSON.stringify(firestoreCart));
+      }
+    } catch (error) {
+      console.error("Error loading cart from Firestore:", error);
+    }
+    App.updateCartCounter();
+    return [];
+  },
+  //called on logout
+  userCartSave: async () => {
+    try {
+      // Check if user is logged in
+      if (!App.firebase.user || !App.firebase.user.uid) {
+        console.log("User not logged in, can't save cart to Firestore");
+        return;
+      }
+
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const cartRef = doc(App.firebase.db, "carts", App.firebase.user.uid);
+      await setDoc(cartRef, {
+        cart: cart,
+        lastUpdated: new Date(),
+      });
+    } catch (error) {
+      console.error("Error saving cart to Firestore:", error);
+    }
   },
 };
