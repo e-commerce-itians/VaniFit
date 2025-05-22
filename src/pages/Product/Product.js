@@ -10,6 +10,9 @@ import {
   limit,
   query,
   where,
+  updateDoc,
+  arrayUnion,
+  setDoc,
 } from "firebase/firestore";
 import Productcard from "../../components/Productcard/Productcard";
 const componentID = "product";
@@ -225,12 +228,45 @@ export default async function Product({ id }) {
                 <button class="btn btn-light rounded-pill p-2">
                   Latest <i class="bi bi-chevron-down"></i>
                 </button>
-                <button class="btn btn-dark rounded-pill p-2">
+                <button class="btn btn-dark rounded-pill p-2" id="writeReviewBtn" data-product-id="${id}">
                   Write a Review
                 </button>
               </div>
             </div>
 
+            <!-- Review Modal -->
+            <div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Write a Review</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="reviewForm">
+                    <div class="mb-3">
+                      <label for="reviewRating" class="form-label">Rating</label>
+                      <select class="form-select" id="reviewRating" required>
+                        <option value="" selected disabled>Select rating</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Very Good</option>
+                        <option value="3">3 - Good</option>
+                        <option value="2">2 - Fair</option>
+                        <option value="1">1 - Poor</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="reviewMessage" class="form-label">Review</label>
+                      <textarea class="form-control" id="reviewMessage" rows="3" required placeholder="Share your thoughts about this product..."></textarea>
+                    </div>
+                    <div class="d-grid gap-2">
+                      <button type="submit" class="btn btn-dark" id="submitReviewBtn">Submit Review</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            </div>
             <!-- Reviews -->
             <div class="row" id="reviewsContainer">
               <p class="d-block col-12 text-center my-5 placeholder-glow">
@@ -724,6 +760,7 @@ const compLoaded = async (id) => {
       );
       const reviewsData = reviewsSnap.exists() ? reviewsSnap.data() : null;
 
+      console.log(reviewsData);
       if (reviewsData?.reviews?.length > 0) {
         renderProductReviews(reviewsData.reviews);
         const avgRating = calculateAverageRating(reviewsData.reviews);
@@ -755,7 +792,7 @@ const compLoaded = async (id) => {
                 <i class="bi bi-check"></i>
               </span>
             </div>
-            <p class="text-muted mt-2">"${review.message}"</p>
+            <p class="text-muted mt-2">${review.message}</p>
           </div>
           <div class="d-flex justify-content-between text-muted">
             <small>Posted on ${formatReviewDate(review.createdAt)}</small>
@@ -1085,6 +1122,92 @@ const compLoaded = async (id) => {
       year: "numeric",
       month: "long",
       day: "numeric",
+    });
+  }
+
+  // Review functionality
+  const reviewModal = new bootstrap.Modal(
+    document.getElementById("reviewModal")
+  );
+  const reviewForm = document.getElementById("reviewForm");
+  const writeReviewBtn = document.getElementById("writeReviewBtn");
+  const submitReviewBtn = document.getElementById("submitReviewBtn");
+
+  if (writeReviewBtn) {
+    writeReviewBtn.addEventListener("click", () => {
+      if (!App.firebase.user) {
+        App.navigator("/login");
+        return;
+      }
+      reviewModal.show();
+    });
+  }
+
+  if (reviewForm) {
+    reviewForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const rating = document.getElementById("reviewRating").value;
+      const message = document.getElementById("reviewMessage").value;
+      const productId = writeReviewBtn.dataset.productId;
+
+      if (!rating || !message) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      try {
+        submitReviewBtn.disabled = true;
+        submitReviewBtn.innerHTML = `
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Submitting...
+      `;
+
+        // Create review object
+        const newReview = {
+          uid: App.firebase.user.uid,
+          displayName: App.firebase.user.displayName,
+          rate: parseFloat(rating),
+          message: message,
+          createdAt: {
+            seconds: Math.floor(Date.now() / 1000),
+            nanoseconds: 0,
+          },
+        };
+
+        // Get existing reviews or create new document
+        const reviewRef = doc(App.firebase.db, "reviews", productId);
+        const reviewDoc = await getDoc(reviewRef);
+
+        if (reviewDoc.exists()) {
+          // Update existing reviews array
+          await updateDoc(reviewRef, {
+            reviews: arrayUnion(newReview),
+          });
+        } else {
+          // Create new document with reviews array
+          await setDoc(reviewRef, {
+            reviews: [newReview],
+          });
+        }
+
+        // Success feedback
+        submitReviewBtn.innerHTML = "✓ Submitted!";
+        setTimeout(() => {
+          reviewModal.hide();
+          reviewForm.reset();
+          submitReviewBtn.disabled = false;
+          submitReviewBtn.innerHTML = "Submit Review";
+
+          // Reload reviews to show the new one
+          loadProductReviews(productId);
+        }, 1000);
+      } catch (error) {
+        console.error("Error submitting review:", error);
+        alert("Failed to submit review. Please try again.");
+        submitReviewBtn.disabled = false;
+        submitReviewBtn.innerHTML = "Submit Review";
+      }
     });
   }
 
