@@ -135,49 +135,128 @@ const compLoaded = async () => {
   const q = query(collection(App.firebase.db, "products"));
   const querySnapshot = await getDocs(q);
 
+  // Debounce utility
+  let debounceTimeout;
+  function debounce(fn, delay) {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(fn, delay);
+  }
+
+  // Keyboard navigation state
+  let selectedIdx = -1;
+  let currentResults = [];
+
   async function performSearch() {
     const searchText = searchInput.value.trim().toLowerCase();
     searchResults.innerHTML = ``;
+    selectedIdx = -1;
+    currentResults = [];
     if (!searchText) {
       searchResults.classList.add("d-none");
       return;
     }
     try {
       let found = false;
-
       querySnapshot.forEach((doc) => {
         const product = doc.data();
         const name = product.name?.toLowerCase();
-
+        // Get the first image from colors.image_urls if available
+        let imgSrc = "/images/test.webp";
+        if (
+          product.colors &&
+          Array.isArray(product.colors) &&
+          product.colors[0]?.image_urls?.[0]
+        ) {
+          imgSrc = product.colors[0].image_urls[0];
+        }
         if (name && name.includes(searchText)) {
           found = true;
-
-          const resultItem = document.createElement("div");
-          resultItem.classList.add("search-result-item");
-          resultItem.textContent = product.name;
-
-          resultItem.addEventListener("click", () => {
-            App.navigator(`/product/${doc.id}`);
+          currentResults.push({
+            id: doc.id,
+            name: product.name,
+            image: imgSrc,
           });
-
-          searchResults.appendChild(resultItem);
         }
       });
-
       if (found) {
+        currentResults.forEach((item, idx) => {
+          const resultItem = document.createElement("div");
+          resultItem.classList.add("search-result-item");
+          resultItem.setAttribute("role", "option");
+          resultItem.setAttribute("tabindex", "-1");
+          // Highlight match
+          const regex = new RegExp(`(${searchText})`, "ig");
+          // Product image (fallback to placeholder if missing)
+          let imgSrc = item.image;
+          if (!imgSrc || imgSrc === "undefined") {
+            imgSrc = "/images/test.webp";
+          }
+          // Only show the image and the highlighted name, no extra icons
+          resultItem.innerHTML =
+            `<img src="${imgSrc}" alt="${item.name}" class="search-result-thumb me-2" />` +
+            `<span>` +
+            item.name.replace(regex, "<mark>$1</mark>") +
+            `</span>`;
+          resultItem.addEventListener("click", () => {
+            App.navigator(`/product/${item.id}`);
+            searchResults.classList.add("d-none");
+          });
+          searchResults.appendChild(resultItem);
+        });
         searchResults.classList.add("d-block");
         searchResults.classList.remove("d-none");
       } else {
-        searchResults.classList.remove("d-block");
-        searchResults.classList.add("d-none");
+        // No results UI (text only, no icon)
+        const noResult = document.createElement("div");
+        noResult.className = "search-result-item no-result text-muted py-2";
+        noResult.textContent = "No product with this name.";
+        searchResults.appendChild(noResult);
+        searchResults.classList.add("d-block");
+        searchResults.classList.remove("d-none");
       }
     } catch (error) {
       searchResults.classList.add("d-none");
     }
   }
 
-  searchInput.addEventListener("input", performSearch);
+  // Debounced search
+  searchInput.addEventListener("input", () => debounce(performSearch, 180));
   searchInput.addEventListener("focus", performSearch);
+
+  // Keyboard navigation for search results
+  searchInput.addEventListener("keydown", (e) => {
+    const items = searchResults.querySelectorAll(
+      ".search-result-item:not(.no-result)"
+    );
+    if (!items.length || searchResults.classList.contains("d-none")) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      selectedIdx = (selectedIdx + 1) % items.length;
+      items.forEach((el, i) =>
+        el.classList.toggle("active", i === selectedIdx)
+      );
+      items[selectedIdx].scrollIntoView({ block: "nearest" });
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      selectedIdx = (selectedIdx - 1 + items.length) % items.length;
+      items.forEach((el, i) =>
+        el.classList.toggle("active", i === selectedIdx)
+      );
+      items[selectedIdx].scrollIntoView({ block: "nearest" });
+    } else if (e.key === "Enter" && selectedIdx >= 0) {
+      e.preventDefault();
+      items[selectedIdx].click();
+    } else if (e.key === "Escape") {
+      searchResults.classList.add("d-none");
+    }
+  });
+
+  // Hide search results when clicking outside
+  document.addEventListener("mousedown", (e) => {
+    if (!searchResults.contains(e.target) && e.target !== searchInput) {
+      searchResults.classList.add("d-none");
+    }
+  });
 
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async (e) => {
