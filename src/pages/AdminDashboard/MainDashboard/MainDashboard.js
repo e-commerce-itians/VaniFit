@@ -3,6 +3,7 @@ import AddProduct from "../AddProduct/AddProduct";
 import "./MainDashboard.css";
 import Sidebar from "../Sidebar/Sidebar";
 import ProductList from "../ProductList/ProductList";
+import OrderManagement from "../OrderManagement/OrderManagement";
 const componentID = "MainDashboard";
 
 // Main dashboard component
@@ -37,12 +38,18 @@ export default function MainDashboard() {
 function initDashboard() {
   const productListBtn = document.querySelector("#productListBtn");
   const addProductBtn = document.querySelector("#addProductBtn");
+  const orderManagementBtn = document.querySelector("#orderManagementBtn");
   const mainContent = document.querySelector("#dashboard-content");
+
   productListBtn.addEventListener("click", () => {
     mainContent.innerHTML = ProductList();
   });
 
   addProductBtn.addEventListener("click", () => {
     mainContent.innerHTML = AddProduct();
+  });
+
+  orderManagementBtn.addEventListener("click", () => {
+    mainContent.innerHTML = OrderManagement();
   });
 }

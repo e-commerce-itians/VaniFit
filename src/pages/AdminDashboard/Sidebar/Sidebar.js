@@ -9,6 +9,7 @@ export default function Sidebar() {
         <h2>Admin Panel</h2>
         <button id="productListBtn">Product List</button>
         <button id="addProductBtn">Add Product</button>
+        <button id="orderManagementBtn">Orders</button>
     </div>
     `;
 }

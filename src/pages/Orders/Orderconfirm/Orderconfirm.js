@@ -1,5 +1,13 @@
 import { observer } from "../../../observer";
-import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import "./Orderconfirm.css";
 const componentID = "orderconfirm";
 
@@ -108,6 +116,7 @@ const compLoaded = async (status) => {
       status: "processing",
       userId: App.firebase.user.uid,
       createdAt: new Date().toISOString(),
+      lastUpdated: new Date().toISOString(),
     };
 
     // Save to Firebase
@@ -126,6 +135,9 @@ const compLoaded = async (status) => {
 
 async function saveOrderToFirebase(orderData) {
   try {
+    // Update product inventory first
+    await updateProductInventory(orderData.items);
+
     // Reference to user's order document in orders collection
     const orderDocRef = doc(App.firebase.db, "orders", App.firebase.user.uid);
 
@@ -196,4 +208,87 @@ function updateOrderUI(orderData) {
   document.getElementById("confirmationEmail").innerHTML = `
     A confirmation email has been sent to <strong>${App.firebase.user.email}</strong>
   `;
+}
+
+/**
+ * Updates product inventory quantities in Firestore when an order is placed
+ * @param {Array} orderItems - Array of items in the order
+ */
+async function updateProductInventory(orderItems) {
+  try {
+    if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
+      console.log("No items to update inventory for");
+      return;
+    }
+
+    // Group items by productId to batch process them
+    const productUpdates = {};
+
+    // Collect inventory changes needed per product
+    orderItems.forEach((item) => {
+      if (!productUpdates[item.productId]) {
+        productUpdates[item.productId] = [];
+      }
+
+      productUpdates[item.productId].push({
+        colorName: item.selectedColor,
+        size: item.selectedSize,
+        quantity: item.quantity,
+      });
+    });
+
+    // Process each product
+    for (const [productId, updates] of Object.entries(productUpdates)) {
+      const productRef = doc(App.firebase.db, "products", productId);
+      const productSnap = await getDoc(productRef);
+
+      if (!productSnap.exists()) {
+        console.warn(
+          `Product ${productId} not found in database, skipping inventory update`
+        );
+        continue;
+      }
+
+      const productData = productSnap.data();
+      let updated = false;
+
+      // Process each color in the product
+      if (productData.colors && Array.isArray(productData.colors)) {
+        productData.colors = productData.colors.map((color) => {
+          // Find updates for this color
+          const colorUpdates = updates.filter(
+            (update) =>
+              update.colorName.toLowerCase() === color.name.toLowerCase()
+          );
+
+          if (colorUpdates.length === 0) return color;
+
+          // Process size updates for this color
+          colorUpdates.forEach((update) => {
+            if (color.sizes && color.sizes[update.size] !== undefined) {
+              // Calculate new quantity (ensure it doesn't go below 0)
+              const newQuantity = Math.max(
+                0,
+                color.sizes[update.size] - update.quantity
+              );
+              color.sizes[update.size] = newQuantity;
+              updated = true;
+            }
+          });
+
+          return color;
+        });
+      }
+
+      // Update the product in Firestore if changes were made
+      if (updated) {
+        await updateDoc(productRef, { colors: productData.colors });
+      }
+    }
+
+    console.log("Inventory update completed successfully");
+  } catch (error) {
+    console.error("Error updating product inventory:", error);
+    // We don't throw the error to avoid disrupting the order process
+  }
 }

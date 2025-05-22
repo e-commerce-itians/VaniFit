@@ -1,0 +1,171 @@
+.order-management {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 15px;
+}
+
+.order-management h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.order-management .table {
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.order-management .table thead {
+  background-color: #f8f9fa;
+}
+
+.order-management .table th {
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+  color: #495057;
+  padding: 12px;
+}
+
+.order-management .table td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.order-management .status-select {
+  min-width: 140px;
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.order-management .status-select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Status colors for select options */
+.order-management .status-select option[value="processing"] {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.order-management .status-select option[value="shipped"] {
+  background-color: #007bff;
+  color: white;
+}
+
+.order-management .status-select option[value="on-the-way"] {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.order-management .status-select option[value="delivered"] {
+  background-color: #28a745;
+  color: white;
+}
+
+.order-management .status-select option[value="cancelled"] {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Status colors for select element itself */
+.order-management .status-select[value="processing"] {
+  background-color: #fff3cd;
+  border-color: #ffc107;
+  color: #856404;
+}
+
+.order-management .status-select[value="shipped"] {
+  background-color: #cce5ff;
+  border-color: #007bff;
+  color: #004085;
+}
+
+.order-management .status-select[value="on-the-way"] {
+  background-color: #d1ecf1;
+  border-color: #17a2b8;
+  color: #0c5460;
+}
+
+.order-management .status-select[value="delivered"] {
+  background-color: #d4edda;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.order-management .status-select[value="cancelled"] {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+.order-management .view-order-btn {
+  white-space: nowrap;
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  min-width: 100px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.order-management .view-order-btn:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.order-management .view-order-btn .spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.order-management .table-responsive {
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading spinner styles */
+.order-management .spinner-border {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Status background colors for the select element */
+.order-management .status-select.bg-success {
+  background-color: #28a745 !important;
+  border-color: #28a745;
+  color: white !important;
+}
+
+.order-management .status-select.bg-danger {
+  background-color: #dc3545 !important;
+  border-color: #dc3545;
+  color: white !important;
+}
+
+/* Hover effects for interactive elements */
+.order-management .status-select:not(:disabled):hover {
+  cursor: pointer;
+  border-color: #80bdff;
+}
