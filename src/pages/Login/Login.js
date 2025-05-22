@@ -29,7 +29,7 @@ export default function Login() {
               <h2 class="mb-4 text-center fw-bold login-title animate__animated animate__fadeIn">Welcome Back</h2>
               <div class="mb-3 position-relative">
                 <label for="email" class="form-label fw-semibold"
-                  >Email<span class="text-danger">*</span></label
+                  >Email<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="email"
@@ -43,7 +43,7 @@ export default function Login() {
               </div>
               <div class="mb-3 position-relative">
                 <label for="password" class="form-label fw-semibold"
-                  >Password<span class="text-danger">*</span></label
+                  >Password<span class="text-danger ms-1">*</span></label
                 >
                 <input
                   type="password"
