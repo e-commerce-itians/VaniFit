@@ -26,6 +26,14 @@ onAuthStateChanged(App.firebase.auth, async (user) => {
         App.firebase.user.role = "admin";
       }
     });
+
+    await getDoc(doc(App.firebase.db, "users", user.uid)).then((res) => {
+      let data = res.exists() ? res.data() : null;
+      if (data) {
+        App.firebase.user.address = data.address;
+        App.firebase.user.phoneNumber = data.phoneNumber;
+      }
+    });
     App.userCartGet();
   } else {
     //User is not logged in

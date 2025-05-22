@@ -23,15 +23,21 @@ export default async function Cart() {
                   <h5 class="mb-3 fw-bold border-bottom pb-2">Customer Information</h5>
                   <div class="mb-3">
                     <label for="customer-name" class="form-label small text-muted">Full Name</label>
-                    <input type="text" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-name" placeholder="John Doe" required>
+                    <input type="text" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-name" placeholder="Your Name" value="${
+                      App.firebase.user.displayName
+                    }" required>
                   </div>
                   <div class="mb-3">
                     <label for="customer-address" class="form-label small text-muted">Address</label>
-                    <input class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-address" rows="2" placeholder="123 Main St, City, Country" required>
+                    <input class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-address" rows="2" placeholder="Your Address" value="${
+                      App.firebase.user.address
+                    }" required>
                   </div>
                   <div class="mb-3">
                     <label for="customer-phone" class="form-label small text-muted">Phone Number</label>
-                    <input type="tel" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-phone" placeholder="+1 (123) 456-7890" required>
+                    <input type="tel" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-phone" placeholder="Your Phone Number" value="${
+                      App.firebase.user.phoneNumber
+                    }" required>
                   </div>
                 </div>
 
