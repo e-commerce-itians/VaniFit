@@ -1,3 +1,4 @@
+import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import {
   validateData,
   validatePasswordConfirmation,
@@ -25,7 +26,9 @@ export default function Account() {
                 <form id="changePasswordForm" novalidate>
                   <div class="mb-3">
                     <label for="oldPassword" class="form-label"
-                      >Old Password<span class="text-danger ms-1">*</span></label
+                      >Old Password<span class="text-danger ms-1"
+                        >*</span
+                      ></label
                     >
                     <input
                       type="password"
@@ -39,7 +42,9 @@ export default function Account() {
                   </div>
                   <div class="mb-3">
                     <label for="newPassword" class="form-label"
-                      >New Password<span class="text-danger ms-1">*</span></label
+                      >New Password<span class="text-danger ms-1"
+                        >*</span
+                      ></label
                     >
                     <input
                       type="password"
@@ -53,7 +58,9 @@ export default function Account() {
                   </div>
                   <div class="mb-3">
                     <label for="confirmPassword" class="form-label"
-                      >Confirm Password<span class="text-danger ms-1">*</span></label
+                      >Confirm Password<span class="text-danger ms-1"
+                        >*</span
+                      ></label
                     >
                     <input
                       type="password"
@@ -71,7 +78,7 @@ export default function Account() {
                   <button
                     type="submit"
                     class="btn btn-dark d-block w-100 my-2"
-                    id="changePasswordBtn"
+                    id="passwordUpdateBtn"
                   >
                     <i class="fa-solid fa-key me-1"></i> Change Password
                   </button>
@@ -118,13 +125,41 @@ export default function Account() {
                   <button id="cancelDeleteBtn" class="btn btn-danger w-25">
                     No
                   </button>
-                  <p
-                    id="deleteAccountError"
-                    class="alert alert-danger my-2 d-none"
-                  >
-                    An error occurred.
-                  </p>
                 </div>
+                <form id="checkPasswordForm" class="d-none" novalidate>
+                  <div class="p-3">
+                    <div class="mb-3">
+                      <label for="checkPassword" class="form-label"
+                        >Password<span class="text-danger ms-1">*</span></label
+                      >
+                      <input
+                        type="password"
+                        name="checkPassword"
+                        id="checkPassword"
+                        class="form-control"
+                        placeholder="Enter your password"
+                        required
+                      />
+                      <div
+                      class="invalid-feedback"
+                      id="checkPasswordError"
+                    ></div>
+                      <button
+                        type="submit"
+                        class="btn btn-dark d-block w-100 my-2"
+                        id="passwordUpdateBtn"
+                      >
+                        Confirm
+                      </button>
+                      <p
+                        id="deleteAccountError"
+                        class="alert alert-danger my-2 d-none"
+                      >
+                        An error occurred.
+                      </p>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -154,10 +189,13 @@ const compLoaded = () => {
     "#passwordUpdateSuccess"
   );
   const passwordUpdateError = document.querySelector("#passwordUpdateError");
+  const passwordUpdateBtn = document.querySelector("#passwordUpdateBtn");
 
-  const changePasswordBtn = document.querySelector("#changePasswordBtn");
   const deleteAccountBtn = document.querySelector("#deleteAccountBtn");
   const deleteAccountOptions = document.querySelector("#deleteAccountOptions");
+  const checkPasswordForm = document.querySelector("#checkPasswordForm");
+  const checkPasswordInput = document.querySelector("#checkPassword");
+  const checkPasswordError = document.querySelector("#checkPasswordError");
   const confirmDeleteBtn = document.querySelector("#confirmDeleteBtn");
   const cancelDeleteBtn = document.querySelector("#cancelDeleteBtn");
   const deleteAccountError = document.querySelector("#deleteAccountError");
@@ -220,7 +258,7 @@ const compLoaded = () => {
     // modify UI until data is updated in database
     Array.from(e.target.elements).forEach((item) => (item.disabled = true));
     form.classList.add("was-validated");
-    changePasswordBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating...`;
+    passwordUpdateBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating...`;
 
     changeUserPassword(App.firebase.user, oldPassword, newPassword)
       .then(() => {
@@ -228,7 +266,7 @@ const compLoaded = () => {
           (item) => (item.disabled = false)
         );
         form.classList.remove("was-validated");
-        changePasswordBtn.innerHTML = `<i class="fa-solid fa-key me-1"></i> Change Password`;
+        passwordUpdateBtn.innerHTML = `<i class="fa-solid fa-key me-1"></i> Change Password`;
         passwordUpdateSuccess.classList.remove("d-none");
       })
       .catch((error) => {
@@ -236,7 +274,7 @@ const compLoaded = () => {
           (item) => (item.disabled = false)
         );
         form.classList.remove("was-validated");
-        changePasswordBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
+        passwordUpdateBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
         passwordUpdateError.classList.remove("d-none");
         passwordUpdateError.textContent = error;
       });
@@ -247,15 +285,48 @@ const compLoaded = () => {
     deleteAccountOptions.classList.remove("d-none");
   });
 
-  cancelDeleteBtn.addEventListener("click", () => {
-    deleteAccountOptions.classList.add("d-none");
+  confirmDeleteBtn.addEventListener("click", () => {
+    checkPasswordForm.classList.remove("d-none");
   });
 
-  confirmDeleteBtn.addEventListener("click", async () => {
-    const deletionFlag = await removeUser(App.firebase.user);
-    if (deletionFlag) {
+  // remove check password form when user cancels deletion
+  cancelDeleteBtn.addEventListener("click", () => {
+    checkPasswordForm.classList.add("d-none");
+  });
+
+  checkPasswordInput.addEventListener("input", () => {
+    validateData(
+      checkPasswordInput.value,
+      checkPasswordInput,
+      checkPasswordError,
+      "password"
+    );
+  });
+
+  // check password to reauthenticate and allow the deletion process
+  checkPasswordForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const checkPassword = checkPasswordInput.value;
+    const formIsValid = validateData(
+      checkPassword,
+      checkPasswordInput,
+      checkPasswordError,
+      "password"
+    );
+
+    if (!formIsValid) return;
+
+    try {
+      const credential = EmailAuthProvider.credential(
+        App.firebase.user.email,
+        checkPasswordInput.value
+      );
+      await reauthenticateWithCredential(App.firebase.user, credential);
+      await removeUser(App.firebase.user);
       App.navigator("/");
-    } else {
+    } catch (error) {
+      console.error(error);
       deleteAccountError.classList.remove("d-none");
     }
   });
