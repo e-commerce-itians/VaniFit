@@ -345,16 +345,6 @@ function renderProducts(products) {
             </div>
             <div class="w-100">
               <div class="product-name">${product.name}</div>
-              <div class="star-rating-minimal">
-                <span class="text-warning">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-                  <i class="far fa-star"></i>
-                </span>
-                <span class="rating-text">3.5/5</span>
-              </div>
               <div class="price-container">
                 ${
                   product.discount
