@@ -222,7 +222,7 @@ const compLoaded = () => {
     validateData(addressInput.value, addressInput, addressError, "address");
   });
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const firstName = firstNameInput.value.trim();
     const lastName = lastNameInput.value.trim();
@@ -257,30 +257,28 @@ const compLoaded = () => {
     // additional form data not added to auth but added to firestore
     const data = { phoneNumber: phone, address: address };
     // create new user and copy with the added form information to firestore
-    createUserWithEmailAndPassword(App.firebase.auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        return createUserDocument(user);
-      })
-      .then((user) => {
-        return updateUserDocument(user, data);
-      })
-      .then((user) => {
-        updateProfile(user, {
-          displayName: `${firstName} ${lastName}`,
-        });
-      })
-      .then(() => {
-        App.navigator("/");
-      })
-      .catch((error) => {
-        // reset the form state
-        Array.from(form.elements).forEach((item) => (item.disabled = false));
-        form.classList.remove("was-validated");
-        registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
-        registerError.textContent =
-          firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
-        registerError.classList.remove("d-none");
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        App.firebase.auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      await createUserDocument(user);
+      await updateUserDocument(user, data);
+      await updateProfile(user, {
+        displayName: `${firstName} ${lastName}`,
       });
+      App.navigator("/");
+    } catch (error) {
+      // reset form state
+      Array.from(form.elements).forEach((item) => (item.disabled = false));
+      form.classList.remove("was-validated");
+      registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
+      registerError.textContent =
+        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
+      registerError.classList.remove("d-none");
+    }
   });
 };
