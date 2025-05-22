@@ -6,32 +6,34 @@ const componentID = "orderlist";
 export default function Orderlist() {
   observer(componentID, compLoaded);
   return /*html*/ `
-   <div component="${componentID}" class="container py-5">
-     <div class="d-flex justify-content-between align-items-center mb-4">
-       <h1 class="mb-0">My Orders</h1>
-     </div>
-     
-     <div class="row">
-       <div class="col-12">
-         <div id="ordersContainer" class="accordion">
-           <!-- Orders will be loaded here -->
-           <div class="text-center py-5" id="loadingIndicator">
-             <div class="spinner-border text-primary" role="status">
-               <span class="visually-hidden">Loading...</span>
-             </div>
-             <p class="mt-3">Loading your orders...</p>
-           </div>
-           <div id="noOrdersMessage" class="text-center py-5 d-none">
-             <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-             <h4>No orders found</h4>
-             <p class="text-muted">You haven't placed any orders yet</p>
-             <a href="/" class="btn btn-primary mt-3">Start Shopping</a>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
-    `;
+    <div component="${componentID}" class="container py-5">
+      <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h1 class="mb-0">My Orders</h1>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div id="ordersContainer" class="accordion">
+              <!-- Orders will be loaded here -->
+              <div class="text-center py-5" id="loadingIndicator">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3">Loading your orders...</p>
+              </div>
+              <div id="noOrdersMessage" class="text-center py-5 d-none">
+                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                <h4>No orders found</h4>
+                <p class="text-muted">You haven't placed any orders yet</p>
+                <a href="/" class="btn btn-primary mt-3">Start Shopping</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 const compLoaded = async () => {
@@ -79,6 +81,7 @@ async function loadOrders() {
     }
 
     // Display orders
+    ordersContainer.innerHTML = "You haven't placed any orders yet";
     orders.forEach((order, index) => {
       const orderElement = createOrderElement(order, index);
       ordersContainer.appendChild(orderElement);
@@ -122,7 +125,7 @@ function createOrderElement(order, index) {
   order.items.forEach((item) => {
     itemsHtml += `
       <div class="d-flex align-items-center py-2 border-bottom">
-        <img src="${item.image || "https://via.placeholder.com/80"}" 
+        <img src="${item.image || ""}" 
              class="rounded me-3" 
              width="60" 
              height="60" 
