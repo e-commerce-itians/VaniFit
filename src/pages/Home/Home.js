@@ -135,7 +135,7 @@ export default async function Home() {
       </div>
         <div class="container rounded-5" id="style-container">
         <h2 class="section-title py-3">BROWSE BY dress STYLE</h2>
-        <div class="d-flex flex-wrap justify-content-center align-items-center gap-4">
+        <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 pb-4" >
         <a href="#"><img class="img-fluid" src="images/casual.png" alt="Casual Style"></a>
         <a href="#"><img class="img-fluid" src="images/formal.png" alt="Formal Style"></a>
         <a href="#"><img class="img-fluid" src="images/party.png" alt="Party Style"></a>

@@ -7,8 +7,7 @@ export default async function Cart() {
   return /*html*/ `
     <div component="${componentID}" class="container my-5">
       <div class="container py-5">
-        <h1 class="mb-4">YOUR CART</h1>
-
+        <h1 class="mb-4">Your Cart</h1>
         <div class="row">
           <div class="col-md-8">
             <div id="cart-items-container"></div>
@@ -38,7 +37,7 @@ export default async function Cart() {
                   </div>
                   <div class="mb-3">
                     <label for="customer-phone" class="form-label small text-muted">Phone Number</label>
-                    <input type="number" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-phone" placeholder="Your Phone Number" value="${
+                    <input type="tel" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-phone" placeholder="Your Phone Number" value="${
                       App.firebase.user.phoneNumber
                     }" required>
                   </div>
@@ -46,23 +45,23 @@ export default async function Cart() {
 
                 <div class="payment-method mb-4 p-3 bg-light rounded">
                   <h5 class="mb-3 fw-bold border-bottom pb-2">Payment Method</h5>
-                  <div class="form-check py-2 border-bottom">
+                  <div class="form-check py-2 border-bottom d-flex align-items-center justify-content-center">
                     <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD" checked>
                     <label class="form-check-label d-flex align-items-center" for="cod">
                       <i class="fas fa-money-bill-wave me-2"></i>
                       <div>
                         <div class="fw-medium">Cash on Delivery (COD)</div>
-                        <div class="small text-muted">Pay when you receive your order</div>
+                        <div class="small text-muted d-none d-lg-block">Pay when you receive your order</div>
                       </div>
                     </label>
                   </div>
-                  <div class="form-check py-2">
+                  <div class="form-check py-2 d-flex align-items-center justify-content-center">
                     <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
                     <label class="form-check-label d-flex align-items-center" for="creditCard">
                       <i class="far fa-credit-card me-2"></i>
                       <div>
                         <div class="fw-medium">Credit Card Payment</div>
-                        <div class="small text-muted">Secure payment with Stripe</div>
+                        <div class="small text-muted d-none d-lg-block">Secure payment with Stripe</div>
                       </div>
                     </label>
                   </div>
