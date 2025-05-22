@@ -118,6 +118,7 @@ const compLoaded = async (status) => {
 
     // Clear the pending order from localStorage
     localStorage.removeItem("pendingOrder");
+    App.clearCart();
   } catch (error) {
     console.error("Error processing order:", error);
   }
