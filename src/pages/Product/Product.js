@@ -978,7 +978,7 @@ const compLoaded = async (id) => {
       const message =
         remaining > 0
           ? `You can only add ${remaining} more items of this product. (${currentInCart} already in cart)`
-          : `You've reached the maximum quantity (50) of this product in your cart`;
+          : `You've reached the maximum quantity (${maxQuantity}) of this product in your cart`;
 
       cartError.innerText = message;
       return;

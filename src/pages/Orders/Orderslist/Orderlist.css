@@ -1,0 +1,26 @@
+[component="orderlist"] {
+  /* Orderlist.css */
+  .accordion-button:not(.collapsed) {
+    background-color: rgba(13, 110, 253, 0.05);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
+  }
+
+  .accordion-item {
+    border-radius: 0.5rem !important;
+    overflow: hidden;
+  }
+
+  .order-item-img {
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .accordion-button {
+      padding: 1rem;
+    }
+
+    .accordion-body {
+      padding: 0.5rem !important;
+    }
+  }
+}

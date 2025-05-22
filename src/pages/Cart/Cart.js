@@ -35,7 +35,7 @@ export default async function Cart() {
                   </div>
                   <div class="mb-3">
                     <label for="customer-phone" class="form-label small text-muted">Phone Number</label>
-                    <input type="tel" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-phone" placeholder="Your Phone Number" value="${
+                    <input type="number" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-phone" placeholder="Your Phone Number" value="${
                       App.firebase.user.phoneNumber
                     }" required>
                   </div>
@@ -362,7 +362,6 @@ const compLoaded = () => {
 
       const data = await response.json();
       if (data.url) {
-        // Save order data temporarily (you might want to save to database instead)
         localStorage.setItem("pendingOrder", JSON.stringify(orderData));
         window.location.href = data.url;
       } else {
