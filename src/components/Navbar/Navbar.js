@@ -47,7 +47,7 @@ export default function Navbar() {
                 <a class="nav-link" href="/shop/children" data-link>Kids</a>
               </li>
             </ul>
-            <div class="m-auto my-3 my-lg-0 flex-grow-1">
+            <div class="m-autos my-lg-0 my-4 my-lg-0 me-4 ms-2 flex-grow-1 shadow-sm rounded">
               <form
                 id="searchForm"
                 class="w-100 position-relative"
