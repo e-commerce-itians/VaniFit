@@ -46,29 +46,31 @@ export default async function Cart() {
                   </div>
                 </form>
 
-                <div class="payment-method mb-4 p-3 bg-light rounded">
-                  <h5 class="mb-3 fw-bold border-bottom pb-2">Payment Method</h5>
-                  <div class="form-check py-2 border-bottom d-flex align-items-center justify-content-center">
-                    <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD" checked>
-                    <label class="form-check-label d-flex align-items-center" for="cod">
-                      <i class="fas fa-money-bill-wave me-2"></i>
-                      <div>
-                        <div class="fw-medium">Cash on Delivery (COD)</div>
-                        <div class="small text-muted d-none d-lg-block">Pay when you receive your order</div>
-                      </div>
-                    </label>
-                  </div>
-                  <div class="form-check py-2 d-flex align-items-center justify-content-center">
-                    <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
-                    <label class="form-check-label d-flex align-items-center" for="creditCard">
-                      <i class="far fa-credit-card me-2"></i>
-                      <div>
-                        <div class="fw-medium">Credit Card Payment</div>
-                        <div class="small text-muted d-none d-lg-block">Secure payment with Stripe</div>
-                      </div>
-                    </label>
-                  </div>
-                </div>`
+                <div class="payment-method mb-4">
+  <h5 class="mb-3 fw-bold border-bottom pb-2">Payment Method</h5>
+  <div class="payment-options">
+    <div class="form-check p-0 border rounded mb-2 payment-option" style="cursor:pointer">
+      <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD" checked>
+      <label class="form-check-label d-flex align-items-center rounded p-2" for="cod" style="cursor:pointer">
+        <i class="fas fa-money-bill-wave me-3"></i>
+        <div>
+          <div class="fw-medium">Cash on Delivery (COD)</div>
+          <div class="small text-muted d-none d-lg-block">Pay when you receive your order</div>
+        </div>
+      </label>
+    </div>
+    <div class="form-check p-0 border rounded payment-option" style="cursor:pointer">
+      <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
+      <label class="form-check-label d-flex align-items-center rounded p-2" for="creditCard" style="cursor:pointer">
+        <i class="far fa-credit-card me-3"></i>
+        <div>
+          <div class="fw-medium">Credit Card Payment</div>
+          <div class="small text-muted d-none d-lg-block">Secure payment with Stripe</div>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>`
                   : ``
               }
 
@@ -386,8 +388,8 @@ const compLoaded = async () => {
           name: App.title,
           secertKey:
             "sk_test_51RQUeBR6Vx60GccVjxM25syN5gooDpXXIqnCsMI4e5c4TGPmohrgAFGR5ea6TnPwYIMbjsZRsUp1bRcGETr8HWt100YMf0mwe9",
-          onSuccess: "http://localhost:5173/orders/success",
-          onCancel: "http://localhost:5173/cart",
+          onSuccess: window.location.origin + "/orders/success",
+          onCancel: window.location.origin + "/cart",
         }),
       });
 

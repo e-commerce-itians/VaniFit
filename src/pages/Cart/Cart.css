@@ -241,53 +241,63 @@
       margin-top: 1rem;
     }
   }
+}
 
-  /* Enhanced Customer Information and Payment Method Styles */
-  .customer-info,
-  .payment-method {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-  }
+/* Hide the default radio buttons */
+.payment-option .form-check-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-  .customer-info h5,
-  .payment-method h5 {
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-  }
+/* Style for the payment option container */
+.payment-option {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #dee2e6 !important;
+}
 
-  .form-control.rounded-0 {
-    border-radius: 0 !important;
-    background-color: transparent !important;
-    padding-left: 0 !important;
-  }
+/* Hover effect */
+.payment-option:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd !important;
+}
 
-  .form-control.rounded-0:focus {
-    box-shadow: none;
-    border-color: #495057;
-  }
+/* Selected option style */
+.payment-option .form-check-input:checked ~ label {
+  color: #0d6efd;
+}
 
-  .form-check-input {
-    margin-top: 0.25rem;
-  }
+.payment-option .form-check-input:checked ~ .payment-option {
+  border-color: #0d6efd !important;
+}
 
-  .form-check-label {
-    cursor: pointer;
-  }
+/* More prominent selected state */
+.payment-option .form-check-input:checked + .payment-option,
+.payment-option .form-check-input:checked ~ label {
+  background-color: rgba(13, 110, 253, 0.05);
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 1px #0d6efd;
+}
 
-  .payment-method .form-check {
-    padding-left: 0;
-  }
+/* Adjust icon color for selected state */
+.payment-option .form-check-input:checked ~ label i {
+  color: #0d6efd;
+}
 
-  .payment-method .form-check-input {
-    margin-left: 0;
-    margin-right: 10px;
-  }
+/* Make the entire div respond to the radio button */
+.payment-option {
+  position: relative;
+}
 
-  .payment-method .fa-money-bill-wave,
-  .payment-method .fa-credit-card {
-    font-size: 1.25rem;
-    color: #6c757d;
-    width: 24px;
-    text-align: center;
-  }
+/* Add some spacing between options */
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-check-input {
+  cursor: pointer;
 }
