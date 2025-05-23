@@ -27,15 +27,15 @@ export default async function Cart() {
                   <h5 class="mb-3 fw-bold border-bottom pb-2">Customer Information</h5>
                   <div class="mb-3">
                     <p class="small text-muted">Full Name</p>
-                    <p class="rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customerName">
-                    ${App.firebase.user.displayName || "Unknown User"}
-                    </p>
+                    <input class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0 overflow-hidden" id="customerName" value="${
+                      App.firebase.user.displayName || ""
+                    }" readonly>
                   </div>
                   <div class="mb-3">
                     <p class="small text-muted">Phone Number</p>
-                    <p class="rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customerPhone">
-                    ${App.firebase.user.phoneNumber || "Not Provided"}
-                    </p>
+                    <input class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0 overflow-hidden" id="customerPhone" value="${
+                      App.firebase.user.phoneNumber || "Not Provided"
+                    }" readonly>
                   </div>
                   <div class="mb-3">
                     <p class="small text-muted">Address</p>
@@ -117,10 +117,6 @@ export default async function Cart() {
 }
 
 const compLoaded = async () => {
-  // get current user from firestore
-  const userRef = doc(App.firebase.db, "users", App.firebase.user.uid);
-  const userData = (await getDoc(userRef)).data();
-
   let cart = App.getCart();
   const cartContainer = document.querySelector("#cart-items-container");
   const summaryContainer = document.querySelector("#orderSummary");
@@ -312,7 +308,11 @@ const compLoaded = async () => {
 
   const checkoutBtn = document.getElementById("checkout-btn");
   // if user data is incomplete, disable place order
-  if (!userData || !userData.phoneNumber || !userData.address) {
+  if (
+    !App.firebase.user ||
+    !App.firebase.user.phoneNumber ||
+    !App.firebase.user.address
+  ) {
     checkoutBtn.disabled = true;
   }
 
