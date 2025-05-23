@@ -3,7 +3,6 @@ import {
   GoogleAuthProvider,
   updatePassword,
   EmailAuthProvider,
-  reauthenticateWithPopup,
   reauthenticateWithCredential,
   deleteUser,
 } from "firebase/auth";
@@ -214,7 +213,7 @@ export async function updateUserDocument(user, data) {
 }
 
 // helper function to compare form password with firebase auth password
-async function verifyOldPassword(user, oldPassword = "") {
+async function verifyOldPassword(user, oldPassword) {
   // check if user is using google signin or email/password
   const providerId = user.providerData[0]?.providerId;
 
@@ -224,18 +223,7 @@ async function verifyOldPassword(user, oldPassword = "") {
     try {
       await reauthenticateWithCredential(user, credential);
       return true;
-    } catch {
-      return false;
-    }
-  }
-
-  if (providerId === "google.com") {
-    // Google Sign-In user
-    const provider = new GoogleAuthProvider();
-    try {
-      await reauthenticateWithPopup(user, provider);
-      return true;
-    } catch {
+    } catch (error) {
       return false;
     }
   }

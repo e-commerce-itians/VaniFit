@@ -1,5 +1,11 @@
-import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import {
+  GoogleAuthProvider,
+  EmailAuthProvider,
+  reauthenticateWithPopup,
+  reauthenticateWithCredential,
+} from "firebase/auth";
+import {
+  firebaseAuthErrors,
   validateData,
   validatePasswordConfirmation,
   changeUserPassword,
@@ -18,11 +24,11 @@ export default function Account() {
         <div class="row justify-content-center">
           <div class="col-md-8 col-lg-7">
             <h1 class="mb-4 text-center">Account Settings</h1>
-            <div class="card profile-section-card mb-4">
+            <div id="changePasswordContainer" class="card profile-section-card mb-4 d-none">
               <div class="card-header bg-white py-3">
                 <h5 class="mb-0">Change Password</h5>
               </div>
-              <div id="changePasswordContainer" class="card-body">
+              <div class="card-body">
                 <form id="changePasswordForm" novalidate>
                   <div class="mb-3">
                     <label for="oldPassword" class="form-label"
@@ -151,12 +157,11 @@ export default function Account() {
                       >
                         Confirm
                       </button>
-                      <p
+                      <div
                         id="deleteAccountError"
                         class="alert alert-danger my-2 d-none"
                       >
-                        An error occurred.
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -205,8 +210,8 @@ const compLoaded = () => {
   const deleteAccountError = document.querySelector("#deleteAccountError");
 
   // for google signed in user hide change password option
-  if (providerId === "google.com") {
-    changePasswordContainer.classList.add("d-none");
+  if (providerId === "password") {
+    changePasswordContainer.classList.remove("d-none");
   }
 
   oldPasswordInput.addEventListener("input", () => {
@@ -290,17 +295,18 @@ const compLoaded = () => {
   });
 
   // account deletion handling
-  deleteAccountBtn.addEventListener("click", () => {
-    deleteAccountOptions.classList.remove("d-none");
-  });
-
-  confirmDeleteBtn.addEventListener("click", () => {
-    checkPasswordForm.classList.remove("d-none");
-  });
-
-  // remove check password form when user cancels deletion
-  cancelDeleteBtn.addEventListener("click", () => {
-    checkPasswordForm.classList.add("d-none");
+  deleteAccountBtn.addEventListener("click", async () => {
+    if (providerId === "password") {
+      deleteAccountOptions.classList.remove("d-none");
+    } else if (providerId === "google.com") {
+      try {
+        const provider = new GoogleAuthProvider();
+        await reauthenticateWithPopup(App.firebase.user, provider);
+        await removeUser(App.firebase.user);
+      } catch (error) {
+        return;
+      }
+    }
   });
 
   checkPasswordInput.addEventListener("input", () => {
@@ -310,6 +316,15 @@ const compLoaded = () => {
       checkPasswordError,
       "password"
     );
+  });
+
+  confirmDeleteBtn.addEventListener("click", () => {
+    checkPasswordForm.classList.remove("d-none");
+  });
+
+  // remove check password form when user cancels deletion
+  cancelDeleteBtn.addEventListener("click", () => {
+    checkPasswordForm.classList.add("d-none");
   });
 
   // check password to reauthenticate and allow the deletion process
@@ -335,7 +350,8 @@ const compLoaded = () => {
       await removeUser(App.firebase.user);
       App.navigator("/");
     } catch (error) {
-      console.error(error);
+      deleteAccountError.textContent =
+        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
       deleteAccountError.classList.remove("d-none");
     }
   });
