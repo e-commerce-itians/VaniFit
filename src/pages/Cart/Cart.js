@@ -8,7 +8,7 @@ export default async function Cart() {
   observer(componentID, compLoaded);
   return /*html*/ `
     <div component="${componentID}" class="container my-5">
-      <div class="container py-5">
+      <div class="container p-4">
         <h1 class="mb-4">Your Cart</h1>
         <div class="row">
           <div class="col-md-8">

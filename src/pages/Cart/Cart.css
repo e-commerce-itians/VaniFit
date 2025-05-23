@@ -1,6 +1,6 @@
 [component="cart"] {
   /* Main Cart Container */
-  .container.py-5 {
+  .container.py-4 {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem 1rem;
