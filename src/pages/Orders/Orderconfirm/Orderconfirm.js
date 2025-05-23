@@ -19,7 +19,15 @@ export default function Orderconfirm(status) {
     <div component="${componentID}" class="p-5">
       <div class="container d-flex justify-content-center align-items-center min-vh-75">
         <div class="success-card card p-4 p-md-5 text-center">
-          <div class="card-body">
+        
+          <div class="card-body text-center" id="processingCard">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Processing your order Please wait...</p>
+          </div>
+          
+          <div class="card-body d-none" id="successCard">
             <div class="success-icon-order">
               <i class="fas fa-check-circle"></i>
             </div>
@@ -100,7 +108,6 @@ const compLoaded = async (status) => {
   try {
     // Get the pending order from localStorage
     const pendingOrder = JSON.parse(localStorage.getItem("pendingOrder"));
-
     if (!pendingOrder) {
       App.navigator("/");
       return;
@@ -128,6 +135,7 @@ const compLoaded = async (status) => {
     // Clear the pending order from localStorage
     localStorage.removeItem("pendingOrder");
     App.clearCart();
+    App.userCartSave();
   } catch (error) {
     console.error("Error processing order:", error);
   }
@@ -158,6 +166,8 @@ async function saveOrderToFirebase(orderData) {
     }
 
     console.log("Order saved successfully to Firebase");
+    document.querySelector("#processingCard").classList.add("d-none");
+    document.querySelector("#successCard").classList.remove("d-none");
   } catch (error) {
     console.error("Error saving order to Firebase:", error);
     throw error;
