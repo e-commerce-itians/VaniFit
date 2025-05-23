@@ -120,7 +120,7 @@ export default function Profile() {
               <div class="card-header bg-white py-3">
               <h5 class="mb-0">Recent Orders</h5>
               </div>
-              <div class="card-body"></div>
+              <div id="recentOrdersContainer" class="card-body d-flex flex-column align-items-center"></div>
             </div>
           </div>
         </div>
@@ -145,6 +145,52 @@ const compLoaded = async () => {
   const profileUpdateSuccess = document.querySelector("#profileUpdateSuccess");
   const profileUpdateError = document.querySelector("#profileUpdateError");
   const updateProfileBtn = document.querySelector("#updateProfileBtn");
+  const recentOrdersContainer = document.querySelector(
+    "#recentOrdersContainer"
+  );
+
+  // fetch order items and render list
+  const orderRef = doc(App.firebase.db, "orders", App.firebase.user.uid);
+  const orderData = (await getDoc(orderRef)).data();
+
+  function renderOrderItem(item) {
+    const itemContainer = document.createElement("div");
+    const itemImgContainer = document.createElement("div");
+    const itemInfoContainer = document.createElement("div");
+    const itemImg = document.createElement("img");
+    const itemName = document.createElement("p");
+    const itemPrice = document.createElement("p");
+
+    itemImgContainer.classList.add(
+      "w-25",
+      "ratio",
+      "ratio-1x1",
+      "overflow-hidden"
+    );
+    itemContainer.classList.add("d-flex", "w-75");
+    itemInfoContainer.classList.add("p-3");
+    itemName.textContent = item.name;
+    itemPrice.textContent = `${item.price}$`;
+    itemImg.classList.add("img-thumbnail","w-100", "h-100", "object-fit-cover");
+    itemImg.src = item.image;
+    itemImg.alt = "product";
+
+    itemImgContainer.append(itemImg);
+    itemInfoContainer.append(itemName, itemPrice);
+    itemContainer.append(itemImgContainer, itemInfoContainer);
+    recentOrdersContainer.appendChild(itemContainer);
+  }
+
+  // list most order history with 20 items max
+  let itemsCount = 0;
+  orderData.orderList.forEach((order) => {
+    order.items.forEach((item) => {
+      if (itemsCount < 20) {
+        renderOrderItem(item);
+        itemsCount++;
+      }
+    });
+  });
 
   // get current user from firestore
   const userRef = doc(App.firebase.db, "users", App.firebase.user.uid);
@@ -173,7 +219,7 @@ const compLoaded = async () => {
     validateData(addressInput.value, addressInput, addressError, "address");
   });
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const phone = phoneInput.value;
     const address = addressInput.value;
@@ -190,26 +236,22 @@ const compLoaded = async () => {
     updateProfileBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating...`;
     // add form data to firestore
     const data = { phoneNumber: phone, address: address };
-    updateUserDocument(App.firebase.user, data)
-      .then(() => {
-        // reset ui to initial state on success
-        Array.from(e.target.elements).forEach(
-          (item) => (item.disabled = false)
-        );
-        form.classList.remove("was-validated");
-        updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
-        profileUpdateSuccess.classList.remove("d-none");
-        missingInfoError.classList.add("d-none");
-      })
-      .catch((error) => {
-        // enable inputs and update error state
-        Array.from(e.target.elements).forEach(
-          (item) => (item.disabled = false)
-        );
-        form.classList.remove("was-validated");
-        updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
-        profileUpdateError.classList.remove("d-none");
-        profileUpdateError.textContent = error;
-      });
+    // update phone number and update ui
+    try {
+      await updateUserDocument(App.firebase.user, data);
+      // reset ui to initial state on success
+      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+      form.classList.remove("was-validated");
+      updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
+      profileUpdateSuccess.classList.remove("d-none");
+      missingInfoError.classList.add("d-none");
+    } catch (error) {
+      // enable inputs and update error state
+      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+      form.classList.remove("was-validated");
+      updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
+      profileUpdateError.classList.remove("d-none");
+      profileUpdateError.textContent = error;
+    }
   });
 };
