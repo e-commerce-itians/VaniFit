@@ -6,6 +6,7 @@ import {
   validatePasswordConfirmation,
   createUserDocument,
   updateUserDocument,
+  signInWithGoogle,
 } from "../../utils/userManagement";
 import "./Register.css";
 
@@ -136,6 +137,15 @@ export default function Register() {
                   <i class="fa-solid fa-envelope me-1"></i>
                   <span class="d-none d-sm-inline">Register with Email</span>
                 </button>
+                <div class="or-divider my-2 text-center text-muted">or</div>
+                <button
+                  type="button"
+                  id="signUpWithGoogleBtn"
+                  class="btn btn-outline-dark d-block w-100 my-2 login-btn animate__animated animate__pulse"
+                >
+                  <i class="fa-brands fa-google me-1"></i>
+                  <span class="d-none d-sm-inline">Register with Google</span>
+                </button>
               </div>
               <div class="text-center mt-3">
                 <span class="text-muted">
@@ -176,7 +186,28 @@ const compLoaded = () => {
   const addressError = document.querySelector("#addressError");
   const registerError = document.querySelector("#registerError");
 
+  const signUpWithGoogleBtn = document.querySelector("#signUpWithGoogleBtn");
   const registerBtn = document.querySelector("#registerBtn");
+
+  // register with google using same function as login
+  signUpWithGoogleBtn.addEventListener("click", async () => {
+    signUpWithGoogleBtn.disabled = true;
+    signUpWithGoogleBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing up...`;
+    try {
+      Array.from(form.elements).forEach((item) => (item.disabled = true));
+      form.classList.add("was-validated");
+      await signInWithGoogle();
+      App.navigator("/");
+    } catch (error) {
+      Array.from(form.elements).forEach((item) => (item.disabled = false));
+      form.classList.remove("was-validated");
+      registerError.textContent =
+        firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
+      registerError.classList.remove("d-none");
+    }
+    signUpWithGoogleBtn.disabled = false;
+    signUpWithGoogleBtn.innerHTML = `<i class="fa-brands fa-google mx-1"></i><span class="d-none d-sm-inline">Login with Google</span>`;
+  });
 
   // event listeners
   firstNameInput.addEventListener("input", () => {
