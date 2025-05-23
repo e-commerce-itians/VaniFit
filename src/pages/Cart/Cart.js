@@ -20,9 +20,9 @@ export default async function Cart() {
               <h3 class="mb-4">Order Summary</h3>
 
               <div id="orderSummary">
-              ${
-                App.firebase.user.email
-                  ? `
+                ${
+                  App.firebase.user.email
+                    ? `
                 <form id="customerInfoForm" class="customer-info mb-4 p-3 bg-light rounded" novalidate>
                   <h5 class="mb-3 fw-bold border-bottom pb-2">Customer Information</h5>
                   <div class="mb-3">
@@ -71,8 +71,8 @@ export default async function Cart() {
     </div>
   </div>
 </div>`
-                  : ``
-              }
+                    : ``
+                }
 
                 <div class="summary-details">
                   <div class="summary-row">
@@ -359,6 +359,8 @@ const compLoaded = async () => {
         timestamp: new Date().toISOString(),
       };
 
+      checkoutBtn.disabled = true;
+      checkoutBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Checking out...`;
       if (paymentMethod === "Credit Card") {
         // Process credit card payment via Stripe
         stripe(total, orderData);
