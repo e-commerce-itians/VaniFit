@@ -22,7 +22,7 @@ export default function Account() {
               <div class="card-header bg-white py-3">
                 <h5 class="mb-0">Change Password</h5>
               </div>
-              <div class="card-body">
+              <div id="changePasswordContainer" class="card-body">
                 <form id="changePasswordForm" novalidate>
                   <div class="mb-3">
                     <label for="oldPassword" class="form-label"
@@ -175,8 +175,12 @@ const compLoaded = () => {
     App.navigator("/login");
     return;
   }
-
-  const form = document.querySelector("#changePasswordForm");
+  // check if user is google signed in or email/password
+  const providerId = App.firebase.user.providerData[0]?.providerId;
+  const changePasswordContainer = document.querySelector(
+    "#changePasswordContainer"
+  );
+  const changePasswordForm = document.querySelector("#changePasswordForm");
   const oldPasswordInput = document.querySelector("#oldPassword");
   const newPasswordInput = document.querySelector("#newPassword");
   const confirmPasswordInput = document.querySelector("#confirmPassword");
@@ -199,6 +203,11 @@ const compLoaded = () => {
   const confirmDeleteBtn = document.querySelector("#confirmDeleteBtn");
   const cancelDeleteBtn = document.querySelector("#cancelDeleteBtn");
   const deleteAccountError = document.querySelector("#deleteAccountError");
+
+  // for google signed in user hide change password option
+  if (providerId === "google.com") {
+    changePasswordContainer.classList.add("d-none");
+  }
 
   oldPasswordInput.addEventListener("input", () => {
     validateData(
@@ -227,7 +236,7 @@ const compLoaded = () => {
     );
   });
 
-  form.addEventListener("submit", (e) => {
+  changePasswordForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const oldPassword = oldPasswordInput.value;
     const newPassword = newPasswordInput.value;
@@ -252,8 +261,8 @@ const compLoaded = () => {
         confirmPasswordInput,
         confirmPasswordError
       );
-
-    if (!formIsValid) return;
+    // prevent password change if user signed in with google
+    if (!formIsValid || providerId === "google.com") return;
 
     // modify UI until data is updated in database
     Array.from(e.target.elements).forEach((item) => (item.disabled = true));
