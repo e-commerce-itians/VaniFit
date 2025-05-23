@@ -7,7 +7,7 @@ const componentID = "cart";
 export default async function Cart() {
   observer(componentID, compLoaded);
   return /*html*/ `
-    <div component="${componentID}" class="container my-5 fadeUp">
+    <div component="${componentID}" class="container my-5">
       <div class="container py-5">
         <h1 class="mb-4">Your Cart</h1>
         <div class="row">
