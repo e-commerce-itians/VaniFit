@@ -309,27 +309,26 @@ const compLoaded = async () => {
   renderCart();
 
   const checkoutBtn = document.getElementById("checkout-btn");
-  // if user data is incomplete, disable place order
-  if (
-    !App.firebase.user ||
-    !App.firebase.user.phoneNumber ||
-    !App.firebase.user.address
-  ) {
-    checkoutBtn.disabled = true;
-  }
-
-  // allow user to change address during checkout feature
-  const customerInfoForm = document.querySelector("#customerInfoForm");
-  // user shouldn't submit the form it's used for validation
-  customerInfoForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-  });
-  // validate address dynamically
-  addressInput.addEventListener("input", () => {
-    validateData(addressInput.value, addressInput, addressError, "address");
-  });
 
   if (checkoutBtn) {
+    // if user data is incomplete, disable place order
+    if (
+      !App.firebase.user ||
+      !App.firebase.user.phoneNumber ||
+      !App.firebase.user.address
+    ) {
+      checkoutBtn.disabled = true;
+    }
+    // allow user to change address during checkout feature
+    const customerInfoForm = document.querySelector("#customerInfoForm");
+    // user shouldn't submit the form it's used for validation
+    customerInfoForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+    });
+    // validate address dynamically
+    addressInput.addEventListener("input", () => {
+      validateData(addressInput.value, addressInput, addressError, "address");
+    });
     checkoutBtn.addEventListener("click", function () {
       // Validate customer info
       const name = nameInput.value.trim();
