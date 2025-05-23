@@ -1,4 +1,6 @@
+import { doc, getDoc } from "firebase/firestore";
 import { observer } from "../../observer";
+import { validateData } from "../../utils/userManagement";
 import "./Cart.css";
 const componentID = "cart";
 
@@ -21,27 +23,28 @@ export default async function Cart() {
               ${
                 App.firebase.user.email
                   ? `
-                <div class="customer-info mb-4 p-3 bg-light rounded">
+                <form id="customerInfoForm" class="customer-info mb-4 p-3 bg-light rounded" novalidate>
                   <h5 class="mb-3 fw-bold border-bottom pb-2">Customer Information</h5>
                   <div class="mb-3">
-                    <label for="customer-name" class="form-label small text-muted">Full Name</label>
-                    <input type="text" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-name" placeholder="Your Name" value="${
-                      App.firebase.user.displayName
-                    }" required>
+                    <p class="small text-muted">Full Name</p>
+                    <p class="rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customerName">
+                    ${App.firebase.user.displayName || "Unknown User"}
+                    </p>
                   </div>
                   <div class="mb-3">
-                    <label for="customer-address" class="form-label small text-muted">Address</label>
-                    <input class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-address" rows="2" placeholder="Your Address" value="${
-                      App.firebase.user.address || ""
-                    }" required>
+                    <p class="small text-muted">Phone Number</p>
+                    <p class="rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customerPhone">
+                    ${App.firebase.user.phoneNumber || "Not Provided"}
+                    </p>
                   </div>
                   <div class="mb-3">
-                    <label for="customer-phone" class="form-label small text-muted">Phone Number</label>
-                    <input type="tel" class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0" id="customer-phone" placeholder="Your Phone Number" value="${
-                      App.firebase.user.phoneNumber
-                    }" required>
+                    <p class="small text-muted">Address</p>
+                    <input class="form-control rounded-0 border-top-0 border-start-0 border-end-0 border-dark bg-light px-0 overflow-hidden" id="customerAddress" value="${
+                      App.firebase.user.address || "Not Provided"
+                    }">
+                    <div class="invalid-feedback" id="customerAddressError"></div>
                   </div>
-                </div>
+                </form>
 
                 <div class="payment-method mb-4 p-3 bg-light rounded">
                   <h5 class="mb-3 fw-bold border-bottom pb-2">Payment Method</h5>
@@ -113,10 +116,18 @@ export default async function Cart() {
   `;
 }
 
-const compLoaded = () => {
+const compLoaded = async () => {
+  // get current user from firestore
+  const userRef = doc(App.firebase.db, "users", App.firebase.user.uid);
+  const userData = (await getDoc(userRef)).data();
+
   let cart = App.getCart();
-  const cartContainer = document.getElementById("cart-items-container");
-  const summaryContainer = document.getElementById("orderSummary");
+  const cartContainer = document.querySelector("#cart-items-container");
+  const summaryContainer = document.querySelector("#orderSummary");
+  const nameInput = document.querySelector("#customerName");
+  const phoneInput = document.querySelector("#customerPhone");
+  const addressInput = document.querySelector("#customerAddress");
+  const addressError = document.querySelector("#customerAddressError");
 
   function renderCart() {
     cartContainer.innerHTML = "";
@@ -300,12 +311,28 @@ const compLoaded = () => {
   renderCart();
 
   const checkoutBtn = document.getElementById("checkout-btn");
+  // if user data is incomplete, disable place order
+  if (!userData || !userData.phoneNumber || !userData.address) {
+    checkoutBtn.disabled = true;
+  }
+
+  // allow user to change address during checkout feature
+  const customerInfoForm = document.querySelector("#customerInfoForm");
+  // user shouldn't submit the form it's used for validation
+  customerInfoForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+  });
+  // validate address dynamically
+  addressInput.addEventListener("input", () => {
+    validateData(addressInput.value, addressInput, addressError, "address");
+  });
+
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", function () {
       // Validate customer info
-      const name = document.getElementById("customer-name").value.trim();
-      const address = document.getElementById("customer-address").value.trim();
-      const phone = document.getElementById("customer-phone").value.trim();
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const address = addressInput.value.trim();
       const paymentMethod = document.querySelector(
         'input[name="paymentMethod"]:checked'
       ).value;
