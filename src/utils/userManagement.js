@@ -212,22 +212,9 @@ export async function updateUserDocument(user, data) {
   }
 }
 
-export async function changeUserPassword(user, oldPassword, newPassword) {
-  try {
-    const verified = await verifyOldPassword(user, oldPassword);
-    if (verified) {
-      await updatePassword(user, newPassword);
-    } else {
-      throw new Error("Incorrect password");
-    }
-  } catch (error) {
-    throw error;
-  }
-}
-
 // helper function to compare form password with firebase auth password
-async function verifyOldPassword(user, oldPassword) {
-  // check if user is using google signin method or email and password
+async function verifyOldPassword(user, oldPassword = "") {
+  // check if user is using google signin or email/password
   const providerId = user.providerData[0]?.providerId;
 
   if (providerId === "password") {
@@ -253,6 +240,20 @@ async function verifyOldPassword(user, oldPassword) {
   }
 
   return false;
+}
+
+// change user password using google signin or email/password
+export async function changeUserPassword(user, oldPassword, newPassword) {
+  try {
+    const verified = await verifyOldPassword(user, oldPassword);
+    if (verified) {
+      await updatePassword(user, newPassword);
+    } else {
+      throw new Error("Incorrect password");
+    }
+  } catch (error) {
+    throw error;
+  }
 }
 
 // delete user from firebase auth and firestore
