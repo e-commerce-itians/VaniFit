@@ -43,13 +43,42 @@ function initDashboard() {
 
   productListBtn.addEventListener("click", () => {
     mainContent.innerHTML = ProductList();
+    updateActiveButton("products");
   });
 
   addProductBtn.addEventListener("click", () => {
     mainContent.innerHTML = AddProduct();
+    updateActiveButton("add-product");
   });
 
   orderManagementBtn.addEventListener("click", () => {
     mainContent.innerHTML = OrderManagement();
+    updateActiveButton("orders");
   });
+
+  // Clear any initially active buttons
+  updateActiveButton("");
+}
+
+// Helper function to update active button state
+function updateActiveButton(section) {
+  const buttons = document.querySelectorAll(
+    '[component="dashboard-sidebar"] button'
+  );
+  buttons.forEach((button) => button.classList.remove("active"));
+
+  // Only set active state if a valid section is provided
+  if (section) {
+    switch (section) {
+      case "products":
+        document.getElementById("productListBtn").classList.add("active");
+        break;
+      case "add-product":
+        document.getElementById("addProductBtn").classList.add("active");
+        break;
+      case "orders":
+        document.getElementById("orderManagementBtn").classList.add("active");
+        break;
+    }
+  }
 }
