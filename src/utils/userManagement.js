@@ -212,36 +212,55 @@ export async function updateUserDocument(user, data) {
   }
 }
 
-// helper function to compare form password with firebase auth password
-async function verifyOldPassword(user, oldPassword) {
-  try {
-    const credential = EmailAuthProvider.credential(user.email, oldPassword);
-    await reauthenticateWithCredential(user, credential);
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
 export async function changeUserPassword(user, oldPassword, newPassword) {
   try {
     const verified = await verifyOldPassword(user, oldPassword);
     if (verified) {
       await updatePassword(user, newPassword);
     } else {
-      throw new Error("Incorrect old password");
+      throw new Error("Incorrect password");
     }
   } catch (error) {
     throw error;
   }
 }
 
+// helper function to compare form password with firebase auth password
+async function verifyOldPassword(user, oldPassword) {
+  // check if user is using google signin method or email and password
+  const providerId = user.providerData[0]?.providerId;
+
+  if (providerId === "password") {
+    // Email/password user
+    const credential = EmailAuthProvider.credential(user.email, oldPassword);
+    try {
+      await reauthenticateWithCredential(user, credential);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  if (providerId === "google.com") {
+    // Google Sign-In user
+    const provider = new GoogleAuthProvider();
+    try {
+      await reauthenticateWithPopup(user, provider);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  return false;
+}
+
 // delete user from firebase auth and firestore
 export async function removeUser(user) {
   try {
-    const userId = user.uid;
     await deleteUser(user);
-    await deleteDoc(doc(App.firebase.db, "users", userId));
+    await deleteDoc(doc(App.firebase.db, "users", user.uid));
+    await deleteDoc(doc(App.firebase.db, "orders", user.uid));
     return true;
   } catch (error) {
     return false;
