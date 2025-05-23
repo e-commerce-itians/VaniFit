@@ -136,17 +136,6 @@ const compLoaded = async () => {
     return;
   }
 
-  // get current user from firestore
-  const userRef = doc(App.firebase.db, "users", App.firebase.user.uid);
-  const userSnap = (await getDoc(userRef)).data();
-
-  // if user doesn't exist in firestore revert to home
-  if (!userSnap) {
-    App.navigator("/");
-    return;
-  }
-
-  // check for missing profile information
   const missingInfoError = document.querySelector("#missingInfoError");
   const form = document.querySelector("#profileUpdateForm");
   const phoneInput = document.querySelector("#phone");
@@ -157,13 +146,23 @@ const compLoaded = async () => {
   const profileUpdateError = document.querySelector("#profileUpdateError");
   const updateProfileBtn = document.querySelector("#updateProfileBtn");
 
+  // get current user from firestore
+  const userRef = doc(App.firebase.db, "users", App.firebase.user.uid);
+  const userData = (await getDoc(userRef)).data();
+
+  // if user doesn't exist in firestore revert to home
+  if (!userData) {
+    App.navigator("/");
+    return;
+  }
+
   // inform user about missing data
-  if (!userSnap.phoneNumber || !userSnap.address) {
+  if (!userData.phoneNumber || !userData.address) {
     missingInfoError.classList.remove("d-none");
   }
 
-  if (userSnap.phoneNumber) phoneInput.value = userSnap.phoneNumber;
-  if (userSnap.address) addressInput.value = userSnap.address;
+  if (userData.phoneNumber) phoneInput.value = userData.phoneNumber;
+  if (userData.address) addressInput.value = userData.address;
 
   // event listeners
   phoneInput.addEventListener("input", () => {
