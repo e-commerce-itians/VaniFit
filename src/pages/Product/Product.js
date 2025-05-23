@@ -1062,18 +1062,24 @@ const compLoaded = async (id) => {
 
   function showCartSuccessFeedback() {
     elements.addToCartBtn.innerHTML = `
-    <span class="me-2">✓ Added ${currentQuantity} item(s)</span>
+    <span class="me-2"><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Adding ${currentQuantity} item(s)</span>
   `;
     elements.addToCartBtn.disabled = true;
     elements.addToCartBtn.classList.remove("btn-dark");
     elements.addToCartBtn.classList.add("btn-success");
 
     setTimeout(() => {
+      elements.addToCartBtn.innerHTML = `
+      <span class="me-2">✓ Added ${currentQuantity} item(s)</span>
+    `;
+    }, 1000);
+
+    setTimeout(() => {
       elements.addToCartBtn.innerHTML = "Add to Cart";
       elements.addToCartBtn.disabled = false;
       elements.addToCartBtn.classList.remove("btn-success");
       elements.addToCartBtn.classList.add("btn-dark");
-    }, 1000);
+    }, 2000);
   }
 
   function resetQuantity() {
