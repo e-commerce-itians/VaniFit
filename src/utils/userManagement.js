@@ -3,6 +3,7 @@ import {
   GoogleAuthProvider,
   updatePassword,
   EmailAuthProvider,
+  reauthenticateWithPopup,
   reauthenticateWithCredential,
   deleteUser,
 } from "firebase/auth";
