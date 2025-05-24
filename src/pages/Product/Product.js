@@ -12,7 +12,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { observer } from "../../observer";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import ProductCard from "../../components/Productcard/ProductCard";
 import "./Product.css";
 const componentID = "product";
 

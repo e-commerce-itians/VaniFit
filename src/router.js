@@ -10,8 +10,8 @@ import Splash from "./pages/Splash/Splash";
 import MainDashboard from "./pages/AdminDashboard/MainDashboard/MainDashboard";
 import Cart from "./pages/Cart/Cart";
 import Shop from "./pages/Shop/Shop";
-import OrderConfirm from "./pages/Orders/OrderConfirm/OrderConfirm";
-import OrderList from "./pages/Orders/OrdersList/OrderList";
+import OrderConfirm from "./pages/Orders/Orderconfirm/OrderConfirm";
+import OrderList from "./pages/Orders/Orderslist/OrderList";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
