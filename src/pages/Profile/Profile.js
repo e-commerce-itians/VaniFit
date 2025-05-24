@@ -116,11 +116,14 @@ export default function Profile() {
                 </button>
               </div>
             </div>
-            <div class="card profile-section-card mb-4">
+            <div id="recentOrders" class="card profile-section-card mb-4">
               <div class="card-header bg-white py-3">
-              <h5 class="mb-0">Recent Orders</h5>
+                <h5 class="mb-0">Recent Orders</h5>
               </div>
-              <div id="recentOrdersContainer" class="card-body d-flex flex-column align-items-center"></div>
+              <div
+                id="recentOrdersContainer"
+                class="card-body d-flex flex-column align-items-center"
+              ></div>
             </div>
           </div>
         </div>
@@ -145,14 +148,13 @@ const compLoaded = async () => {
   const profileUpdateSuccess = document.querySelector("#profileUpdateSuccess");
   const profileUpdateError = document.querySelector("#profileUpdateError");
   const updateProfileBtn = document.querySelector("#updateProfileBtn");
+
+  const recentOrders = document.querySelector("#recentOrders");
   const recentOrdersContainer = document.querySelector(
     "#recentOrdersContainer"
   );
 
-  // fetch order items and render list
-  const orderRef = doc(App.firebase.db, "orders", App.firebase.user.uid);
-  const orderData = (await getDoc(orderRef)).data();
-
+  // helper function to update the dom
   function renderOrderItem(item) {
     const itemContainer = document.createElement("div");
     const itemImgContainer = document.createElement("div");
@@ -183,19 +185,27 @@ const compLoaded = async () => {
     itemImgContainer.append(itemImg);
     itemInfoContainer.append(itemName, itemPrice);
     itemContainer.append(itemImgContainer, itemInfoContainer);
-    recentOrdersContainer.appendChild(itemContainer);
+    recentOrders.appendChild(itemContainer);
   }
 
-  // list most order history with 20 items max
-  let itemsCount = 0;
-  orderData.orderList.forEach((order) => {
-    order.items.forEach((item) => {
-      if (itemsCount < 20) {
-        renderOrderItem(item);
-        itemsCount++;
-      }
+  try {
+    // fetch order items and render list
+    const orderRef = doc(App.firebase.db, "orders", App.firebase.user.uid);
+    const orderData = (await getDoc(orderRef)).data();
+    // list most order history with 20 items max
+    let itemsCount = 0;
+    orderData.orderList.forEach((order) => {
+      order.items.forEach((item) => {
+        if (itemsCount < 20) {
+          renderOrderItem(item);
+          itemsCount++;
+        }
+      });
     });
-  });
+  } catch (error) {
+    // remove recentOrders section if the user has no orders
+    recentOrders.classList.add("d-none");
+  }
 
   // get current user from firestore
   const userRef = doc(App.firebase.db, "users", App.firebase.user.uid);
