@@ -7,6 +7,7 @@ export default function Sidebar() {
   return /*html*/ `
     <div component="${componentID}" id="${componentID}" class="${componentID}">
         <h2>Admin Panel</h2>
+        <button id="overviewBtn" class="active">Overview</button>
         <button id="productListBtn">Product List</button>
         <button id="addProductBtn">Add Product</button>
         <button id="orderManagementBtn">Orders</button>

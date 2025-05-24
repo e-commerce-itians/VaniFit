@@ -679,7 +679,8 @@ const compLoaded = async (id) => {
     image,
     price,
     discount,
-    max
+    max,
+    category
   ) {
     const cart = App.getCart();
     const existingItem = findCartItem(cart, productID, size, color);
@@ -697,6 +698,7 @@ const compLoaded = async (id) => {
         price: price,
         discount: discount,
         max,
+        category,
       });
     }
 
@@ -759,6 +761,7 @@ const compLoaded = async (id) => {
     window.selectedItem.name = data.name;
     window.selectedItem.price = data.price;
     window.selectedItem.discount = data.discount;
+    window.selectedItem.category = data.category;
   }
 
   async function loadProductReviews(productId) {
@@ -1009,7 +1012,7 @@ const compLoaded = async (id) => {
   elements.addToCartBtn.addEventListener("click", () => {
     if (!validateSelection()) return;
     cartError.innerText = "";
-    const { productID, color, size, name, image, price, discount, max } =
+    const { productID, color, size, name, image, price, discount, max, category } =
       window.selectedItem;
     const cart = App.getCart();
     const existingItem = findCartItem(cart, productID, size, color);
@@ -1038,7 +1041,8 @@ const compLoaded = async (id) => {
       image,
       price,
       discount,
-      max
+      max,
+      category
     );
 
     // Visual feedback

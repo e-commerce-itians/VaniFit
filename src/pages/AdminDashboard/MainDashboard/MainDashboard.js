@@ -3,6 +3,7 @@ import AddProduct from "../AddProduct/AddProduct";
 import Sidebar from "../Sidebar/Sidebar";
 import ProductList from "../ProductList/ProductList";
 import OrderManagement from "../OrderManagement/OrderManagement";
+import Overview from "../Overview/Overview";
 import "./MainDashboard.css";
 const componentID = "MainDashboard";
 
@@ -15,8 +16,7 @@ export default function MainDashboard() {
       ${Sidebar()}
       <!-- Main Content -->
       <div class="dashboard-content" id="dashboard-content">
-        <h1>Welcome to the Admin Dashboard</h1>
-        <p>Select an option from the sidebar to get started.</p>
+        ${Overview()}
       </div>
     </div>
   `;
@@ -27,6 +27,8 @@ export default function MainDashboard() {
       return;
     }
     initDashboard();
+    // Manually trigger Overview component initialization since it's loaded by default
+    initializeOverview();
   });
 
   return html;
@@ -34,10 +36,18 @@ export default function MainDashboard() {
 
 // Initialize dashboard functionality
 function initDashboard() {
+  const overviewBtn = document.querySelector("#overviewBtn");
   const productListBtn = document.querySelector("#productListBtn");
   const addProductBtn = document.querySelector("#addProductBtn");
   const orderManagementBtn = document.querySelector("#orderManagementBtn");
   const mainContent = document.querySelector("#dashboard-content");
+
+  overviewBtn.addEventListener("click", () => {
+    mainContent.innerHTML = Overview();
+    updateActiveButton("overview");
+    // Initialize Overview component after DOM update
+    setTimeout(initializeOverview, 0);
+  });
 
   productListBtn.addEventListener("click", () => {
     mainContent.innerHTML = ProductList();
@@ -54,8 +64,8 @@ function initDashboard() {
     updateActiveButton("orders");
   });
 
-  // Clear any initially active buttons
-  updateActiveButton("");
+  // Set Overview as active by default
+  updateActiveButton("overview");
 }
 
 // Helper function to update active button state
@@ -68,6 +78,9 @@ function updateActiveButton(section) {
   // Only set active state if a valid section is provided
   if (section) {
     switch (section) {
+      case "overview":
+        document.getElementById("overviewBtn").classList.add("active");
+        break;
       case "products":
         document.getElementById("productListBtn").classList.add("active");
         break;
@@ -78,5 +91,14 @@ function updateActiveButton(section) {
         document.getElementById("orderManagementBtn").classList.add("active");
         break;
     }
+  }
+}
+
+// Function to manually initialize Overview component
+async function initializeOverview() {
+  // Import and execute the Overview component's initialization logic
+  const { initializeOverviewData } = await import("../Overview/Overview.js");
+  if (initializeOverviewData) {
+    initializeOverviewData();
   }
 }
