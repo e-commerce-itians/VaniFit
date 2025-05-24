@@ -5,12 +5,11 @@ const componentID = "footer";
 export default function Footer() {
   observer(componentID, compLoaded);
   return /*html*/ ` <div component="${componentID}" class="footer-main-bg">
-    <!-- Newsletter -->
     <div class="footer-newsletter-card mb-5">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-6 mb-4 mb-md-0">
-            <h2 class="fw-bold">STAY UP TO DATE ABOUT OUR LATEST OFFERS</h2>
+            <h2 class="fw-bold">Stay up to date with our latest offers</h2>
           </div>
           <div class="col-md-6">
             <div class="mb-3">
@@ -43,50 +42,94 @@ export default function Footer() {
             wear. From women to men.
           </p>
           <div class="footer-socials d-flex gap-3 mt-3">
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#" onclick="event.preventDefault()"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            <a href="#" onclick="event.preventDefault()"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" onclick="event.preventDefault()"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#" onclick="event.preventDefault()"
+              ><i class="fab fa-github"></i
+            ></a>
           </div>
         </div>
 
         <div class="col-md-2 mb-4">
           <h6 class="footer-section-title">Company</h6>
           <ul class="footer-link-list list-unstyled">
-            <li class="mb-2"><a href="#">About</a></li>
-            <li class="mb-2"><a href="#">Features</a></li>
-            <li class="mb-2"><a href="#">Works</a></li>
-            <li class="mb-2"><a href="#">Career</a></li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">About</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Features</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Works</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Career</a>
+            </li>
           </ul>
         </div>
 
         <div class="col-md-2 mb-4">
           <h6 class="footer-section-title">Help</h6>
           <ul class="footer-link-list list-unstyled">
-            <li class="mb-2"><a href="#">Customer Support</a></li>
-            <li class="mb-2"><a href="#">Delivery Details</a></li>
-            <li class="mb-2"><a href="#">Terms & Conditions</a></li>
-            <li class="mb-2"><a href="#">Privacy Policy</a></li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Customer Support</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Delivery Details</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()"
+                >Terms & Conditions</a
+              >
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Privacy Policy</a>
+            </li>
           </ul>
         </div>
 
         <div class="col-md-2 mb-4">
           <h6 class="footer-section-title">FAQ</h6>
           <ul class="footer-link-list list-unstyled">
-            <li class="mb-2"><a href="#">Account</a></li>
-            <li class="mb-2"><a href="#">Manage Deliveries</a></li>
-            <li class="mb-2"><a href="#">Orders</a></li>
-            <li class="mb-2"><a href="#">Payments</a></li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Account</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Manage Deliveries</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Orders</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Payments</a>
+            </li>
           </ul>
         </div>
 
         <div class="col-md-3 mb-4">
           <h6 class="footer-section-title">Resources</h6>
           <ul class="footer-link-list list-unstyled">
-            <li class="mb-2"><a href="#">Free eBooks</a></li>
-            <li class="mb-2"><a href="#">Development Tutorial</a></li>
-            <li class="mb-2"><a href="#">How to - Blog</a></li>
-            <li class="mb-2"><a href="#">Youtube Playlist</a></li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Free eBooks</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()"
+                >Development Tutorial</a
+              >
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">How to - Blog</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" onclick="event.preventDefault()">Youtube Playlist</a>
+            </li>
           </ul>
         </div>
       </div>
