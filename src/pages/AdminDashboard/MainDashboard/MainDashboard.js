@@ -8,8 +8,6 @@ const componentID = "MainDashboard";
 
 // Main dashboard component
 export default function MainDashboard() {
-  console.log("MainDashboard component rendering");
-
   // Define the HTML structure
   const html = /*html*/ `
     <div component="${componentID}" id="${componentID}" class="admin-dashboard">

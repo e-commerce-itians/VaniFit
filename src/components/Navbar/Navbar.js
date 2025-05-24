@@ -103,7 +103,11 @@ export default function Navbar() {
                   ${
                     App.firebase.user.email
                       ? `
-                              ${App.firebase.user.role === 'admin' ? `<li><a class="dropdown-item" href="/admin" data-link><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>` : ''}
+                              ${
+                                App.firebase.user.role === "admin"
+                                  ? `<li><a class="dropdown-item" href="/admin" data-link><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>`
+                                  : ""
+                              }
                               <li><a class="dropdown-item" href="/profile" data-link><i class="fas fa-user-circle me-2"></i>My Account</a></li>
                               <li><a class="dropdown-item" href="/orders" data-link><i class="fas fa-history me-2"></i>Order History</a></li>
                               <li><hr class="dropdown-divider"></li>

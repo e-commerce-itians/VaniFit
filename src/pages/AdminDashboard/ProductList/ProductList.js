@@ -57,8 +57,6 @@ export default function ProductList() {
 
 // JavaScript code to be executed once the component is loaded
 const compLoaded = () => {
-  console.log("ProductList component loaded");
-
   // Immediately fetch products when loaded
   fetchProducts();
 
@@ -83,7 +81,6 @@ const compLoaded = () => {
 async function fetchProducts() {
   try {
     showLoadingIndicator();
-    console.log("Fetching products...");
 
     const productsCollection = collection(App.firebase.db, "products");
     const productsSnapshot = await getDocs(productsCollection);
@@ -199,7 +196,6 @@ function filterProducts() {
 
 // Edit product function
 function editProduct(productId) {
-  console.log("Editing product:", productId);
   const contentContainer = document.querySelector(".dashboard-content");
   contentContainer.innerHTML = EditProduct(productId);
 }

@@ -502,7 +502,6 @@ const compLoaded = () => {
       // Remove loading dialog
       document.getElementById("messageDialogOverlay")?.remove();
 
-      console.log("Product added with ID:", docRef.id);
       // Show success dialog instead of alert
       document.body.insertAdjacentHTML(
         "beforeend",
