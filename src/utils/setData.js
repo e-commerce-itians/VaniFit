@@ -2,7 +2,7 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const db = getFirestore();
 
-export default async function Setdata(
+export default async function SetData(
   collectionName,
   docId,
   data,

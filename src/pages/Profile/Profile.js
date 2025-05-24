@@ -137,7 +137,7 @@ const compLoaded = async () => {
   }
 
   const missingInfoError = document.querySelector("#missingInfoError");
-  const form = document.querySelector("#profileUpdateForm");
+  const profileUpdateForm = document.querySelector("#profileUpdateForm");
   const phoneInput = document.querySelector("#phone");
   const addressInput = document.querySelector("#address");
   const phoneError = document.querySelector("#phoneError");
@@ -171,7 +171,12 @@ const compLoaded = async () => {
     itemInfoContainer.classList.add("p-3");
     itemName.textContent = item.name;
     itemPrice.textContent = `${item.price}$`;
-    itemImg.classList.add("img-thumbnail","w-100", "h-100", "object-fit-cover");
+    itemImg.classList.add(
+      "img-thumbnail",
+      "w-100",
+      "h-100",
+      "object-fit-cover"
+    );
     itemImg.src = item.image;
     itemImg.alt = "product";
 
@@ -219,7 +224,7 @@ const compLoaded = async () => {
     validateData(addressInput.value, addressInput, addressError, "address");
   });
 
-  form.addEventListener("submit", async (e) => {
+  profileUpdateForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const phone = phoneInput.value;
     const address = addressInput.value;
@@ -232,7 +237,7 @@ const compLoaded = async () => {
 
     // modify UI until data is updated in database
     Array.from(e.target.elements).forEach((item) => (item.disabled = true));
-    form.classList.add("was-validated");
+    profileUpdateForm.classList.add("was-validated");
     updateProfileBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating...`;
     // add form data to firestore
     const data = { phoneNumber: phone, address: address };
@@ -241,14 +246,14 @@ const compLoaded = async () => {
       await updateUserDocument(App.firebase.user, data);
       // reset ui to initial state on success
       Array.from(e.target.elements).forEach((item) => (item.disabled = false));
-      form.classList.remove("was-validated");
+      profileUpdateForm.classList.remove("was-validated");
       updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
       profileUpdateSuccess.classList.remove("d-none");
       missingInfoError.classList.add("d-none");
     } catch (error) {
       // enable inputs and update error state
       Array.from(e.target.elements).forEach((item) => (item.disabled = false));
-      form.classList.remove("was-validated");
+      profileUpdateForm.classList.remove("was-validated");
       updateProfileBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
       profileUpdateError.classList.remove("d-none");
       profileUpdateError.textContent = error;

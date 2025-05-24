@@ -10,8 +10,8 @@ import Splash from "./pages/Splash/Splash";
 import MainDashboard from "./pages/AdminDashboard/MainDashboard/MainDashboard";
 import Cart from "./pages/Cart/Cart";
 import Shop from "./pages/Shop/Shop";
-import Orderconfirm from "./pages/Orders/Orderconfirm/Orderconfirm";
-import Orderlist from "./pages/Orders/Orderslist/Orderlist";
+import OrderConfirm from "./pages/Orders/OrderConfirm/OrderConfirm";
+import OrderList from "./pages/Orders/OrdersList/OrderList";
 
 // Define a mapping of URL paths to their corresponding view components
 const routes = [
@@ -61,11 +61,11 @@ const routes = [
   },
   {
     path: "/orders",
-    view: Orderlist,
+    view: OrderList,
   },
   {
     path: "/orders/success",
-    view: Orderconfirm,
+    view: OrderConfirm,
   },
 ];
 

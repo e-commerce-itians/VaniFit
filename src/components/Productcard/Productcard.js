@@ -1,7 +1,7 @@
 import { observer } from "../../observer";
-import "./Productcard.css";
+import "./ProductCard.css";
 
-export default function Productcard(
+export default function ProductCard(
   productID,
   productTitle,
   productPrice,
@@ -42,7 +42,7 @@ export default function Productcard(
             ></h5>
             <span
               class="badge bg-danger bg-opacity-10 text-danger ms-2"
-              id="prodPrecentage_${productID}"
+              id="prodPercentage_${productID}"
             ></span>
           </div>
         </div>
@@ -65,7 +65,7 @@ const compLoaded = async (
   const prodColors = document.querySelector(`#prodColors_${productID}`);
   const prodPrice = document.querySelector(`#prodPrice_${productID}`);
   const prodOldPrice = document.querySelector(`#prodOldPrice_${productID}`);
-  const prodPrecentage = document.querySelector(`#prodPrecentage_${productID}`);
+  const prodPercentage = document.querySelector(`#prodPercentage_${productID}`);
 
   //product image
   if (prodImage) {
@@ -77,7 +77,7 @@ const compLoaded = async (
     prodTitle.innerText = productTitle;
   }
 
-  //productcolors
+  //product colors
   if (productColors) {
     prodColors.innerHTML = generateColorButtonsHTML(productColors);
   }
@@ -87,7 +87,7 @@ const compLoaded = async (
     if (productDiscount && productDiscount != 0) {
       prodOldPrice.innerText = `${productPrice}$`;
       productPrice = productPrice - (productPrice * productDiscount) / 100;
-      prodPrecentage.innerText = `-${productDiscount}%`;
+      prodPercentage.innerText = `-${productDiscount}%`;
     }
     prodPrice.innerText = productPrice + "$";
   }

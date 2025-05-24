@@ -1,17 +1,9 @@
 import { observer } from "../../../observer";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  arrayUnion,
-  collection,
-  getDocs,
-} from "firebase/firestore";
-import "./Orderconfirm.css";
-const componentID = "orderconfirm";
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import "./OrderConfirm.css";
+const componentID = "orderConfirm";
 
-export default function Orderconfirm(status) {
+export default function OrderConfirm(status) {
   observer(componentID, () => {
     compLoaded(status);
   });

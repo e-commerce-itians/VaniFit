@@ -1,9 +1,9 @@
 import { observer } from "../../../observer";
 import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
-import "./Orderlist.css";
-const componentID = "orderlist";
+import "./OrderList.css";
+const componentID = "orderList";
 
-export default function Orderlist() {
+export default function OrderList() {
   observer(componentID, compLoaded);
   return /*html*/ `
     <div component="${componentID}" class="container my-5">

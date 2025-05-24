@@ -1,9 +1,8 @@
-import { observer } from "/src/observer";
-import { deleteProduct as delProd } from "/src/utils/deleteProduct";
-import "./ProductList.css";
 import { collection, getDocs } from "firebase/firestore";
 import EditProduct from "../EditProduct/EditProduct";
 import DeleteDialog from "./DeleteDialog";
+import { observer } from "/src/observer";
+import "./ProductList.css";
 import "./DeleteDialog.css"; // Import the CSS for the dialog
 
 const componentID = "ProductList";

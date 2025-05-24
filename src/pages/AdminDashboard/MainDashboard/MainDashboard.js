@@ -1,9 +1,9 @@
 import { observer } from "../../../observer";
 import AddProduct from "../AddProduct/AddProduct";
-import "./MainDashboard.css";
 import Sidebar from "../Sidebar/Sidebar";
 import ProductList from "../ProductList/ProductList";
 import OrderManagement from "../OrderManagement/OrderManagement";
+import "./MainDashboard.css";
 const componentID = "MainDashboard";
 
 // Main dashboard component

@@ -182,6 +182,7 @@ const compLoaded = () => {
   }
   // check if user is google signed in or email/password
   const providerId = App.firebase.user.providerData[0]?.providerId;
+
   const changePasswordContainer = document.querySelector(
     "#changePasswordContainer"
   );
@@ -241,7 +242,7 @@ const compLoaded = () => {
     );
   });
 
-  changePasswordForm.addEventListener("submit", (e) => {
+  changePasswordForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const oldPassword = oldPasswordInput.value;
     const newPassword = newPasswordInput.value;
@@ -271,27 +272,21 @@ const compLoaded = () => {
 
     // modify UI until data is updated in database
     Array.from(e.target.elements).forEach((item) => (item.disabled = true));
-    form.classList.add("was-validated");
+    changePasswordForm.classList.add("was-validated");
     passwordUpdateBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Updating...`;
-
-    changeUserPassword(App.firebase.user, oldPassword, newPassword)
-      .then(() => {
-        Array.from(e.target.elements).forEach(
-          (item) => (item.disabled = false)
-        );
-        form.classList.remove("was-validated");
-        passwordUpdateBtn.innerHTML = `<i class="fa-solid fa-key me-1"></i> Change Password`;
-        passwordUpdateSuccess.classList.remove("d-none");
-      })
-      .catch((error) => {
-        Array.from(e.target.elements).forEach(
-          (item) => (item.disabled = false)
-        );
-        form.classList.remove("was-validated");
-        passwordUpdateBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
-        passwordUpdateError.classList.remove("d-none");
-        passwordUpdateError.textContent = error;
-      });
+    try {
+      await changeUserPassword(App.firebase.user, oldPassword, newPassword);
+      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+      changePasswordForm.classList.remove("was-validated");
+      passwordUpdateBtn.innerHTML = `<i class="fa-solid fa-key me-1"></i> Change Password`;
+      passwordUpdateSuccess.classList.remove("d-none");
+    } catch (error) {
+      Array.from(e.target.elements).forEach((item) => (item.disabled = false));
+      changePasswordForm.classList.remove("was-validated");
+      passwordUpdateBtn.innerHTML = `<i class="fas fa-save me-1"></i> Save Changes`;
+      passwordUpdateError.classList.remove("d-none");
+      passwordUpdateError.textContent = error;
+    }
   });
 
   // account deletion handling

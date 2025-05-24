@@ -1,5 +1,5 @@
-import { observer } from "../../observer";
 import { collection, query, where, getDocs, limit } from "firebase/firestore";
+import { observer } from "../../observer";
 import "./Home.css";
 const componentID = "home";
 

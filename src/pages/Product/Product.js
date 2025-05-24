@@ -1,6 +1,3 @@
-import "./Product.css";
-import Getdata from "../../utils/getData";
-import { observer } from "../../observer";
 import {
   collection,
   doc,
@@ -14,7 +11,9 @@ import {
   arrayUnion,
   setDoc,
 } from "firebase/firestore";
-import Productcard from "../../components/Productcard/Productcard";
+import { observer } from "../../observer";
+import ProductCard from "../../components/ProductCard/ProductCard";
+import "./Product.css";
 const componentID = "product";
 
 export default async function Product({ id }) {
@@ -871,7 +870,7 @@ const compLoaded = async (id) => {
         elements.moreProducts.innerHTML = "";
         relatedProducts.forEach((doc) => {
           const data = doc.data();
-          elements.moreProducts.innerHTML += Productcard(
+          elements.moreProducts.innerHTML += ProductCard(
             doc.id,
             data.name,
             data.price,

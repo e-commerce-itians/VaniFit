@@ -1,5 +1,5 @@
-import "./Footer.css";
 import { observer } from "../../observer";
+import "./Footer.css";
 const componentID = "footer";
 
 export default function Footer() {

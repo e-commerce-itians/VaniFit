@@ -1,4 +1,3 @@
-import { observer } from "../../../observer";
 import {
   collection,
   getDocs,
@@ -6,9 +5,10 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
+import { observer } from "../../../observer";
+import { showOrderDetails } from "./OrderDetailsModal";
 import "./OrderManagement.css";
 import "./OrderDetailsModal.css";
-import { showOrderDetails } from "./OrderDetailsModal";
 
 const componentID = "ordermanagement";
 

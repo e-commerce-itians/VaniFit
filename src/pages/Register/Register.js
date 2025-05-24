@@ -168,7 +168,7 @@ const compLoaded = () => {
     return;
   }
 
-  const form = document.querySelector("#registerForm");
+  const registerForm = document.querySelector("#registerForm");
   const firstNameInput = document.querySelector("#firstName");
   const lastNameInput = document.querySelector("#lastName");
   const emailInput = document.querySelector("#email");
@@ -253,7 +253,7 @@ const compLoaded = () => {
     validateData(addressInput.value, addressInput, addressError, "address");
   });
 
-  form.addEventListener("submit", async (e) => {
+  registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const firstName = firstNameInput.value.trim();
     const lastName = lastNameInput.value.trim();
@@ -282,7 +282,7 @@ const compLoaded = () => {
 
     // disable inputs and create spinner effect while resolving
     Array.from(form.elements).forEach((item) => (item.disabled = true));
-    form.classList.add("was-validated");
+    registerForm.classList.add("was-validated");
     registerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing up...`;
 
     // additional form data not added to auth but added to firestore
@@ -304,8 +304,10 @@ const compLoaded = () => {
       App.navigator("/");
     } catch (error) {
       // reset form state
-      Array.from(form.elements).forEach((item) => (item.disabled = false));
-      form.classList.remove("was-validated");
+      Array.from(registerForm.elements).forEach(
+        (item) => (item.disabled = false)
+      );
+      registerForm.classList.remove("was-validated");
       registerBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Register with Email</span>`;
       registerError.textContent =
         firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];

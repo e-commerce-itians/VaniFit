@@ -1,7 +1,6 @@
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { observer } from "/src/observer";
 import ProductList from "../ProductList/ProductList";
-import "./EditProduct.css";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
 import MessageDialog from "../MessageDialog/MessageDialog";
 import "../MessageDialog/MessageDialog.css";
 import {
@@ -9,6 +8,7 @@ import {
   setupImageUploader,
 } from "/src/components/ImageUploader/ImageUploader.js";
 import "/src/components/ImageUploader/ImageUploader.css";
+import "./EditProduct.css";
 
 const componentID = "EditProduct";
 

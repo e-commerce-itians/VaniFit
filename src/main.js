@@ -1,4 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
@@ -7,7 +8,6 @@ import "@fortawesome/fontawesome-free";
 import "./globals.js";
 import router from "./router.js";
 import "./style.css";
-import { doc, getDoc } from "firebase/firestore";
 
 // Run the router once the initial HTML document has been completely loaded and parsed
 window.addEventListener("DOMContentLoaded", router);

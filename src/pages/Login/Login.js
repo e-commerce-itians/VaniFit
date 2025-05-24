@@ -100,7 +100,7 @@ const compLoaded = () => {
     return;
   }
 
-  const form = document.querySelector("#loginForm");
+  const loginForm = document.querySelector("#loginForm");
   const emailInput = document.querySelector("#email");
   const passwordInput = document.querySelector("#password");
 
@@ -116,13 +116,13 @@ const compLoaded = () => {
     signInWithGoogleBtn.disabled = true;
     signInWithGoogleBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...`;
     try {
-      Array.from(form.elements).forEach((item) => (item.disabled = true));
-      form.classList.add("was-validated");
+      Array.from(loginForm.elements).forEach((item) => (item.disabled = true));
+      loginForm.classList.add("was-validated");
       await signInWithGoogle();
       App.navigator("/");
     } catch (error) {
-      Array.from(form.elements).forEach((item) => (item.disabled = false));
-      form.classList.remove("was-validated");
+      Array.from(loginForm.elements).forEach((item) => (item.disabled = false));
+      loginForm.classList.remove("was-validated");
       loginError.textContent =
         firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
       loginError.classList.remove("d-none");
@@ -140,7 +140,7 @@ const compLoaded = () => {
     validateData(passwordInput.value, passwordInput, passwordError, "password");
   });
 
-  form.addEventListener("submit", (e) => {
+  loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const email = emailInput.value.trim();
@@ -152,8 +152,8 @@ const compLoaded = () => {
 
     if (!formIsValid) return;
 
-    Array.from(form.elements).forEach((item) => (item.disabled = true));
-    form.classList.add("was-validated");
+    Array.from(loginForm.elements).forEach((item) => (item.disabled = true));
+    loginForm.classList.add("was-validated");
     loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Logging in...`;
 
     signInWithEmailAndPassword(App.firebase.auth, email, password)
@@ -165,7 +165,7 @@ const compLoaded = () => {
         Array.from(e.target.elements).forEach(
           (item) => (item.disabled = false)
         );
-        form.classList.remove("was-validated");
+        loginForm.classList.remove("was-validated");
         loginBtn.innerHTML = `<i class="fa-solid fa-envelope mx-1"></i><span class="d-none d-sm-inline">Login with Email</span>`;
         loginError.textContent =
           firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];

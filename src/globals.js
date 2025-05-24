@@ -1,8 +1,8 @@
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { firebaseApp, firebaseAuth, firebasedb } from "./utils/firebase.js";
 import router from "./router.js";
-import setdata from "./utils/setData.js";
-import getdata from "./utils/getData.js";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import setData from "./utils/setData.js";
+import getData from "./utils/getData.js";
 
 // Global vars accessible anywhere in any component
 window.App = {
@@ -17,8 +17,8 @@ window.App = {
     app: firebaseApp, //firebase app init
     auth: firebaseAuth, //firebase auth init
     db: firebasedb,
-    setData: setdata,
-    getData: getdata,
+    setData: setData,
+    getData: getData,
     user: {}, //user data once logged in
   },
   cloudinary: {

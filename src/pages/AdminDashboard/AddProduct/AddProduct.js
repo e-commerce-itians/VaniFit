@@ -1,7 +1,6 @@
-import "./AddPoduct.css";
+import { collection, addDoc } from "firebase/firestore";
 import { observer } from "../../../observer";
 import { Shirt, TShirt, Pants, Shoes, Hoodie, Jacket } from "../ProductClasses";
-import { collection, addDoc } from "firebase/firestore";
 import MessageDialog from "../MessageDialog/MessageDialog";
 import "../MessageDialog/MessageDialog.css";
 import {
@@ -9,6 +8,7 @@ import {
   setupImageUploader,
 } from "/src/components/ImageUploader/ImageUploader.js";
 import "/src/components/ImageUploader/ImageUploader.css";
+import "./AddPoduct.css";
 const componentID = "AddProduct";
 
 export default function AddProduct() {

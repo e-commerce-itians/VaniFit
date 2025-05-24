@@ -1,5 +1,5 @@
-import { observer } from "/src/observer";
 import { deleteProduct as delProd } from "/src/utils/deleteProduct";
+import { observer } from "/src/observer";
 
 const componentID = "DeleteDialog";
 
