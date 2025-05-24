@@ -194,13 +194,17 @@ const compLoaded = () => {
     signUpWithGoogleBtn.disabled = true;
     signUpWithGoogleBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing up...`;
     try {
-      Array.from(form.elements).forEach((item) => (item.disabled = true));
-      form.classList.add("was-validated");
+      Array.from(registerForm.elements).forEach(
+        (item) => (item.disabled = true)
+      );
+      registerForm.classList.add("was-validated");
       await signInWithGoogle();
       App.navigator("/");
     } catch (error) {
-      Array.from(form.elements).forEach((item) => (item.disabled = false));
-      form.classList.remove("was-validated");
+      Array.from(registerForm.elements).forEach(
+        (item) => (item.disabled = false)
+      );
+      registerForm.classList.remove("was-validated");
       registerError.textContent =
         firebaseAuthErrors[error.code] || firebaseAuthErrors["default"];
       registerError.classList.remove("d-none");
