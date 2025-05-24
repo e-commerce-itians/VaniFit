@@ -1012,8 +1012,17 @@ const compLoaded = async (id) => {
   elements.addToCartBtn.addEventListener("click", () => {
     if (!validateSelection()) return;
     cartError.innerText = "";
-    const { productID, color, size, name, image, price, discount, max, category } =
-      window.selectedItem;
+    const {
+      productID,
+      color,
+      size,
+      name,
+      image,
+      price,
+      discount,
+      max,
+      category,
+    } = window.selectedItem;
     const cart = App.getCart();
     const existingItem = findCartItem(cart, productID, size, color);
     const currentInCart = existingItem ? existingItem.quantity : 0;

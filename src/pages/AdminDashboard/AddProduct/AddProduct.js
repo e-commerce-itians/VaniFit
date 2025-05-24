@@ -16,51 +16,77 @@ export default function AddProduct() {
   return /*html*/ `
 <div component="${componentID}">
    <form id="newProductForm">
-    <h2> Add a New Product </h2>
+    <h2>Add a New Product</h2>
     
-    <label for="productName">Product Name</label>
-    <input type="text" id="productName" name="productName" required>
+    <!-- Basic Product Information -->
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="productName">Product Name</label>
+        <input type="text" id="productName" name="productName" required placeholder="Enter product name">
+      </div>
 
-    <label for="description">Description</label>
-    <textarea id="description" name="description" rows="4" required></textarea>
+      <div class="form-group">
+        <label for="brand">Brand Name</label>
+        <input type="text" id="brand" name="brand" required placeholder="Enter brand name">
+      </div>
+    </div>
 
-    <label for="price">Price (USD)</label>
-    <input type="number" id="price" name="price" step="0.01" min="0" required>
+    <div class="form-grid single-column">
+      <div class="form-group">
+        <label for="description">Product Description</label>
+        <textarea id="description" name="description" rows="4" required placeholder="Describe your product in detail..."></textarea>
+      </div>
+    </div>
 
-    <label for="discount">Discount (%)</label>
-    <input type="number" id="discount" name="discount" min="0" max="100" step="1" placeholder="0">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="price">Price (USD)</label>
+        <input type="number" id="price" name="price" step="0.01" min="0" required placeholder="0.00">
+      </div>
 
-    <label for="category">Category</label>
-    <select id="category" name="category" required>
-      <option disabled selected>Select a category</option>
-      <option value="shirts">Shirts</option>
-      <option value="hoodies">Hoodies</option>
-      <option value="pants">Pants</option>
-      <option value="jackets">Jackets</option>
-      <option value="shoes">Shoes</option>
-      <option value="t-shirt">T-Shirt</option>
-    </select>
-    
-    <label for="gender">Gender</label>
-    <select id="gender" name="gender" required>
-      <option disabled selected>Select a gender</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="unisex">Unisex</option>
-      <option value="children">Children</option>
-    </select>
+      <div class="form-group">
+        <label for="discount">Discount (%)</label>
+        <input type="number" id="discount" name="discount" min="0" max="100" step="1" placeholder="0">
+      </div>
+    </div>
 
-    <label for="brand">Brand Name</label>
-    <input type="text" id="brand" name="brand" required>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+          <option disabled selected>Select a category</option>
+          <option value="shirts">Shirts</option>
+          <option value="hoodies">Hoodies</option>
+          <option value="pants">Pants</option>
+          <option value="jackets">Jackets</option>
+          <option value="shoes">Shoes</option>
+          <option value="t-shirt">T-Shirt</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="gender">Target Gender</label>
+        <select id="gender" name="gender" required>
+          <option disabled selected>Select target gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="unisex">Unisex</option>
+          <option value="children">Children</option>
+        </select>
+      </div>
+    </div>
 
-
-    <label for="tags">Tags (comma-separated)</label>
-    <input type="text" id="tags" name="tags" placeholder="e.g. summer, casual, cotton">
+    <div class="form-grid single-column">
+      <div class="form-group">
+        <label for="tags">Product Tags</label>
+        <input type="text" id="tags" name="tags" placeholder="e.g. summer, casual, cotton, trendy">
+      </div>
+    </div>
 
     <!-- Color and Size Management -->
     <div class="section-header">
       <h3>Colors and Sizes</h3>
-      <button type="button" id="addColorBtn" class="secondary-button">Add Color</button>
+      <button type="button" id="addColorBtn" class="secondary-button">+ Add Color</button>
     </div>
     
     <div id="colorsContainer">
