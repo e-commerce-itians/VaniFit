@@ -285,7 +285,7 @@ const compLoaded = () => {
     if (!formIsValid) return;
 
     // disable inputs and create spinner effect while resolving
-    Array.from(form.elements).forEach((item) => (item.disabled = true));
+    Array.from(registerForm.elements).forEach((item) => (item.disabled = true));
     registerForm.classList.add("was-validated");
     registerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing up...`;
 
