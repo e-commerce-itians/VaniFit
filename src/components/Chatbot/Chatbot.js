@@ -157,7 +157,7 @@ const compLoaded = async () => {
     try {
       if (callback) callback();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
     // Process next message after a short delay
@@ -246,7 +246,7 @@ const compLoaded = async () => {
       try {
         if (callback) callback();
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }, 1000 + text.length * 30); // Adjust timing based on message length
   }
