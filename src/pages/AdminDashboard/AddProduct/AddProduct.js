@@ -8,7 +8,7 @@ import {
   setupImageUploader,
 } from "/src/components/ImageUploader/ImageUploader.js";
 import "/src/components/ImageUploader/ImageUploader.css";
-import "./AddPoduct.css";
+import "./AddProduct.css";
 const componentID = "AddProduct";
 
 export default function AddProduct() {
