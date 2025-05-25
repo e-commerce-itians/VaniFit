@@ -1,0 +1,293 @@
+[component="chatbot"] {
+  .chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 350px;
+  }
+
+  .chatbot-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #1578db;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+
+  .chatbot-btn i {
+    font-size: 32px;
+  }
+
+  .chatbot-window {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: none;
+    height: 500px;
+    flex-direction: column;
+  }
+
+  .chatbot-header {
+    background-color: #1578db;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chatbot-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .chatbot-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bot-message,
+  .user-message {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    margin-bottom: 5px;
+  }
+
+  .bot-message {
+    background-color: #f8f9fa;
+    color: #495057;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+  }
+
+  .user-message {
+    background-color: #2a79c9;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+  }
+
+  .chatbot-input {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+  }
+
+  .chatbot-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+  }
+
+  .chatbot-input button {
+    background-color: #1578db;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+
+  .options-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .option-btn {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .option-btn:hover,
+  .sendMessage:hover {
+    background-color: #4ecdc4;
+  }
+
+  .product-bot-card {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    margin-top: 10px;
+    transition: all ease 0.4s;
+  }
+
+  .product-bot-card:hover {
+    transform: scale(1.01);
+  }
+
+  .product-bot-image {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+  }
+
+  .product-bot-info {
+    padding: 10px;
+  }
+
+  .product-bot-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .product-bot-price {
+    color: #c22ea7;
+    font-weight: bold;
+  }
+
+  .product-bot-old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.9em;
+    margin-left: 5px;
+  }
+
+  .match-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    margin-left: 5px;
+  }
+
+  .excellent-match {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .good-match {
+    background-color: #8bc34a;
+    color: white;
+  }
+
+  .decent-match {
+    background-color: #ffc107;
+    color: black;
+  }
+
+  /* Typing indicator animation */
+  .typing-indicator {
+    display: inline-block;
+    padding-left: 15px;
+  }
+  .typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #888;
+    border-radius: 50%;
+    margin-right: 3px;
+    opacity: 0.4;
+  }
+  .typing-indicator span:nth-child(1) {
+    animation: typing-pulse 1s infinite;
+  }
+  .typing-indicator span:nth-child(2) {
+    animation: typing-pulse 1s infinite 0.2s;
+  }
+  .typing-indicator span:nth-child(3) {
+    animation: typing-pulse 1s infinite 0.4s;
+  }
+
+  /* Message insertion animation */
+  .message-enter {
+    animation: messageEnter 0.3s ease-out;
+  }
+
+  /* Chatbot Label Styling */
+  .chatbot-label {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: #0d6efd; /* Bootstrap blue */
+    color: white;
+    border-radius: 6px;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Small arrow pointing to button */
+  .chatbot-label::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 15px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #0d6efd transparent transparent transparent;
+  }
+}
+
+/* Subtle floating animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Button positioning adjustment */
+.chatbot-btn {
+  margin-top: 8px; /* Space for label */
+}
+
+@keyframes typing-pulse {
+  0% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+}
+@keyframes messageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

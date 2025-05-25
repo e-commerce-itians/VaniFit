@@ -115,4 +115,6 @@ window.App = {
       console.error("Error saving cart to Firestore:", error);
     }
   },
+
+  chatbotInit: false,
 };
