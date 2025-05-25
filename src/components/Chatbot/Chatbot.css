@@ -11,7 +11,7 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background-color: #1578db;
+    background-color: #323435;
     color: white;
     border: none;
     cursor: pointer;
@@ -37,7 +37,7 @@
   }
 
   .chatbot-header {
-    background-color: #1578db;
+    background-color: #323435;
     color: white;
     padding: 15px;
     font-weight: bold;
@@ -79,7 +79,7 @@
   }
 
   .user-message {
-    background-color: #2a79c9;
+    background-color: #2f3336;
     color: white;
     align-self: flex-end;
     border-bottom-right-radius: 5px;
@@ -101,7 +101,7 @@
   }
 
   .chatbot-input button {
-    background-color: #1578db;
+    background-color: #323435;
     color: white;
     border: none;
     border-radius: 50%;
@@ -128,7 +128,7 @@
 
   .option-btn:hover,
   .sendMessage:hover {
-    background-color: #4ecdc4;
+    background-color: #cfcfcf;
   }
 
   .product-bot-card {
@@ -228,7 +228,7 @@
     right: 0;
     margin-bottom: 10px;
     padding: 8px 12px;
-    background: #0d6efd; /* Bootstrap blue */
+    background: #495057;
     color: white;
     border-radius: 6px;
     font-family: "Segoe UI", system-ui, sans-serif;
@@ -247,7 +247,7 @@
     right: 15px;
     border-width: 6px;
     border-style: solid;
-    border-color: #0d6efd transparent transparent transparent;
+    border-color: #495057 transparent transparent transparent;
   }
 }
 
