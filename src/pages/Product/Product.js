@@ -835,39 +835,6 @@ const compLoaded = async (id) => {
         strictSnapshot.forEach((doc) => relatedProducts.push(doc));
       }
 
-      //If not enough, try same category OR same gender
-      if (relatedProducts.length < maxResults) {
-        const needed = maxResults - relatedProducts.length;
-        const orConditions = [];
-
-        if (currentProduct.category) {
-          orConditions.push(where("category", "==", currentProduct.category));
-        }
-        if (currentProduct.gender) {
-          orConditions.push(where("gender", "==", currentProduct.gender));
-        }
-
-        // Firestore doesn't support OR directly, so we need separate queries
-        const queries = orConditions.map((condition) =>
-          query(
-            productsRef,
-            condition,
-            where(documentId(), "!=", currentProductID),
-            limit(needed)
-          )
-        );
-
-        for (const q of queries) {
-          if (relatedProducts.length >= maxResults) break;
-          const snapshot = await getDocs(q);
-          snapshot.forEach((doc) => {
-            if (!relatedProducts.some((p) => p.id === doc.id)) {
-              relatedProducts.push(doc);
-            }
-          });
-        }
-      }
-
       // Display results
       if (relatedProducts.length > 0) {
         elements.moreProducts.innerHTML = "";
