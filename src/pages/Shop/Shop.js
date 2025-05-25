@@ -312,7 +312,7 @@ const compLoaded = async (gender, page) => {
     });
 };
 
-function renderProducts(products) {
+const renderProducts = (products) => {
   const productList = document.querySelector("#product-list");
   productList.innerHTML = "";
 
@@ -320,10 +320,10 @@ function renderProducts(products) {
   filteredProducts = products;
 
   // Calculate pagination
-  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProducts = products.slice(startIndex, endIndex);
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
   // Render current page products
   currentProducts.forEach((product) => {
@@ -332,41 +332,19 @@ function renderProducts(products) {
         <a href="/product/${product.productID}" class="product-link" data-link>
           <div class="product-card minimal-card">
             <div class="minimal-img">
-              ${
-                product.discount
-                  ? `
-                <div class="discount-badge">-${product.discount}%</div>
-              `
-                  : ""
-              }
-              <img src="${product.colors[0].image_urls[0]}" alt="${
-      product.name
-    }">
+              ${product.discount ? `<div class="discount-badge">-${product.discount}%</div>` : ""}
+              <img src="${product.colors[0].image_urls[0]}" alt="${product.name}">
             </div>
             <div class="w-100">
               <div class="product-name">${product.name}</div>
               <div class="price-container">
-                ${
-                  product.discount
-                    ? `
+                ${product.discount ? `
                   <div class="original-price">$${product.price}</div>
-                  <div class="discounted-price">$${Math.round(
-                    product.price * (1 - product.discount / 100)
-                  )}</div>
-                `
-                    : `
-                  <div class="regular-price">$${product.price}</div>
-                `
-                }
+                  <div class="discounted-price">$${Math.round(product.price * (1 - product.discount / 100))}</div>
+                ` : `<div class="regular-price">$${product.price}</div>`}
               </div>
               <div class="color-dots-container">
-                ${product.colors
-                  .map(
-                    (color) => `
-                  <span class="color-dot" title="${color.name}" style="background:${color.hex};"></span>
-                `
-                  )
-                  .join("")}
+                ${product.colors.map(color => `<span class="color-dot" title="${color.name}" style="background:${color.hex};"></span>`).join("")}
               </div>
               <button class="minimal-add-to-cart">Add to Cart</button>
             </div>
@@ -377,117 +355,109 @@ function renderProducts(products) {
     productList.innerHTML += renderCard;
   });
 
+  // Create pagination container if it doesn't exist
+  let paginationContainer = document.querySelector(".pagination-container");
+  if (!paginationContainer) {
+    paginationContainer = document.createElement("div");
+    paginationContainer.className = "pagination-container mt-4 d-flex justify-content-center";
+    productList.parentElement.appendChild(paginationContainer);
+  }
+
   // Render pagination
   renderPagination(totalPages);
-}
+};
 
-// Add the renderPagination function
 function renderPagination(totalPages) {
-  // Remove old pagination if it exists
-  const oldPagination = document.querySelector(".pagination-container");
-  if (oldPagination) oldPagination.remove();
+  const paginationContainer = document.querySelector(".pagination-container");
+  if (!paginationContainer) return;
 
-  const paginationContainer = document.createElement("div");
-  paginationContainer.className = "pagination-container";
+  paginationContainer.innerHTML = "";
+
+  // Create pagination wrapper
+  const paginationWrapper = document.createElement("div");
+  paginationWrapper.className = "pagination-wrapper d-flex align-items-center gap-2";
 
   // Previous button
   const prevButton = document.createElement("button");
-  prevButton.className = "pagination-btn";
+  prevButton.className = "btn btn-outline-dark rounded-pill px-3";
   prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
   prevButton.disabled = currentPage === 1;
   prevButton.onclick = () => changePage(currentPage - 1);
 
-  // First page button
-  const firstPageButton = document.createElement("button");
-  firstPageButton.className = "pagination-btn";
-  firstPageButton.textContent = "1";
-  firstPageButton.classList.toggle("active", currentPage === 1);
-  firstPageButton.onclick = () => changePage(1);
-
-  // Add dots if needed
-  const addDots = () => {
-    const dots = document.createElement("span");
-    dots.className = "pagination-dots";
-    dots.textContent = "...";
-    return dots;
-  };
-
-  // Page numbers
-  const pageButtons = [];
-  const maxVisiblePages = 5;
-  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-  if (endPage - startPage + 1 < maxVisiblePages) {
-    startPage = Math.max(1, endPage - maxVisiblePages + 1);
-  }
-
-  if (startPage > 1) {
-    pageButtons.push(addDots());
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
-    if (i === 1) continue; // Skip 1 as it's handled separately
-    const pageButton = document.createElement("button");
-    pageButton.className = "pagination-btn";
-    pageButton.textContent = i;
-    pageButton.classList.toggle("active", currentPage === i);
-    pageButton.onclick = () => changePage(i);
-    pageButtons.push(pageButton);
-  }
-
-  if (endPage < totalPages) {
-    pageButtons.push(addDots());
-  }
-
-  // Last page button
-  const lastPageButton = document.createElement("button");
-  lastPageButton.className = "pagination-btn";
-  lastPageButton.textContent = totalPages;
-  lastPageButton.classList.toggle("active", currentPage === totalPages);
-  lastPageButton.onclick = () => changePage(totalPages);
-
   // Next button
   const nextButton = document.createElement("button");
-  nextButton.className = "pagination-btn";
+  nextButton.className = "btn btn-outline-dark rounded-pill px-3";
   nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
   nextButton.disabled = currentPage === totalPages;
   nextButton.onclick = () => changePage(currentPage + 1);
 
-  // Page info
-  const pageInfo = document.createElement("span");
-  pageInfo.className = "pagination-info";
-  const startItem = (currentPage - 1) * ITEMS_PER_PAGE + 1;
-  const endItem = Math.min(
-    currentPage * ITEMS_PER_PAGE,
-    filteredProducts.length
-  );
-  pageInfo.textContent = `Showing ${startItem}-${endItem} of ${filteredProducts.length} items`;
+  // Page numbers
+  const pageNumbers = document.createElement("div");
+  pageNumbers.className = "d-flex gap-2";
+
+  // First page
+  if (currentPage > 2) {
+    const firstPageBtn = document.createElement("button");
+    firstPageBtn.className = `btn ${currentPage === 1 ? 'btn-dark' : 'btn-outline-dark'} rounded-pill px-3`;
+    firstPageBtn.textContent = "1";
+    firstPageBtn.onclick = () => changePage(1);
+    pageNumbers.appendChild(firstPageBtn);
+  }
+
+  // Ellipsis if needed
+  if (currentPage > 3) {
+    const ellipsis = document.createElement("span");
+    ellipsis.className = "px-2";
+    ellipsis.textContent = "...";
+    pageNumbers.appendChild(ellipsis);
+  }
+
+  // Current page and surrounding pages
+  for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+    if (i === 1 && currentPage > 2) continue; // Skip if already added
+    const pageBtn = document.createElement("button");
+    pageBtn.className = `btn ${currentPage === i ? 'btn-dark' : 'btn-outline-dark'} rounded-pill px-3`;
+    pageBtn.textContent = i;
+    pageBtn.onclick = () => changePage(i);
+    pageNumbers.appendChild(pageBtn);
+  }
+
+  // Ellipsis if needed
+  if (currentPage < totalPages - 2) {
+    const ellipsis = document.createElement("span");
+    ellipsis.className = "px-2";
+    ellipsis.textContent = "...";
+    pageNumbers.appendChild(ellipsis);
+  }
+
+  // Last page
+  if (currentPage < totalPages - 1) {
+    const lastPageBtn = document.createElement("button");
+    lastPageBtn.className = `btn ${currentPage === totalPages ? 'btn-dark' : 'btn-outline-dark'} rounded-pill px-3`;
+    lastPageBtn.textContent = totalPages;
+    lastPageBtn.onclick = () => changePage(totalPages);
+    pageNumbers.appendChild(lastPageBtn);
+  }
 
   // Assemble pagination
-  paginationContainer.appendChild(prevButton);
-  if (totalPages > 1) {
-    paginationContainer.appendChild(firstPageButton);
-    pageButtons.forEach((button) => paginationContainer.appendChild(button));
-    if (totalPages > 1) {
-      paginationContainer.appendChild(lastPageButton);
-    }
-  }
-  paginationContainer.appendChild(nextButton);
-  paginationContainer.appendChild(pageInfo);
+  paginationWrapper.appendChild(prevButton);
+  paginationWrapper.appendChild(pageNumbers);
+  paginationWrapper.appendChild(nextButton);
 
-  // Add pagination to the page
-  const productList = document.querySelector("#product-list");
-  productList.parentElement.appendChild(paginationContainer);
+  // Add page info
+  const pageInfo = document.createElement("div");
+  pageInfo.className = "ms-3 text-muted";
+  const startItem = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+  const endItem = Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length);
+  pageInfo.textContent = `Showing ${startItem}-${endItem} of ${filteredProducts.length} items`;
+
+  paginationContainer.appendChild(paginationWrapper);
+  paginationContainer.appendChild(pageInfo);
 }
 
-// Add the changePage function
 function changePage(newPage) {
-  if (
-    newPage < 1 ||
-    newPage > Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
-  )
-    return;
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  if (newPage < 1 || newPage > totalPages) return;
 
   currentPage = newPage;
 
@@ -500,9 +470,7 @@ function changePage(newPage) {
   renderProducts(filteredProducts);
 
   // Scroll to top of product list
-  document
-    .querySelector("#product-list")
-    .scrollIntoView({ behavior: "smooth" });
+  document.querySelector("#product-list").scrollIntoView({ behavior: "smooth" });
 }
 
 const applyFilters = () => {
