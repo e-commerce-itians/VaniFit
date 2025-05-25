@@ -114,7 +114,7 @@ const compLoaded = async () => {
     }
   }
 
-  function addMessage(text, sender, callback) {
+  function addMessage(text, sender, callback = null) {
     messageQueue.push({ text, sender, callback });
     processMessageQueue();
   }
@@ -363,19 +363,24 @@ const compLoaded = async () => {
     const heightInMeters = height / 100;
     const bmi = weight / (heightInMeters * heightInMeters);
 
-    // Use a combination of height and BMI to determine size
-    if (height < 160 && bmi < 18.5) {
+    if (height < 150 && bmi < 16.5) {
+      perfectFit = "XXS";
+    } else if (height < 160 && bmi < 18.5) {
       perfectFit = "XS";
-    } else if (bmi < 21) {
+    } else if (bmi < 20) {
       perfectFit = "S";
-    } else if (bmi < 24) {
+    } else if (bmi < 23) {
       perfectFit = "M";
-    } else if (bmi < 27) {
+    } else if (bmi < 26) {
       perfectFit = "L";
-    } else if (bmi < 30) {
+    } else if (bmi < 29) {
       perfectFit = "XL";
+    } else if (bmi < 32) {
+      perfectFit = "2XL";
+    } else if (bmi < 36) {
+      perfectFit = "3XL";
     } else {
-      perfectFit = "XXL";
+      perfectFit = "4XL";
     }
 
     chatbotState.userPreferences.size = perfectFit;
@@ -553,11 +558,14 @@ const compLoaded = async () => {
         if (recommendedProducts.length === 0) {
           addMessage(
             "I couldn't find any matching outfits. Please try adjusting your preferences.",
-            "bot"
+            "bot",
+            () => {
+              addOptions(["Start over", "Close"], (response) => {
+                if (response === "Start over") startChatbot();
+              });
+            }
           );
-          addOptions(["Start over", "Close"], (response) => {
-            if (response === "Start over") startChatbot();
-          });
+
           return;
         }
 
