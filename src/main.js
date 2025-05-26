@@ -60,8 +60,8 @@ document.addEventListener("click", (e) => {
 });
 
 // Disable logs in production
-const DEBUG_MODE = true;
-if (!DEBUG_MODE) {
+const DEBUG_MODE = import.meta.env.VITE_DEBUG_MODE;
+if (DEBUG_MODE !== "yes") {
   console.log = function () {};
   console.warn = function () {};
   console.error = function () {};
