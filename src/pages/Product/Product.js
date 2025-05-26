@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { observer } from "../../observer";
 import ProductCard from "../../components/Productcard/ProductCard";
-import * as bootstrap from "bootstrap";
+import Modal from "bootstrap/js/dist/modal";
 import "./Product.css";
 const componentID = "product";
 
@@ -697,7 +697,7 @@ const compLoaded = async (id) => {
     decrementBtn: document.getElementById("decrement-btn"),
     addToCartBtn: document.getElementById("add-to-cart"),
     imgContainer: document.getElementById("imgContainer"),
-    modal: new bootstrap.Modal(document.getElementById("imagePreviewModal")),
+    modal: new Modal(document.getElementById("imagePreviewModal")),
     modalImage: document.getElementById("modalImage"),
     modalElement: document.getElementById("imagePreviewModal"),
     productReview: document.querySelector("#productReview"),
@@ -1187,9 +1187,7 @@ const compLoaded = async (id) => {
   }
 
   // Review functionality
-  const reviewModal = new bootstrap.Modal(
-    document.getElementById("reviewModal")
-  );
+  const reviewModal = new Modal(document.getElementById("reviewModal"));
   const reviewForm = document.getElementById("reviewForm");
   const writeReviewBtn = document.getElementById("writeReviewBtn");
   const submitReviewBtn = document.getElementById("submitReviewBtn");
