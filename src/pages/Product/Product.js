@@ -696,7 +696,7 @@ const compLoaded = async (id) => {
     decrementBtn: document.getElementById("decrement-btn"),
     addToCartBtn: document.getElementById("add-to-cart"),
     imgContainer: document.getElementById("imgContainer"),
-    modal: new bootstrap.Modal(document.getElementById("imagePreviewModal")),
+    modal: document.getElementById("imagePreviewModal"),
     modalImage: document.getElementById("modalImage"),
     modalElement: document.getElementById("imagePreviewModal"),
     productReview: document.querySelector("#productReview"),
