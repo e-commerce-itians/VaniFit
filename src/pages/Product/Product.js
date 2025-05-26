@@ -60,7 +60,7 @@ export default async function Product({ id }) {
       <div class="container my-5">
         <div class="row">
           <!-- Product Images -->
-          <div class="col-md-4">
+          <div class="col-md-4 mb-2 mb-lg-0">
             <div class="mb-3 text-center bg-light rounded-3">
               <p class="col-12 placeholder-glow" id="imgPlaceholder">
                 <span
@@ -845,7 +845,7 @@ const compLoaded = async (id) => {
         elements.productReview.innerHTML = createStarRating(avgRating);
       } else {
         elements.productReview.innerHTML = "";
-        elements.reviewsContainer.innerHTML = `<span class="mx-5">No reviews available</span>`;
+        elements.reviewsContainer.innerHTML = `<span class="mt-3 text-center d-block">No reviews available</span>`;
       }
     } catch (error) {
       console.error("Reviews loading error:", error);
