@@ -316,8 +316,47 @@ const renderProducts = (products) => {
   const productList = document.querySelector("#product-list");
   productList.innerHTML = "";
 
+  // Filter based on brand and style
+  // Look for filter by style or brand name
+  let styleValue = null;
+  let brandValue = null;
+  const currentUrl = window.location.href;
+  const url = new URL(currentUrl);
+  // Get the query parameters
+  const searchParams = url.searchParams;
+  if (searchParams.has("style")) {
+    styleValue = searchParams.get("style");
+  }
+  if (searchParams.has("brand")) {
+    brandValue = searchParams.get("brand");
+  }
+
   // Store filtered products for pagination
-  filteredProducts = products;
+  if (styleValue || brandValue) {
+    filteredProducts = allProducts.filter((product) => {
+      // Brand filter
+      let brandMatch = true;
+      if (brandValue) {
+        brandMatch = product.brand?.toLowerCase() === brandValue.toLowerCase();
+      }
+
+      // Style filter
+      let styleMatch = true;
+      if (styleValue) {
+        const styleLower = styleValue.toLowerCase();
+        styleMatch =
+          product.brand?.toLowerCase().includes(styleLower) ||
+          product.tags?.some((tag) => tag.toLowerCase().includes(styleLower)) ||
+          product.description?.toLowerCase().includes(styleLower) ||
+          product.name?.toLowerCase().includes(styleLower) ||
+          product.category?.toLowerCase().includes(styleLower);
+      }
+
+      return brandMatch && styleMatch;
+    });
+  } else {
+    filteredProducts = products;
+  }
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
@@ -332,19 +371,36 @@ const renderProducts = (products) => {
         <a href="/product/${product.productID}" class="product-link" data-link>
           <div class="product-card minimal-card">
             <div class="minimal-img">
-              ${product.discount ? `<div class="discount-badge">-${product.discount}%</div>` : ""}
-              <img src="${product.colors[0].image_urls[0]}" alt="${product.name}">
+              ${
+                product.discount
+                  ? `<div class="discount-badge">-${product.discount}%</div>`
+                  : ""
+              }
+              <img src="${product.colors[0].image_urls[0]}" alt="${
+      product.name
+    }">
             </div>
             <div class="w-100">
               <div class="product-name">${product.name}</div>
               <div class="price-container">
-                ${product.discount ? `
+                ${
+                  product.discount
+                    ? `
                   <div class="original-price">$${product.price}</div>
-                  <div class="discounted-price">$${Math.round(product.price * (1 - product.discount / 100))}</div>
-                ` : `<div class="regular-price">$${product.price}</div>`}
+                  <div class="discounted-price">$${Math.round(
+                    product.price * (1 - product.discount / 100)
+                  )}</div>
+                `
+                    : `<div class="regular-price">$${product.price}</div>`
+                }
               </div>
               <div class="color-dots-container">
-                ${product.colors.map(color => `<span class="color-dot" title="${color.name}" style="background:${color.hex};"></span>`).join("")}
+                ${product.colors
+                  .map(
+                    (color) =>
+                      `<span class="color-dot" title="${color.name}" style="background:${color.hex};"></span>`
+                  )
+                  .join("")}
               </div>
               <button class="minimal-add-to-cart">Add to Cart</button>
             </div>
@@ -359,7 +415,8 @@ const renderProducts = (products) => {
   let paginationContainer = document.querySelector(".pagination-container");
   if (!paginationContainer) {
     paginationContainer = document.createElement("div");
-    paginationContainer.className = "pagination-container mt-4 d-flex justify-content-center";
+    paginationContainer.className =
+      "pagination-container mt-4 d-flex justify-content-center";
     productList.parentElement.appendChild(paginationContainer);
   }
 
@@ -375,7 +432,8 @@ function renderPagination(totalPages) {
 
   // Create pagination wrapper
   const paginationWrapper = document.createElement("div");
-  paginationWrapper.className = "pagination-wrapper d-flex align-items-center gap-2";
+  paginationWrapper.className =
+    "pagination-wrapper d-flex align-items-center gap-2";
 
   // Previous button
   const prevButton = document.createElement("button");
@@ -398,7 +456,9 @@ function renderPagination(totalPages) {
   // First page
   if (currentPage > 2) {
     const firstPageBtn = document.createElement("button");
-    firstPageBtn.className = `btn ${currentPage === 1 ? 'btn-dark' : 'btn-outline-dark'} rounded-pill px-3`;
+    firstPageBtn.className = `btn ${
+      currentPage === 1 ? "btn-dark" : "btn-outline-dark"
+    } rounded-pill px-3`;
     firstPageBtn.textContent = "1";
     firstPageBtn.onclick = () => changePage(1);
     pageNumbers.appendChild(firstPageBtn);
@@ -413,10 +473,16 @@ function renderPagination(totalPages) {
   }
 
   // Current page and surrounding pages
-  for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+  for (
+    let i = Math.max(1, currentPage - 1);
+    i <= Math.min(totalPages, currentPage + 1);
+    i++
+  ) {
     if (i === 1 && currentPage > 2) continue; // Skip if already added
     const pageBtn = document.createElement("button");
-    pageBtn.className = `btn ${currentPage === i ? 'btn-dark' : 'btn-outline-dark'} rounded-pill px-3`;
+    pageBtn.className = `btn ${
+      currentPage === i ? "btn-dark" : "btn-outline-dark"
+    } rounded-pill px-3`;
     pageBtn.textContent = i;
     pageBtn.onclick = () => changePage(i);
     pageNumbers.appendChild(pageBtn);
@@ -433,7 +499,9 @@ function renderPagination(totalPages) {
   // Last page
   if (currentPage < totalPages - 1) {
     const lastPageBtn = document.createElement("button");
-    lastPageBtn.className = `btn ${currentPage === totalPages ? 'btn-dark' : 'btn-outline-dark'} rounded-pill px-3`;
+    lastPageBtn.className = `btn ${
+      currentPage === totalPages ? "btn-dark" : "btn-outline-dark"
+    } rounded-pill px-3`;
     lastPageBtn.textContent = totalPages;
     lastPageBtn.onclick = () => changePage(totalPages);
     pageNumbers.appendChild(lastPageBtn);
@@ -448,7 +516,10 @@ function renderPagination(totalPages) {
   const pageInfo = document.createElement("div");
   pageInfo.className = "ms-3 text-muted";
   const startItem = (currentPage - 1) * ITEMS_PER_PAGE + 1;
-  const endItem = Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length);
+  const endItem = Math.min(
+    currentPage * ITEMS_PER_PAGE,
+    filteredProducts.length
+  );
   pageInfo.textContent = `Showing ${startItem}-${endItem} of ${filteredProducts.length} items`;
 
   paginationContainer.appendChild(paginationWrapper);
@@ -470,7 +541,9 @@ function changePage(newPage) {
   renderProducts(filteredProducts);
 
   // Scroll to top of product list
-  document.querySelector("#product-list").scrollIntoView({ behavior: "smooth" });
+  document
+    .querySelector("#product-list")
+    .scrollIntoView({ behavior: "smooth" });
 }
 
 const applyFilters = () => {
@@ -517,6 +590,8 @@ const applyFilters = () => {
 
   // Filter products
   const filtered = allProducts.filter((product) => {
+    console.log(product);
+
     // Gender filter
     let genderMatch = true;
     if (selectedGender) {

@@ -46,11 +46,11 @@ export default async function Home() {
     <!-- Brand Logos -->
     <div class="container-fluid bg-black py-4">
       <div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
-        <a href="#" class="text-white fs-3 fw-light text-decoration-none">VERSACE</a>
-        <a href="#" class="text-white fs-3 fw-light text-decoration-none">ZARA</a>
-        <a href="#" class="text-white fs-3 fw-light text-decoration-none">GUCCI</a>
-        <a href="#" class="text-white fs-3 fw-bold text-decoration-none">PRADA</a>
-        <a href="#" class="text-white fs-3 fw-light text-decoration-none">Calvin Klein</a>
+        <a href="/shop?brand=versace" class="text-white fs-3 fw-light text-decoration-none" data-link>VERSACE</a>
+        <a href="/shop?brand=zara" class="text-white fs-3 fw-light text-decoration-none" data-link>ZARA</a>
+        <a href="/shop?brand=gucci" class="text-white fs-3 fw-light text-decoration-none" data-link>GUCCI</a>
+        <a href="/shop?brand=prada" class="text-white fs-3 fw-bold text-decoration-none" data-link>PRADA</a>
+        <a href="/shop?brand=calvin klein" class="text-white fs-3 fw-light text-decoration-none" data-link>Calvin Klein</a>
       </div>
     </div>
       <div class="container py-5">
@@ -136,10 +136,10 @@ export default async function Home() {
         <div class="container rounded-5" id="style-container">
         <h2 class="section-title py-3">BROWSE BY dress STYLE</h2>
         <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 pb-4" >
-        <a href="#"><img class="img-fluid" src="images/casual.png" alt="Casual Style"></a>
-        <a href="#"><img class="img-fluid" src="images/formal.png" alt="Formal Style"></a>
-        <a href="#"><img class="img-fluid" src="images/party.png" alt="Party Style"></a>
-        <a href="#"><img class="img-fluid" src="images/gym.png" alt="Gym Style"></a>
+        <a href="/shop?style=casual" data-link><img class="img-fluid" src="images/casual.png" alt="Casual Style"></a>
+        <a href="/shop?style=formal" data-link><img class="img-fluid" src="images/formal.png" alt="Formal Style"></a>
+        <a href="/shop?style=party" data-link><img class="img-fluid" src="images/party.png" alt="Party Style"></a>
+        <a href="/shop?style=gym" data-link><img class="img-fluid" src="images/gym.png" alt="Gym Style"></a>
         </div>
     </div>
   </div>
