@@ -119,13 +119,11 @@ window.App = {
   chatbotInit: false,
 };
 
-//Disable logs in production
-const DEBUG_MODE = false;
+// Disable logs in production
+const DEBUG_MODE = true;
 if (!DEBUG_MODE) {
-  // Set DEBUG_MODE to false in production
   console.log = function () {};
   console.warn = function () {};
   console.error = function () {};
   console.info = function () {};
-  // Add any other console methods you use
 }
