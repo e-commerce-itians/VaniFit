@@ -12,7 +12,7 @@ export default async function Home() {
       <div class="row align-items-center">
         <!-- Text Section -->
         <div class="col-md-6 text-center text-md-start">
-          <h1 id="logo-font" class="fw-bold">Find Clothes<br>That Matches Your Style</h1>
+          <h1 id="logo-font" class="fw-bold">Find Clothes<br>That Match Your Style</h1>
           <p class="text-muted">
             Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
           </p>
@@ -46,11 +46,11 @@ export default async function Home() {
     <!-- Brand Logos -->
     <div class="container-fluid bg-black py-4">
       <div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
-        <a href="#" class="text-white fs-3 fw-light text-decoration-none">VERSACE</a>
-        <a href="#" class="text-white fs-3 fw-light text-decoration-none">ZARA</a>
-        <a href="#" class="text-white fs-3 fw-light text-decoration-none">GUCCI</a>
-        <a href="#" class="text-white fs-3 fw-bold text-decoration-none">PRADA</a>
-        <a href="#" class="text-white fs-3 fw-light text-decoration-none">Calvin Klein</a>
+        <a href="/shop?brand=Nike" class="text-white fs-3 fw-light text-decoration-none" data-link>Nike</a>
+        <a href="/shop?brand=Adidas" class="text-white fs-3 fw-light text-decoration-none" data-link>Adidas</a>
+        <a href="/shop?brand=H&M" class="text-white fs-3 fw-light text-decoration-none" data-link>H&M</a>
+        <a href="/shop?brand=Puma" class="text-white fs-3 fw-light text-decoration-none" data-link>Puma</a>
+        <a href="/shop?brand=Calvin Klein" class="text-white fs-3 fw-light text-decoration-none" data-link>Calvin Klein</a>
       </div>
     </div>
       <div class="container py-5">
@@ -134,12 +134,12 @@ export default async function Home() {
         </div>
       </div>
         <div class="container rounded-5" id="style-container">
-        <h2 class="section-title py-3">BROWSE BY dress STYLE</h2>
+        <h2 class="section-title py-3">BROWSE BY STYLE</h2>
         <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 pb-4" >
-        <a href="#"><img class="img-fluid" src="images/casual.png" alt="Casual Style"></a>
-        <a href="#"><img class="img-fluid" src="images/formal.png" alt="Formal Style"></a>
-        <a href="#"><img class="img-fluid" src="images/party.png" alt="Party Style"></a>
-        <a href="#"><img class="img-fluid" src="images/gym.png" alt="Gym Style"></a>
+        <a href="/shop?tags=Casual" data-link><img class="img-fluid" src="images/casual.png" alt="Casual Style"></a>
+        <a href="/shop?tags=Formal" data-link><img class="img-fluid" src="images/formal.png" alt="Formal Style"></a>
+        <a href="/shop?tags=Party" data-link><img class="img-fluid" src="images/party.png" alt="Party Style"></a>
+        <a href="/shop?tags=Gym" data-link><img class="img-fluid" src="images/gym.png" alt="Gym Style"></a>
         </div>
     </div>
   </div>
@@ -149,45 +149,45 @@ export default async function Home() {
 const compLoaded = async () => {
   try {
     // Fetch men's products
-    const mensQuery = query(
+    const menQuery = query(
       collection(App.firebase.db, "products"),
       where("gender", "==", "male"),
       limit(5)
     );
-    const mensSnapshot = await getDocs(mensQuery);
-    const mensProducts = [];
-    mensSnapshot.forEach((doc) => {
-      mensProducts.push({ id: doc.id, ...doc.data() });
+    const menSnap = await getDocs(menQuery);
+    const menProducts = [];
+    menSnap.forEach((doc) => {
+      menProducts.push({ id: doc.id, ...doc.data() });
     });
 
     // Fetch women's products
-    const womensQuery = query(
+    const womenQuery = query(
       collection(App.firebase.db, "products"),
       where("gender", "==", "female"),
       limit(5)
     );
-    const womensSnapshot = await getDocs(womensQuery);
-    const womensProducts = [];
-    womensSnapshot.forEach((doc) => {
-      womensProducts.push({ id: doc.id, ...doc.data() });
+    const womenSnap = await getDocs(womenQuery);
+    const womenProducts = [];
+    womenSnap.forEach((doc) => {
+      womenProducts.push({ id: doc.id, ...doc.data() });
     });
 
     // Fetch children's products
-    const childrensQuery = query(
+    const childrenQuery = query(
       collection(App.firebase.db, "products"),
       where("gender", "==", "children"),
       limit(5)
     );
-    const childrensSnapshot = await getDocs(childrensQuery);
-    const childrensProducts = [];
-    childrensSnapshot.forEach((doc) => {
-      childrensProducts.push({ id: doc.id, ...doc.data() });
+    const childrenSnap = await getDocs(childrenQuery);
+    const childrenProducts = [];
+    childrenSnap.forEach((doc) => {
+      childrenProducts.push({ id: doc.id, ...doc.data() });
     });
 
     // Update men's section
-    const mensContainer = document.getElementById("mens-products");
-    if (mensProducts.length > 0) {
-      mensContainer.innerHTML = mensProducts
+    const menContainer = document.getElementById("mens-products");
+    if (menProducts.length > 0) {
+      menContainer.innerHTML = menProducts
         .map(
           (product) => `
           <div class="col-6 col-md-4 col-lg-2">
@@ -206,9 +206,9 @@ const compLoaded = async () => {
     }
 
     // Update women's section
-    const womensContainer = document.getElementById("womens-products");
-    if (womensProducts.length > 0) {
-      womensContainer.innerHTML = womensProducts
+    const womenContainer = document.getElementById("womens-products");
+    if (womenProducts.length > 0) {
+      womenContainer.innerHTML = womenProducts
         .map(
           (product) => `
           <div class="col-6 col-md-4 col-lg-2">
@@ -227,9 +227,9 @@ const compLoaded = async () => {
     }
 
     // Update children's section
-    const childrensContainer = document.getElementById("childrens-products");
-    if (childrensProducts.length > 0) {
-      childrensContainer.innerHTML = childrensProducts
+    const childrenContainer = document.getElementById("childrens-products");
+    if (childrenProducts.length > 0) {
+      childrenContainer.innerHTML = childrenProducts
         .map(
           (product) => `
           <div class="col-6 col-md-4 col-lg-2">

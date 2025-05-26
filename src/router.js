@@ -48,6 +48,14 @@ const routes = [
     view: Cart,
   },
   {
+    path: "/orders",
+    view: OrderList,
+  },
+  {
+    path: "/orders/success",
+    view: OrderConfirm,
+  },
+  {
     path: "/shop",
     view: Shop,
   },
@@ -58,14 +66,6 @@ const routes = [
   {
     path: "/shop/:gender/:page",
     view: Shop,
-  },
-  {
-    path: "/orders",
-    view: OrderList,
-  },
-  {
-    path: "/orders/success",
-    view: OrderConfirm,
   },
 ];
 
