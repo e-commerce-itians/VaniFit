@@ -687,6 +687,10 @@ const setupFilterEvents = () => {
   const clearButton = document.getElementById("clear-filters");
   if (clearButton) {
     clearButton.addEventListener("click", () => {
+      // Clear query from window href
+      const url = new URL(window.location.href);
+      url.search = "";
+      window.history.replaceState({}, document.title, url.toString());
       // Clear color selection
       document
         .querySelectorAll(".color-circle-btn")
