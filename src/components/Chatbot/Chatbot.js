@@ -25,7 +25,6 @@ export default function Chatbot() {
             </div>
 
             <div class="chatbot-messages" id="chatbotMessages">
-            <!-- Messages will appear here -->
             </div>
 
             <div class="chatbot-input" id="chatbotInput" style="display: none">
@@ -53,7 +52,7 @@ const compLoaded = async () => {
   const userInput = document.getElementById("userInput");
   const sendMessage = document.getElementById("sendMessage");
 
-  // Skin tone palette with hex values
+  // Skin tone
   const skinTonePalette = {
     "Very Fair": ["#FFDBB3", "#F5D0B8", "#EECEB3"],
     Fair: ["#E8C2A8", "#E0B89B", "#D9AE8E"],
@@ -65,10 +64,12 @@ const compLoaded = async () => {
     "Very Dark": ["#1A0D05", "#140A04", "#0D0602"],
   };
 
-  // Chatbot state
+  // Chatbot status
   const chatbotState = {
     active: false,
     currentStep: 0,
+
+    // Data to be collected
     userPreferences: {
       gender: null,
       height: null,
@@ -119,7 +120,7 @@ const compLoaded = async () => {
     processMessageQueue();
   }
 
-  // New message queue system
+  // Message queue system
   let messageQueue = [];
   let isProcessingQueue = false;
 
@@ -137,7 +138,7 @@ const compLoaded = async () => {
       chatbotMessages.appendChild(typingIndicator);
       chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
-      // Calculate typing duration (minimum 1s, maximum 3s)
+      // Calculate typing duration with max of 3s and min of 1s
       const typingDuration = Math.min(Math.max(1000, text.length * 30), 3000);
 
       await new Promise((resolve) => setTimeout(resolve, typingDuration));
@@ -401,7 +402,7 @@ const compLoaded = async () => {
   }
 
   function hexToRgb(hex) {
-    // Remove # if present
+    // Remove # if exists
     hex = hex.replace("#", "");
 
     // Parse r, g, b values

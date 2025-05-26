@@ -212,10 +212,6 @@ function updateOrderUI(orderData) {
   `;
 }
 
-/**
- * Updates product inventory quantities in Firestore when an order is placed
- * @param {Array} orderItems - Array of items in the order
- */
 async function updateProductInventory(orderItems) {
   try {
     if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
@@ -291,6 +287,5 @@ async function updateProductInventory(orderItems) {
     console.log("Inventory update completed successfully");
   } catch (error) {
     console.error("Error updating product inventory:", error);
-    // We don't throw the error to avoid disrupting the order process
   }
 }

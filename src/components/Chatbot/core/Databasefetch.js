@@ -61,12 +61,14 @@ async function fetchProductsWithCache() {
     return cachedData ? JSON.parse(cachedData).data : [];
   }
 }
-// Usage in your chatbot:
+
+// Load products
 let productsDatabase;
 async function Databasefetch() {
   productsDatabase = await fetchProductsWithCache();
 }
 
+// Get Products
 function getProductsDatabase() {
   return productsDatabase;
 }

@@ -15,7 +15,6 @@ export default function OrderList() {
         <div class="row">
           <div class="col-12">
             <div id="ordersContainer" class="accordion">
-              <!-- Orders will be loaded here -->
               <div class="text-center py-5" id="loadingIndicator">
                 <div class="spinner-border text-primary" role="status">
                   <span class="visually-hidden">Loading...</span>

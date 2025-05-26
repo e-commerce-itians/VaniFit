@@ -35,12 +35,21 @@ export default async function Product({ id }) {
               >
             </li>
             <li class="breadcrumb-item">
-              <a href="#" class="text-decoration-none text-muted" id="productCategory" data-link>
+              <a
+                href="#"
+                class="text-decoration-none text-muted"
+                id="productCategory"
+                data-link
+              >
                 ...
               </a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" id="productGender">
-                ...
+            <li
+              class="breadcrumb-item active"
+              aria-current="page"
+              id="productGender"
+            >
+              ...
             </li>
           </ol>
         </nav>
@@ -133,15 +142,15 @@ export default async function Product({ id }) {
 
             <hr />
             <div class="text-danger d-block mb-3" id="cartError"></div>
-              <div class="d-flex align-items-center mb-5">
-                <div class="btn-group me-3" role="group">
-                  <button class="btn btn-light" id="decrement-btn">-</button>
-                  <button class="btn btn-light" id="quantity-display">1</button>
-                  <button class="btn btn-light" id="increment-btn">+</button>
-                </div>
-                <button class="btn btn-dark rounded-pill px-5" id="add-to-cart">
-                  Add to Cart
-                </button>
+            <div class="d-flex align-items-center mb-5">
+              <div class="btn-group me-3" role="group">
+                <button class="btn btn-light" id="decrement-btn">-</button>
+                <button class="btn btn-light" id="quantity-display">1</button>
+                <button class="btn btn-light" id="increment-btn">+</button>
+              </div>
+              <button class="btn btn-dark rounded-pill px-5" id="add-to-cart">
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>
@@ -224,56 +233,109 @@ export default async function Product({ id }) {
                 All Reviews <span class="text-muted" id="reviewsCount"></span>
               </h4>
               <div class="d-flex gap-2">
-  <div class="dropdown">
-    <button class="btn btn-light rounded-pill p-2 dropdown-toggle" id="sortReviewsBtn" data-bs-toggle="dropdown" aria-expanded="false">
-      Latest
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="sortReviewsBtn">
-      <li><a class="dropdown-item" href="#" data-sort="latest">Latest </a></li>
-      <li><a class="dropdown-item" href="#" data-sort="oldest">Oldest </a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="#" data-sort="highest">Highest </a></li>
-      <li><a class="dropdown-item" href="#" data-sort="lowest">Lowest </a></li>
-    </ul>
-  </div>
-  <button class="btn btn-dark rounded-pill p-2" id="writeReviewBtn" data-product-id="${id}">
-    Write a Review
-  </button>
-</div>
+                <div class="dropdown">
+                  <button
+                    class="btn btn-light rounded-pill p-2 dropdown-toggle"
+                    id="sortReviewsBtn"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Latest
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="sortReviewsBtn">
+                    <li>
+                      <a class="dropdown-item" href="#" data-sort="latest"
+                        >Latest
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#" data-sort="oldest"
+                        >Oldest
+                      </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="#" data-sort="highest"
+                        >Highest
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#" data-sort="lowest"
+                        >Lowest
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <button
+                  class="btn btn-dark rounded-pill p-2"
+                  id="writeReviewBtn"
+                  data-product-id="${id}"
+                >
+                  Write a Review
+                </button>
+              </div>
             </div>
 
             <!-- Review Modal -->
-            <div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Write a Review</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form id="reviewForm">
-                    <div class="mb-3">
-                      <label for="reviewRating" class="form-label">Rating</label>
-                      <select class="form-select" id="reviewRating" required>
-                        <option value="" selected disabled>Select rating</option>
-                        <option value="5">5 - Excellent</option>
-                        <option value="4">4 - Very Good</option>
-                        <option value="3">3 - Good</option>
-                        <option value="2">2 - Fair</option>
-                        <option value="1">1 - Poor</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="reviewMessage" class="form-label">Review</label>
-                      <textarea class="form-control" id="reviewMessage" rows="3" required placeholder="Share your thoughts about this product..."></textarea>
-                    </div>
-                    <div class="d-grid gap-2">
-                      <button type="submit" class="btn btn-dark" id="submitReviewBtn">Submit Review</button>
-                    </div>
-                  </form>
+            <div
+              class="modal fade"
+              id="reviewModal"
+              tabindex="-1"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Write a Review</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="reviewForm">
+                      <div class="mb-3">
+                        <label for="reviewRating" class="form-label"
+                          >Rating</label
+                        >
+                        <select class="form-select" id="reviewRating" required>
+                          <option value="" selected disabled>
+                            Select rating
+                          </option>
+                          <option value="5">5 - Excellent</option>
+                          <option value="4">4 - Very Good</option>
+                          <option value="3">3 - Good</option>
+                          <option value="2">2 - Fair</option>
+                          <option value="1">1 - Poor</option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="reviewMessage" class="form-label"
+                          >Review</label
+                        >
+                        <textarea
+                          class="form-control"
+                          id="reviewMessage"
+                          rows="3"
+                          required
+                          placeholder="Share your thoughts about this product..."
+                        ></textarea>
+                      </div>
+                      <div class="d-grid gap-2">
+                        <button
+                          type="submit"
+                          class="btn btn-dark"
+                          id="submitReviewBtn"
+                        >
+                          Submit Review
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
             </div>
             <!-- Reviews -->
             <div class="row" id="reviewsContainer">
@@ -590,7 +652,12 @@ export default async function Product({ id }) {
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content bg-transparent border-0">
           <div class="modal-body text-center p-0">
-            <img id="modalImage" src="" class="img-fluid rounded-4" alt="Preview" />
+            <img
+              id="modalImage"
+              src=""
+              class="img-fluid rounded-4"
+              alt="Preview"
+            />
           </div>
           <button
             type="button"
@@ -621,7 +688,7 @@ const compLoaded = async (id) => {
   let currentQuantity = 1;
   let maxQuantity = 0;
 
-  // DOM elements
+  // All our html elements we need to work on
   const elements = {
     quantity: document.getElementById("quantity-display"),
     cartError: document.getElementById("cartError"),
@@ -1230,7 +1297,7 @@ const compLoaded = async (id) => {
     });
   }
 
-  // Modify the renderProductReviews function to handle sorting
+  // Render Reviews
   function renderProductReviews(reviews) {
     // Sort reviews based on current method
     const sortedReviews = [...reviews].sort((a, b) => {
