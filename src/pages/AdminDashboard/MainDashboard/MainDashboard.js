@@ -16,6 +16,7 @@ export default function MainDashboard() {
       ${Sidebar()}
       <!-- Main Content -->
       <div class="dashboard-content" id="dashboard-content">
+      <!-- Initially, render the overview page -->
         ${Overview()}
       </div>
     </div>
@@ -45,8 +46,6 @@ function initDashboard() {
   overviewBtn.addEventListener("click", () => {
     mainContent.innerHTML = Overview();
     updateActiveButton("overview");
-    // Initialize Overview component after DOM update
-    setTimeout(initializeOverview, 0);
   });
 
   productListBtn.addEventListener("click", () => {
