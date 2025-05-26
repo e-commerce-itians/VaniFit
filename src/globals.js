@@ -23,9 +23,11 @@ window.App = {
   },
   cloudinary: {
     // Cloudinary config, got UPLOAD_PRESET and CLOUD_NAME from cloudinary dashboard
-    UPLOAD_PRESET: "lq3wdeku",
-    CLOUD_NAME: "dbymxe1wb",
-    UPLOAD_URL: "https://api.cloudinary.com/v1_1/dbymxe1wb/image/upload",
+    UPLOAD_PRESET: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+    CLOUD_NAME: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+    UPLOAD_URL: `https://api.cloudinary.com/v1_1/${
+      import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+    }/image/upload`,
   },
 
   //Shopping cart functions
