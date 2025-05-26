@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { observer } from "../../observer";
 import ProductCard from "../../components/Productcard/ProductCard";
+import * as bootstrap from "bootstrap";
 import "./Product.css";
 const componentID = "product";
 
@@ -696,7 +697,7 @@ const compLoaded = async (id) => {
     decrementBtn: document.getElementById("decrement-btn"),
     addToCartBtn: document.getElementById("add-to-cart"),
     imgContainer: document.getElementById("imgContainer"),
-    modal: document.getElementById("imagePreviewModal"),
+    modal: new bootstrap.Modal(document.getElementById("imagePreviewModal")),
     modalImage: document.getElementById("modalImage"),
     modalElement: document.getElementById("imagePreviewModal"),
     productReview: document.querySelector("#productReview"),
