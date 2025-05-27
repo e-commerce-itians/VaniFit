@@ -16,14 +16,13 @@ export default function Shop({ gender, page }) {
     <div component="${componentID}" class="container my-5">
       <div class="row g-4">
         <div class="col-lg-3 col-md-4">
-          <div class="filter-sidebar">
-
-            <div class="text-end">
-              <span class="rounded-pill border bg-light-subtle d-inline d-md-none m-2 text-end" id="filterToggleBtn">
-                  <i class="fas fa-filter"></i>
-              </span>
-            </div>
-            <div class="d-none d-md-block" id="filterSideBar">
+          <div class="text-end">
+            <span class="btn btn-light d-inline d-md-none m-2 p-2" id="filterToggleBtn">
+                <i class="fas fa-filter"></i>
+            </span>
+          </div>
+          <div class="filter-sidebar d-none d-md-block mt-3 mt-md-0"  id="filterSideBar">
+            <div>
             <h4 class="fw-bold mb-4">Filters</h4>
             
             <div class="filter-section">
