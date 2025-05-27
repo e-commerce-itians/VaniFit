@@ -267,13 +267,25 @@ export default async function Product({ id }) {
                     </li>
                   </ul>
                 </div>
+                ${
+                  App.firebase.user.email
+                    ? `
+                      <button
+                        class="btn btn-dark rounded-pill p-2"
+                        id="writeReviewBtn"
+                        data-product-id="${id}"
+                      >
+                        Write a Review
+                      </button>`
+                    : `
                 <button
-                  class="btn btn-dark rounded-pill p-2"
+                  class="btn btn-dark rounded-pill p-2 px-3"
                   id="writeReviewBtn"
                   data-product-id="${id}"
-                >
-                  Write a Review
-                </button>
+                disabled>
+                 <i class="fa-solid fa-lock me-2"></i>Login to write a review
+                </button>`
+                }
               </div>
             </div>
 
@@ -1211,7 +1223,6 @@ const compLoaded = async (id) => {
       const productId = writeReviewBtn.dataset.productId;
 
       if (!rating || !message) {
-        alert("Please fill all fields");
         return;
       }
 
@@ -1263,7 +1274,6 @@ const compLoaded = async (id) => {
         }, 1000);
       } catch (error) {
         console.error("Error submitting review:", error);
-        alert("Failed to submit review. Please try again.");
         submitReviewBtn.disabled = false;
         submitReviewBtn.innerHTML = "Submit Review";
       }

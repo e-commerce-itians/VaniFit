@@ -96,7 +96,6 @@ async function loadOrders() {
     });
   } catch (error) {
     console.error("Error loading orders:", error);
-    alert("Failed to load orders. Please try again.");
   }
 }
 
@@ -238,7 +237,6 @@ function createOrderElement(order, index) {
         }
       } catch (error) {
         console.error("Error cancelling order:", error);
-        alert("Failed to cancel order. Please try again.");
         cancelBtn.disabled = false;
         cancelBtn.innerHTML = '<i class="fas fa-times me-1"></i> Cancel Order';
       }
