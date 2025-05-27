@@ -10,6 +10,9 @@ import {
   updateDoc,
   arrayUnion,
   setDoc,
+  orderBy,
+  addDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { observer } from "../../observer";
 import ProductCard from "../../components/Productcard/ProductCard";
@@ -309,6 +312,9 @@ export default async function Product({ id }) {
                   </div>
                   <div class="modal-body">
                     <form id="reviewForm">
+                      <div class="alert alert-danger d-none" id="errorMessage" role="alert">
+                       
+                      </div>
                       <div class="mb-3">
                         <label for="reviewRating" class="form-label"
                           >Rating</label
@@ -846,14 +852,21 @@ const compLoaded = async (id) => {
 
   async function loadProductReviews(productId) {
     try {
-      const reviewsSnap = await getDoc(
-        doc(App.firebase.db, "reviews", productId)
+      const reviewsQuery = query(
+        collection(App.firebase.db, "reviews", productId, "userReviews"),
+        orderBy("createdAt", "desc") // Newest first
       );
-      const reviewsData = reviewsSnap.exists() ? reviewsSnap.data() : null;
 
-      if (reviewsData?.reviews?.length > 0) {
-        renderProductReviews(reviewsData.reviews);
-        const avgRating = calculateAverageRating(reviewsData.reviews);
+      const querySnapshot = await getDocs(reviewsQuery);
+      const reviews = [];
+
+      querySnapshot.forEach((doc) => {
+        reviews.push({ id: doc.id, ...doc.data() });
+      });
+
+      if (reviews.length > 0) {
+        renderProductReviews(reviews);
+        const avgRating = calculateAverageRating(reviews);
         elements.productReview.innerHTML = createStarRating(avgRating);
       } else {
         elements.productReview.innerHTML = "";
@@ -1218,47 +1231,77 @@ const compLoaded = async (id) => {
     reviewForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const rating = document.getElementById("reviewRating").value;
-      const message = document.getElementById("reviewMessage").value;
+      //Remove error message
+      const errorMessage = document.querySelector("#errorMessage");
+      if (errorMessage) {
+        errorMessage.classList.add("d-none");
+      }
+
+      const rating = parseFloat(document.getElementById("reviewRating").value);
+      const message = document.getElementById("reviewMessage").value.trim();
       const productId = writeReviewBtn.dataset.productId;
 
-      if (!rating || !message) {
+      // Client-side validation
+      if (!rating || isNaN(rating) || rating < 1 || rating > 5) {
+        errorMessage.classList.remove("d-none");
+        errorMessage.innerHTML = "Rating should be from 1 to 5.";
+        return;
+      }
+
+      if (!message || message.length < 10 || message.length > 1000) {
+        errorMessage.classList.remove("d-none");
+        errorMessage.innerHTML =
+          "Review message must be between 10-1000 characters";
+        return;
+      }
+
+      // HTML tag validation (same regex as Firebase rules)
+      const htmlTagRegex = /<[^>]+>/;
+      if (htmlTagRegex.test(message)) {
+        errorMessage.classList.remove("d-none");
+        errorMessage.innerHTML = "HTML tags are not allowed in reviews";
         return;
       }
 
       try {
         submitReviewBtn.disabled = true;
         submitReviewBtn.innerHTML = `
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Submitting...
-      `;
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Submitting...
+            `;
 
-        // Create review object
-        const newReview = {
-          uid: App.firebase.user.uid,
-          displayName: App.firebase.user.displayName,
-          rate: parseFloat(rating),
-          message: message,
-          createdAt: {
-            seconds: Math.floor(Date.now() / 1000),
-            nanoseconds: 0,
-          },
-        };
+        // Check if user already has a review for this product
+        const userReviewQuery = query(
+          collection(App.firebase.db, "reviews", productId, "userReviews"),
+          where("uid", "==", App.firebase.user.uid),
+          limit(1)
+        );
 
-        // Get existing reviews or create new document
-        const reviewRef = doc(App.firebase.db, "reviews", productId);
-        const reviewDoc = await getDoc(reviewRef);
+        const querySnapshot = await getDocs(userReviewQuery);
+        const existingReview = querySnapshot.docs[0];
 
-        if (reviewDoc.exists()) {
-          // Update existing reviews array
-          await updateDoc(reviewRef, {
-            reviews: arrayUnion(newReview),
+        if (existingReview) {
+          // Update existing review
+          await updateDoc(existingReview.ref, {
+            rate: rating,
+            message: message,
+            updatedAt: serverTimestamp(),
           });
         } else {
-          // Create new document with reviews array
-          await setDoc(reviewRef, {
-            reviews: [newReview],
-          });
+          // Create new review
+          const newReview = {
+            uid: App.firebase.user.uid,
+            displayName: App.firebase.user.displayName,
+            rate: rating,
+            message: message,
+            productId: productId,
+            createdAt: serverTimestamp(),
+          };
+
+          await addDoc(
+            collection(App.firebase.db, "reviews", productId, "userReviews"),
+            newReview
+          );
         }
 
         // Success feedback
@@ -1268,14 +1311,14 @@ const compLoaded = async (id) => {
           reviewForm.reset();
           submitReviewBtn.disabled = false;
           submitReviewBtn.innerHTML = "Submit Review";
-
-          // Reload reviews to show the new one
           loadProductReviews(productId);
         }, 1000);
       } catch (error) {
         console.error("Error submitting review:", error);
         submitReviewBtn.disabled = false;
         submitReviewBtn.innerHTML = "Submit Review";
+        errorMessage.classList.remove("d-none");
+        errorMessage.innerHTML = "Failed to submit review. Please try again.";
       }
     });
   }
