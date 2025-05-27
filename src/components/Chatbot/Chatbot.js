@@ -8,8 +8,8 @@ export default function Chatbot() {
   return /*html*/ `
    <div component="${componentID}">
     <div class="chatbot-container">
-        <div id="chatbotToggleText" class="chatbot-label">
-          <span class="d-none d-md-block">Psst… Our AI knows what fits you!</span>
+        <div id="chatbotToggleText" class="chatbot-label d-none d-md-block">
+          <span>Psst… Our AI knows what fits you!</span>
         </div>
         
         <button class="chatbot-btn" id="chatbotToggle">
