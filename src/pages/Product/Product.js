@@ -1397,6 +1397,8 @@ const compLoaded = async (id) => {
   }
 
   // Initialize
-  loadProduct();
-  updateQuantityDisplay();
+  setTimeout(() => {
+    loadProduct();
+    updateQuantityDisplay();
+  }, 500);
 };
