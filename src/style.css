@@ -100,7 +100,9 @@ a {
 
 [component="cart"],
 [component="shop"],
-[component="product"] {
+[component="product"],
+[component="orderList"],
+[component="orderConfirm"] {
   opacity: 0;
   transform: scale(0.98); /* Slight initial scale-down */
   animation: crossfadeScale 0.5s ease forwards;
