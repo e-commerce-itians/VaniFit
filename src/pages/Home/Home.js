@@ -36,7 +36,7 @@ export default async function Home() {
         </div>
 
         <!-- Image Section -->
-        <div class="col-md-6 mt-4 mt-md-0">
+        <div class="col-md-6 mt-4 mt-md-1">
            <img src="images/hero.jpg" class="img-fluid" alt="Models" width="2730" height="4096">
         </div>
       
