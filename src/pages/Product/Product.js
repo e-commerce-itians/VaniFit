@@ -292,70 +292,6 @@ export default async function Product({ id }) {
               </div>
             </div>
 
-            <!-- Review Modal -->
-            <div
-              class="modal fade"
-              id="reviewModal"
-              tabindex="-1"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Write a Review</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="reviewForm">
-                      <div class="alert alert-danger d-none" id="errorMessage" role="alert">
-                       
-                      </div>
-                      <div class="mb-3">
-                        <label for="reviewRating" class="form-label"
-                          >Rating</label
-                        >
-                        <select class="form-select" id="reviewRating" required>
-                          <option value="" selected disabled>
-                            Select rating
-                          </option>
-                          <option value="5">5 - Excellent</option>
-                          <option value="4">4 - Very Good</option>
-                          <option value="3">3 - Good</option>
-                          <option value="2">2 - Fair</option>
-                          <option value="1">1 - Poor</option>
-                        </select>
-                      </div>
-                      <div class="mb-3">
-                        <label for="reviewMessage" class="form-label"
-                          >Review</label
-                        >
-                        <textarea
-                          class="form-control"
-                          id="reviewMessage"
-                          rows="3"
-                          required
-                          placeholder="Share your thoughts about this product..."
-                        ></textarea>
-                      </div>
-                      <div class="d-grid gap-2">
-                        <button
-                          type="submit"
-                          class="btn btn-dark"
-                          id="submitReviewBtn"
-                        >
-                          Submit Review
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
             <!-- Reviews -->
             <div class="row" id="reviewsContainer">
               <p class="d-block col-12 text-center my-5 placeholder-glow">
@@ -687,6 +623,71 @@ export default async function Product({ id }) {
         </div>
       </div>
     </div>
+
+    <!-- Review Modal -->
+    <div
+    class="modal fade"
+    id="reviewModal"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Write a Review</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form id="reviewForm">
+            <div class="alert alert-danger d-none" id="errorMessage" role="alert">
+             
+            </div>
+            <div class="mb-3">
+              <label for="reviewRating" class="form-label"
+                >Rating</label
+              >
+              <select class="form-select" id="reviewRating" required>
+                <option value="" selected disabled>
+                  Select rating
+                </option>
+                <option value="5">5 - Excellent</option>
+                <option value="4">4 - Very Good</option>
+                <option value="3">3 - Good</option>
+                <option value="2">2 - Fair</option>
+                <option value="1">1 - Poor</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="reviewMessage" class="form-label"
+                >Review</label
+              >
+              <textarea
+                class="form-control"
+                id="reviewMessage"
+                rows="3"
+                required
+                placeholder="Share your thoughts about this product..."
+              ></textarea>
+            </div>
+            <div class="d-grid gap-2">
+              <button
+                type="submit"
+                class="btn btn-dark"
+                id="submitReviewBtn"
+              >
+                Submit Review
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   `;
 }
 
