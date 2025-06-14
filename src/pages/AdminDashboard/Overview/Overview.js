@@ -186,6 +186,7 @@ function renderOrderStatusChart(statusData) {
       datasets: [
         {
           data: Object.values(statusData),
+          label: "Number of Orders",
           backgroundColor: [
             "#0d6efd", // processing - blue
             "#ffc107", // shipped - yellow
