@@ -1,7 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
 import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css";
 import "@fortawesome/fontawesome-free";
@@ -60,8 +60,8 @@ document.addEventListener("click", (e) => {
 });
 
 // Disable logs in production
-const DEBUG_MODE = true;
-if (!DEBUG_MODE) {
+const DEBUG_MODE = import.meta.env.VITE_DEBUG_MODE;
+if (DEBUG_MODE !== "yes") {
   console.log = function () {};
   console.warn = function () {};
   console.error = function () {};

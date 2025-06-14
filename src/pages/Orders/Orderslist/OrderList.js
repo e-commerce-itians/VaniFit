@@ -33,9 +33,6 @@ export default function OrderList() {
                 <p class="text-muted mb-4">
                   You haven't placed any orders with us yet.
                 </p>
-                <a href="/shop" class="btn btn-primary px-4" data-link>
-                  <i class="fas fa-store me-2"></i> Start Shopping
-                </a>
               </div>
             </div>
           </div>
@@ -96,7 +93,6 @@ async function loadOrders() {
     });
   } catch (error) {
     console.error("Error loading orders:", error);
-    alert("Failed to load orders. Please try again.");
   }
 }
 
@@ -164,7 +160,7 @@ function createOrderElement(order, index) {
             </div>
             <div class="text-md-end mt-2 mt-md-0">
               <span class="text-muted me-3">${orderDate}</span>
-              <span class="fw-bold">${order.total}</span>
+              <span class="fw-bold me-3">${order.total}</span>
             </div>
           </div>
         </button>
@@ -238,7 +234,6 @@ function createOrderElement(order, index) {
         }
       } catch (error) {
         console.error("Error cancelling order:", error);
-        alert("Failed to cancel order. Please try again.");
         cancelBtn.disabled = false;
         cancelBtn.innerHTML = '<i class="fas fa-times me-1"></i> Cancel Order';
       }

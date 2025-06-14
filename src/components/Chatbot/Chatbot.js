@@ -8,7 +8,7 @@ export default function Chatbot() {
   return /*html*/ `
    <div component="${componentID}">
     <div class="chatbot-container">
-        <div id="chatbotToggleText" class="chatbot-label">
+        <div id="chatbotToggleText" class="chatbot-label d-none d-md-block">
           <span>Psst… Our AI knows what fits you!</span>
         </div>
         
@@ -83,6 +83,7 @@ const compLoaded = async () => {
   chatbotToggle.addEventListener("click", () => {
     chatbotWindow.style.display = "flex";
     chatbotToggle.style.display = "none";
+    chatbotToggleText.classList.remove("d-md-block");
     chatbotToggleText.style.display = "none";
     if (!chatbotState.active) {
       chatbotState.active = true;
@@ -95,6 +96,7 @@ const compLoaded = async () => {
   chatbotClose.addEventListener("click", () => {
     chatbotWindow.style.display = "none";
     chatbotToggle.style.display = "flex";
+    chatbotToggleText.classList.add("d-md-block");
     chatbotToggleText.style.display = "flex";
   });
 

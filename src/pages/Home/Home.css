@@ -112,7 +112,8 @@
   }
 
   #logo-font {
-    font-family: var(--lucky), Arial, Helvetica, sans-serif;
+    font-family: var(--inter), Arial, Helvetica, sans-serif;
+    font-weight: bolder;
   }
 
   /* Shop Now Button Styles */

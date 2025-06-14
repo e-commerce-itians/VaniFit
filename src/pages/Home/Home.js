@@ -11,7 +11,7 @@ export default async function Home() {
     <section class="container pt-2">
       <div class="row align-items-center">
         <!-- Text Section -->
-        <div class="col-md-6 text-center text-md-start">
+        <div class="col-md-6 text-center text-md-start mt-5 mt-lg-0">
           <h1 id="logo-font" class="fw-bold">Find Clothes<br>That Matches Your Style</h1>
           <p class="text-muted">
             Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
@@ -36,7 +36,7 @@ export default async function Home() {
         </div>
 
         <!-- Image Section -->
-        <div class="col-md-6 mt-4 mt-md-0">
+        <div class="col-md-6 mt-4 mt-md-1">
            <img src="images/hero.jpg" class="img-fluid" alt="Models" width="2730" height="4096">
         </div>
       

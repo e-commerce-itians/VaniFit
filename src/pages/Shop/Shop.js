@@ -16,7 +16,13 @@ export default function Shop({ gender, page }) {
     <div component="${componentID}" class="container my-5">
       <div class="row g-4">
         <div class="col-lg-3 col-md-4">
-          <div class="filter-sidebar">
+          <div class="text-end">
+            <span class="btn btn-light d-inline d-md-none m-2 p-2" id="filterToggleBtn">
+                <i class="fas fa-filter"></i>
+            </span>
+          </div>
+          <div class="filter-sidebar d-none d-md-block mt-3 mt-md-0"  id="filterSideBar">
+            <div>
             <h4 class="fw-bold mb-4">Filters</h4>
             
             <div class="filter-section">
@@ -68,6 +74,8 @@ export default function Shop({ gender, page }) {
               <button id="clear-filters" class="btn btn-outline-dark rounded-pill w-100">Clear Filters</button>
               <button id="apply-filters" class="d-none">Apply Filters</button>
             </div>
+            </div>
+
           </div>
         </div>
         <div class="col-lg-9 col-md-8">
@@ -124,6 +132,12 @@ const compLoaded = async (gender, page) => {
   let allColors = {};
   let allCategories = new Set();
   let selectedColor = null;
+
+  // Toggle
+  const filterSideBar = document.querySelector("#filterSideBar");
+  document.querySelector("#filterToggleBtn").addEventListener("click", () => {
+    filterSideBar.classList.toggle("d-none");
+  });
 
   // Show loading state
   productList.innerHTML = renderProductPlaceholders(6);
