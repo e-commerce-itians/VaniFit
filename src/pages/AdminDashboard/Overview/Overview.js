@@ -276,6 +276,7 @@ function renderCategoriesChart(categorySales) {
       datasets: [
         {
           data: categorySales.map(([, count]) => count),
+          label: "Units Sold",
           backgroundColor: [
             "#0d6efd",
             "#6610f2",
