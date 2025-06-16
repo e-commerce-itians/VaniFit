@@ -149,7 +149,7 @@ const compLoaded = () => {
       </div>
       
       <div class="image-urls-section">
-        <h5>Product Images (3 required)</h5>
+        <h5>Product Images</h5>
         <div class="image-url-inputs">
           <div class="image-url-group">
             <label>Front Image</label>
