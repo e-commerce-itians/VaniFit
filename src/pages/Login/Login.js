@@ -1,7 +1,4 @@
-import {
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { observer } from "../../observer";
 import {
   firebaseAuthErrors,
@@ -43,8 +40,7 @@ export default function Login() {
                   required
                 />
                 <div class="invalid-feedback" id="emailError"></div>
-                <div id="resetMsg" class="d-none my-2 bg-dark-subtle rounded p-2"></div>
-                <span id="resetbtn" class="d-block my-2 text-primary text-end" style="cursor:pointer;">Reset Password?</span>
+                <a href="./resetPassword" class="d-block my-2 text-primary text-end" >Reset Password?</a>
               </div>
               <div class="mb-3 position-relative">
                 <label for="password" class="form-label fw-semibold"
@@ -105,9 +101,6 @@ const compLoaded = () => {
     return;
   }
 
-  const resetBtn = document.querySelector("#resetbtn");
-  const resetMsg = document.querySelector("#resetMsg");
-
   const loginForm = document.querySelector("#loginForm");
   const emailInput = document.querySelector("#email");
   const passwordInput = document.querySelector("#password");
@@ -118,20 +111,6 @@ const compLoaded = () => {
 
   const loginBtn = document.querySelector("#loginBtn");
   const signInWithGoogleBtn = document.querySelector("#signInWithGoogleBtn");
-
-  resetBtn.addEventListener("click", () => {
-    const email = emailInput.value.trim();
-    sendPasswordResetEmail(App.firebase.auth, email)
-      .then(() => {
-        resetMsg.classList.remove("d-none");
-        resetMsg.innerText = `If that email is registered, a password reset link will be been sent to your email.`;
-      })
-      .catch((error) => {
-        resetMsg.classList.remove("d-none");
-        resetMsg.innerText =
-          "Failed to send reset email. Please check the email address.";
-      });
-  });
 
   // change google signin button styling while waiting for response
   signInWithGoogleBtn.addEventListener("click", async () => {

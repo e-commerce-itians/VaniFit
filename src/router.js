@@ -1,6 +1,7 @@
 import Home from "./pages/Home/Home";
 import NotFound from "./pages/NotFound/NotFound";
 import Login from "./pages/Login/Login";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import Register from "./pages/Register/Register";
 import Profile from "./pages/Profile/Profile";
 import Account from "./pages/Account/Account";
@@ -22,6 +23,10 @@ const routes = [
   {
     path: "/login",
     view: Login,
+  },
+  {
+    path: "/resetPassword",
+    view: ResetPassword,
   },
   {
     path: "/register",
