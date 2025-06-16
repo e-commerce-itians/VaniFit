@@ -18,6 +18,17 @@ export default function Navbar() {
         </div>`
           : ""
       }
+
+      ${
+        App.firebase.user.email && !App.firebase.user.emailVerified
+          ? `<div class="bg-warning py-2 d-none d-lg-block">
+              <div class="container text-center text-white">
+                <span>A verification email has been sent to <b>${App.firebase.user.email}</b>. Please verify your email before creating orders.</span>
+              </div>
+            </div>`
+          : ""
+      }
+      
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg bg-white shadow-sm">
         <div class="container">

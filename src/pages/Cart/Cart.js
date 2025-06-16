@@ -47,30 +47,30 @@ export default async function Cart() {
                 </form>
 
                 <div class="payment-method mb-4">
-  <h5 class="mb-3 fw-bold border-bottom pb-2">Payment Method</h5>
-  <div class="payment-options">
-    <div class="form-check p-0 border rounded mb-2 payment-option" style="cursor:pointer">
-      <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD" checked>
-      <label class="form-check-label d-flex align-items-center rounded p-2" for="cod" style="cursor:pointer">
-        <i class="fas fa-money-bill-wave me-3"></i>
-        <div>
-          <div class="fw-medium">Cash on Delivery (COD)</div>
-          <div class="small text-muted d-none d-lg-block">Pay when you receive your order</div>
-        </div>
-      </label>
-    </div>
-    <div class="form-check p-0 border rounded payment-option" style="cursor:pointer">
-      <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
-      <label class="form-check-label d-flex align-items-center rounded p-2" for="creditCard" style="cursor:pointer">
-        <i class="far fa-credit-card me-3"></i>
-        <div>
-          <div class="fw-medium">Credit Card Payment</div>
-          <div class="small text-muted d-none d-lg-block">Secure payment with Stripe</div>
-        </div>
-      </label>
-    </div>
-  </div>
-</div>`
+                  <h5 class="mb-3 fw-bold border-bottom pb-2">Payment Method</h5>
+                  <div class="payment-options">
+                    <div class="form-check p-0 border rounded mb-2 payment-option" style="cursor:pointer">
+                      <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD" checked>
+                      <label class="form-check-label d-flex align-items-center rounded p-2" for="cod" style="cursor:pointer">
+                        <i class="fas fa-money-bill-wave me-3"></i>
+                        <div>
+                          <div class="fw-medium">Cash on Delivery (COD)</div>
+                          <div class="small text-muted d-none d-lg-block">Pay when you receive your order</div>
+                        </div>
+                      </label>
+                    </div>
+                    <div class="form-check p-0 border rounded payment-option" style="cursor:pointer">
+                      <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
+                      <label class="form-check-label d-flex align-items-center rounded p-2" for="creditCard" style="cursor:pointer">
+                        <i class="far fa-credit-card me-3"></i>
+                        <div>
+                          <div class="fw-medium">Credit Card Payment</div>
+                          <div class="small text-muted d-none d-lg-block">Secure payment with Stripe</div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>`
                     : ``
                 }
 
@@ -105,8 +105,11 @@ export default async function Cart() {
                   <button class="btn btn-outline-dark">Apply</button>
                 </div>
                 ${
-                  App.firebase.user.email
+                  App.firebase.user.email && App.firebase.user.emailVerified
                     ? `<button id="checkout-btn" class="btn btn-dark w-100 mt-3">Place Order</button>`
+                    : App.firebase.user.email &&
+                      !App.firebase.user.emailVerified
+                    ? `<button class="btn btn-dark w-100 mt-3" disabled><i class="fa-solid fa-lock me-1"></i> Email verification required</button>`
                     : `<a href="/login" class="btn btn-dark w-100 mt-3" data-link><i class="fa-solid fa-lock me-1"></i> Login to checkout</a>`
                 }
               </div>

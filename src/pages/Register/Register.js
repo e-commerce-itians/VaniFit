@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
 import { observer } from "../../observer";
 import {
   firebaseAuthErrors,
@@ -299,6 +303,7 @@ const compLoaded = () => {
         email,
         password
       );
+      sendEmailVerification(userCredential.user);
       const user = userCredential.user;
       await createUserDocument(user);
       await updateUserDocument(user, data);
