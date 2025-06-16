@@ -136,8 +136,8 @@ export default async function Product({ id }) {
                 <span class="placeholder col-6"></span>
               </p>
             </div>
-
             <h6 class="text-muted mb-3">Available Size</h6>
+            <div id="stockAlert" class="d-none badge bg-danger text-danger bg-opacity-10 mb-3"></div>
             <div class="d-flex gap-2 mb-4" id="displaySizes">
               <p class="d-block col-12 placeholder-glow">
                 <span class="placeholder col-6"></span>
@@ -729,6 +729,7 @@ const compLoaded = async (id) => {
     productColors: document.querySelector("#productColors"),
     productGender: document.querySelector("#productGender"),
     productCategory: document.querySelector("#productCategory"),
+    stockAlert: document.querySelector("#stockAlert"),
     displaySizes: document.getElementById("displaySizes"),
     moreProducts: document.querySelector("#moreProducts"),
     reviewsCount: document.getElementById("reviewsCount"),
@@ -1027,6 +1028,15 @@ const compLoaded = async (id) => {
 
         window.selectedItem.size = button.dataset.size;
         maxQuantity = parseInt(button.dataset.quantity) || 0;
+
+        if (maxQuantity <= 5) {
+          stockAlert.innerText = `Low stock, Only ${maxQuantity} items left`;
+          stockAlert.classList.remove("d-none");
+        } else {
+          stockAlert.innerText = ``;
+          stockAlert.classList.add("d-none");
+        }
+
         window.selectedItem.max = maxQuantity;
         currentQuantity = 1;
         updateQuantityDisplay();
