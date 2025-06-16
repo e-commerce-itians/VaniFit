@@ -124,7 +124,7 @@ const compLoaded = () => {
     sendPasswordResetEmail(App.firebase.auth, email)
       .then(() => {
         resetMsg.classList.remove("d-none");
-        resetMsg.innerText = `If that email is registered, a password reset link will be been sent to ${email}.`;
+        resetMsg.innerText = `If that email is registered, a password reset link will be been sent to your email.`;
       })
       .catch((error) => {
         resetMsg.classList.remove("d-none");

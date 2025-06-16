@@ -97,7 +97,11 @@ export default function Navbar() {
                 >
                   ${
                     App.firebase.user.email
-                      ? `<i class="fas fa-user me-2"></i>${App.firebase.user.displayName}`
+                      ? `<i class="fas fa-user me-2"></i>
+                            <span class="text-capitalize">
+                              ${App.firebase.user.displayName || "..."}
+                            </span>
+                      `
                       : `<i class="fas fa-user me-2"></i>Login/Register`
                   }
                 </a>

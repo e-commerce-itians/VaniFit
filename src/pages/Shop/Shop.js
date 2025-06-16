@@ -416,7 +416,7 @@ const renderProducts = (products) => {
                   )
                   .join("")}
               </div>
-              <button class="minimal-add-to-cart">Add to Cart</button>
+              <button class="minimal-add-to-cart">View details</button>
             </div>
           </div>
         </a>
