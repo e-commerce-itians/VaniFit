@@ -40,7 +40,7 @@ export default function AddProduct() {
 
     <div class="form-grid">
       <div class="form-group">
-        <label for="price">Price (USD)</label>
+        <label for="price">Price (EGP)</label>
         <input type="number" id="price" name="price" step="0.01" min="0" required placeholder="0.00">
       </div>
 

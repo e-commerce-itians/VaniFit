@@ -147,7 +147,7 @@ async function updateOrdersTable(orders) {
       <td>${order.orderId}</td>
       <td>${customerEmails[index]}</td>
       <td>${new Date(order.createdAt).toLocaleDateString()}</td>
-      <td>${order.total}</td>
+      <td>${order.total.slice(1)} EGP</td>
       <td>
         <select 
           class="form-select form-select-sm status-select" 

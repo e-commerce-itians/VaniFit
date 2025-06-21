@@ -56,9 +56,9 @@ export default function Shop({ gender, page }) {
               <div class="price-slider">
                 <input type="range" class="form-range custom-range" id="price-range" min="0" max="1000" step="1" value="1000">
                 <div class="d-flex justify-content-between mt-3 align-items-center">
-                  <span class="price-value" id="price-range-min">$0</span>
+                  <span class="price-value" id="price-range-min">0 EGP</span>
                   <span class="text-muted" style="font-size:1rem;">to</span>
-                  <span class="price-value" id="price-range-max">$1000</span>
+                  <span class="price-value" id="price-range-max">1000 EGP</span>
                 </div>
               </div>
             </div>
@@ -183,8 +183,12 @@ const compLoaded = async (gender, page) => {
         priceRangeInput.min = minPrice;
         priceRangeInput.max = maxPrice;
         priceRangeInput.value = maxPrice;
-        document.getElementById("price-range-min").textContent = `$${minPrice}`;
-        document.getElementById("price-range-max").textContent = `$${maxPrice}`;
+        document.getElementById(
+          "price-range-min"
+        ).textContent = `${minPrice} EGP`;
+        document.getElementById(
+          "price-range-max"
+        ).textContent = `${maxPrice} EGP`;
       }
 
       // Render dynamic size filter
@@ -400,12 +404,12 @@ const renderProducts = (products) => {
                 ${
                   product.discount
                     ? `
-                  <div class="original-price">$${product.price}</div>
-                  <div class="discounted-price">$${Math.round(
+                  <div class="original-price">${product.price} EGP</div>
+                  <div class="discounted-price">${Math.round(
                     product.price * (1 - product.discount / 100)
-                  )}</div>
+                  )} EGP</div>
                 `
-                    : `<div class="regular-price">$${product.price}</div>`
+                    : `<div class="regular-price">${product.price} EGP</div>`
                 }
               </div>
               <div class="color-dots-container">
@@ -717,8 +721,10 @@ const setupFilterEvents = () => {
         priceRangeInput.value = maxPrice;
         document.getElementById(
           "price-range-min"
-        ).textContent = `$${priceRangeInput.min}`;
-        document.getElementById("price-range-max").textContent = `$${maxPrice}`;
+        ).textContent = `${priceRangeInput.min} EGP`;
+        document.getElementById(
+          "price-range-max"
+        ).textContent = `${maxPrice} EGP`;
       }
 
       // Clear size selections
