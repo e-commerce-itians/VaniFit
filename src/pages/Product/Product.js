@@ -828,12 +828,12 @@ const compLoaded = async (id) => {
     // Pricing
     if (elements.productPrice) {
       if (data.discount) {
-        elements.discountOldPrice.textContent = `${data.price}$`;
+        elements.discountOldPrice.textContent = `${data.price} EGP`;
         const discountedPrice = data.price - (data.price * data.discount) / 100;
-        elements.productPrice.textContent = `${discountedPrice}$`;
+        elements.productPrice.textContent = `${discountedPrice} EGP`;
         elements.discountPrecentage.textContent = `-${data.discount}%`;
       } else {
-        elements.productPrice.textContent = `${data.price}$`;
+        elements.productPrice.textContent = `${data.price} EGP`;
         elements.discountOldPrice.textContent = "";
         elements.discountPrecentage.textContent = "";
       }
